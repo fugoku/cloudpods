@@ -24,5 +24,5 @@ func init() {
 			"Disk_id", "Guest_id", "Created_at"},
 		[]string{"Storage_id", "Storage_type", "Create_by", "Location", "Out_of_chain", "disk_type", "provider"})
 
-	registerComputeV2(&Snapshots)
+	registerCompute(&Snapshots)
 }
