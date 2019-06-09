@@ -24,7 +24,7 @@ var (
 
 func init() {
 	AnsiblePlaybooks = AnsiblePlaybookManager{
-		NewComputeManager(
+		NewAnsibleManager(
 			"ansibleplaybook",
 			"ansibleplaybooks",
 			[]string{
@@ -37,5 +37,5 @@ func init() {
 			[]string{},
 		),
 	}
-	registerCompute(&AnsiblePlaybooks)
+	register(&AnsiblePlaybooks)
 }
