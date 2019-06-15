@@ -19,3 +19,7 @@ type SDisk struct{}
 func (self *SDisk) GetExtSnapshotPolicyId() string {
 	return ""
 }
+
+func (self *SDisk) GetIStorageId() string {
+	return ""
+}
