@@ -20,7 +20,7 @@ var (
 
 func init() {
 	DBInstance = NewComputeManager("dbinstance", "dbinstances",
-		[]string{"ID", "Name", "Billing_type", "Cloudregion_Id", "Status", "Vcpu_Count", "Vmem_Size"},
+		[]string{"ID", "Name", "Billing_type", "Cloudregion_Id", "Status", "Vcpu_Count", "Vmem_Size_Mb"},
 		[]string{})
 
 	registerCompute(&DBInstance)
