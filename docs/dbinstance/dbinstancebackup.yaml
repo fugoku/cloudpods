@@ -6,7 +6,7 @@ get:
     200:
       description: RDS实例备份信息
       schema:
-        $ref: '../schemas/dbinstance.yaml#/DBInstanceBackupResponse'
+        $ref: '../schemas/dbinstance_backup.yaml#/DBInstanceBackupResponse'
   tags:
     - dbinstancebackup
 
@@ -18,6 +18,6 @@ delete:
     200:
       description: 被删除RDS实例的备份信息
       schema:
-        $ref: '../schemas/dbinstance.yaml#/DBInstanceBackupResponse'
+        $ref: '../schemas/dbinstance_backup.yaml#/DBInstanceBackupResponse'
   tags:
     - dbinstancebackup
