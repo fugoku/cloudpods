@@ -27,7 +27,7 @@ func initCronJob() {
 		&o.CronJobCreateOptions{},
 		cmdN("create"),
 		"Create cronjob resource",
-		func(s *mcclient.ClientSession, args *o.JobCreateOptions) error {
+		func(s *mcclient.ClientSession, args *o.CronJobCreateOptions) error {
 			params, err := args.Params()
 			if err != nil {
 				return err
