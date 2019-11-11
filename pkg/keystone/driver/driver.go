@@ -25,7 +25,7 @@ type IIdentityBackendClass interface {
 	SingletonInstance() bool
 	SyncMethod() string
 	Name() string
-	NewDriver(idpId, idpName, template, targetDomainId string, autoCreateProject bool, conf api.TIdentityProviderConfigs) (IIdentityBackend, error)
+	NewDriver(idpId, idpName, template, targetDomainId string, autoCreateProject bool, conf api.TConfigs) (IIdentityBackend, error)
 }
 
 type IIdentityBackend interface {
