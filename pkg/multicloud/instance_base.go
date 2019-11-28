@@ -14,10 +14,16 @@
 
 package multicloud
 
+import "yunion.io/x/onecloud/pkg/cloudprovider"
+
 type SInstanceBase struct {
 	SResourceBase
 }
 
 func (instance *SInstanceBase) GetIHostId() string {
 	return ""
+}
+
+func (instance *SInstanceBase) GetSerialOutput(port int) (string, error) {
+	return "", cloudprovider.ErrNotImplemented
 }
