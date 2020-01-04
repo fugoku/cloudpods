@@ -25,5 +25,7 @@ type ManagedResourceCreateInput struct {
 }
 
 type DeletePreventableCreateInput struct {
+	//删除保护,创建的资源默认不允许删除
+	//default: true
 	DisableDelete *bool `json:"disable_delete"`
 }
