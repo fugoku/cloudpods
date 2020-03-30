@@ -13,3 +13,8 @@
 // limitations under the License.
 
 package notify
+
+const (
+	SERVICE_TYPE    = "notify"
+	SERVICE_VERSION = ""
+)
