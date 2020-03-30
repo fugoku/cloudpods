@@ -21,7 +21,7 @@ import (
 
 func init() {
 	type RouteTableListOptions struct {
-		VpcId string `vpc id`
+		VpcId string `help:"vpc id"`
 	}
 	shellutils.R(&RouteTableListOptions{}, "routetable-list", "List route tables", func(cli *aws.SRegion, args *RouteTableListOptions) error {
 		routetables, err := cli.GetRouteTables(args.VpcId, false)
