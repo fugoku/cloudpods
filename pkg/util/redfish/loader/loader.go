@@ -21,6 +21,7 @@ import (
 	_ "yunion.io/x/onecloud/pkg/util/redfish/idrac"
 	_ "yunion.io/x/onecloud/pkg/util/redfish/idrac9"
 	_ "yunion.io/x/onecloud/pkg/util/redfish/ilo"
+	_ "yunion.io/x/onecloud/pkg/util/redfish/supermicro"
 )
 
 func init() {
