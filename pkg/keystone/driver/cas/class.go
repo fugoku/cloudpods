@@ -38,8 +38,8 @@ func (self *SCASDriverClass) SyncMethod() string {
 	return api.IdentityProviderSyncOnAuth
 }
 
-func (self *SCASDriverClass) NewDriver(idpId, idpName, template, targetDomainId string, autoCreateProject bool, conf api.TConfigs) (driver.IIdentityBackend, error) {
-	return NewCASDriver(idpId, idpName, template, targetDomainId, autoCreateProject, conf)
+func (self *SCASDriverClass) NewDriver(idpId, idpName, template, targetDomainId string, conf api.TConfigs) (driver.IIdentityBackend, error) {
+	return NewCASDriver(idpId, idpName, template, targetDomainId, conf)
 }
 
 func (self *SCASDriverClass) Name() string {
