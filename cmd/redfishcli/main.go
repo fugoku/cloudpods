@@ -17,12 +17,16 @@ package main
 import (
 	"context"
 	"fmt"
+	"net/url"
 	"os"
+	"strings"
 
 	"yunion.io/x/structarg"
 
 	_ "yunion.io/x/onecloud/cmd/redfishcli/shell"
+	"yunion.io/x/onecloud/pkg/util/fileutils2"
 	"yunion.io/x/onecloud/pkg/util/redfish"
+	"yunion.io/x/onecloud/pkg/util/redfish/bmconsole"
 	_ "yunion.io/x/onecloud/pkg/util/redfish/loader"
 	"yunion.io/x/onecloud/pkg/util/shellutils"
 )
@@ -36,8 +40,12 @@ type BaseOptions struct {
 	SUBCOMMAND string `help:"s3cli subcommand" subcommand:"true"`
 }
 
+var (
+	options = &BaseOptions{}
+)
+
 func getSubcommandParser() (*structarg.ArgumentParser, error) {
-	parse, e := structarg.NewArgumentParser(&BaseOptions{},
+	parse, e := structarg.NewArgumentParser(options,
 		"redfishcli",
 		"Command-line interface to redfish API.",
 		`See "redfishcli help COMMAND" for help on a specific command.`)
@@ -62,6 +70,7 @@ func getSubcommandParser() (*structarg.ArgumentParser, error) {
 			return nil
 		}
 	})
+	bmcJnlp()
 	for _, v := range shellutils.CommandTable {
 		_, e := subcmd.AddSubParser(v.Options, v.Command, v.Desc, v.Callback)
 		if e != nil {
@@ -71,13 +80,49 @@ func getSubcommandParser() (*structarg.ArgumentParser, error) {
 	return parse, nil
 }
 
+func bmcJnlp() {
+	type BmcGetOptions struct {
+		BRAND string `help:"brand of baremetal" choices:"Lenovo|Huawei|HPE|Dell|Supermicro"`
+		Save  string `help:"save to file"`
+		Debug bool   `help:"turn on debug mode"`
+	}
+	shellutils.R(&BmcGetOptions{}, "bmc-jnlp", "Get Java Console JNLP file", func(args *BmcGetOptions) error {
+		ctx := context.Background()
+		parts, err := url.Parse(options.Endpoint)
+		if err != nil {
+			return err
+		}
+		bmc := bmconsole.NewBMCConsole(parts.Hostname(), options.Username, options.Password, args.Debug)
+		var jnlp string
+		switch strings.ToLower(args.BRAND) {
+		case "hp", "hpe":
+			jnlp, err = bmc.GetIloConsoleJNLP(ctx)
+		case "dell", "dell inc.":
+			jnlp, err = bmc.GetIdracConsoleJNLP(ctx, "", "")
+		case "supermicro":
+			jnlp, err = bmc.GetSupermicroConsoleJNLP(ctx)
+		case "lenovo":
+			jnlp, err = bmc.GetLenovoConsoleJNLP(ctx)
+		}
+		if err != nil {
+			return err
+		}
+		if len(args.Save) > 0 {
+			return fileutils2.FilePutContents(args.Save, jnlp, false)
+		} else {
+			fmt.Println(jnlp)
+			return nil
+		}
+	})
+}
+
 func showErrorAndExit(e error) {
 	fmt.Fprintf(os.Stderr, "%s", e)
 	fmt.Fprintln(os.Stderr)
 	os.Exit(1)
 }
 
-func newClient(options *BaseOptions) (redfish.IRedfishDriver, error) {
+func newClient() (redfish.IRedfishDriver, error) {
 	if len(options.Endpoint) == 0 {
 		return nil, fmt.Errorf("Missing endpoint")
 	}
@@ -104,7 +149,7 @@ func main() {
 		showErrorAndExit(e)
 	}
 	e = parser.ParseArgs(os.Args[1:], false)
-	options := parser.Options().(*BaseOptions)
+	// options := parser.Options().(*BaseOptions)
 
 	if options.Help {
 		fmt.Print(parser.HelpString())
@@ -122,9 +167,11 @@ func main() {
 			suboptions := subparser.Options()
 			if options.SUBCOMMAND == "help" {
 				e = subcmd.Invoke(suboptions)
+			} else if options.SUBCOMMAND == "bmc-jnlp" {
+				e = subcmd.Invoke(suboptions)
 			} else {
 				var client redfish.IRedfishDriver
-				client, e = newClient(options)
+				client, e = newClient()
 				if e != nil {
 					showErrorAndExit(e)
 				}
