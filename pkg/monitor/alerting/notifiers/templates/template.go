@@ -33,7 +33,7 @@ const DefaultMarkdownTemplate = `
 
 	{{ range .Matches}}
 	- 指标: {{.Metric}}
-	- 当前值: {{.ValueStr}}
+	- 触发值: {{.ValueStr}}
 
 	### 触发条件:
 	- {{ $.Description}}
@@ -165,7 +165,7 @@ const EmailMarkdownTemplate = `
 	              <td>名称</td>
               <td>IP</td>
               <td>平台</td>
-              <td>当前值</td>
+              <td>触发值</td>
             </tr>
           </thead>
           <tbody>
