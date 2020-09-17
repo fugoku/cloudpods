@@ -16,8 +16,12 @@ package k8s
 
 import (
 	"yunion.io/x/onecloud/pkg/mcclient/modules/k8s"
+	options "yunion.io/x/onecloud/pkg/mcclient/options/k8s"
 )
 
 func initNamespace() {
 	initK8sClusterResource("namespace", k8s.Namespaces)
+
+	cmd := NewK8sResourceCmd(k8s.Namespaces)
+	cmd.Create(new(options.NamespaceCreateOptions))
 }
