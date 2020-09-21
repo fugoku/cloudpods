@@ -31,6 +31,32 @@ import (
 )
 
 func (r *SBMCConsole) GetIdracConsoleJNLP(ctx context.Context, sku, model string) (string, error) {
+	if len(model) > 0 {
+		parts := strings.Split(model, " ")
+		if len(parts) > 1 && parts[1][0] == 'R' && len(parts[1]) >= 4 {
+			// PownerEdge R730
+			switch parts[1][2] {
+			case '1':
+				return r.GetIdrac6ConsoleJNLP(ctx, sku, model)
+			case '2', '3':
+				return r.GetIdrac7ConsoleJNLP(ctx, sku, model)
+			default:
+				return r.GetIdrac9ConsoleJNLP(ctx)
+			}
+		}
+	}
+	jnlp, err := r.GetIdrac7ConsoleJNLP(ctx, sku, model)
+	if err == nil {
+		return jnlp, nil
+	}
+	jnlp, err = r.GetIdrac9ConsoleJNLP(ctx)
+	if err == nil {
+		return jnlp, nil
+	}
+	return r.GetIdrac6ConsoleJNLP(ctx, sku, model)
+}
+
+func (r *SBMCConsole) GetIdrac7ConsoleJNLP(ctx context.Context, sku, model string) (string, error) {
 	loginData := strings.Join([]string{
 		"user=" + url.QueryEscape(r.username),
 		"password=" + url.QueryEscape(r.password),
@@ -42,7 +68,7 @@ func (r *SBMCConsole) GetIdracConsoleJNLP(ctx context.Context, sku, model string
 	// tokenvalue=478be97abdaeb4d454c0418fcca9094d
 
 	cookies := make(map[string]string)
-	cookies["-http-session-"] = ""
+	// cookies["-http-session-"] = ""
 
 	// first do html login
 	postHdr := http.Header{}
@@ -52,14 +78,19 @@ func (r *SBMCConsole) GetIdracConsoleJNLP(ctx context.Context, sku, model string
 	if err != nil {
 		return "", errors.Wrap(err, "r.FormPost Login")
 	}
-	for _, cookieHdr := range hdr["Set-Cookie"] {
-		parts := strings.Split(cookieHdr, ";")
-		if len(parts) > 0 {
-			pparts := strings.Split(parts[0], "=")
-			if len(pparts) > 1 {
-				cookies[pparts[0]] = pparts[1]
+	log.Debugf("Header: %s %s", hdr, loginResp)
+	if setCookies, ok := hdr["Set-Cookie"]; ok {
+		for _, cookieHdr := range setCookies {
+			parts := strings.Split(cookieHdr, ";")
+			if len(parts) > 0 {
+				pparts := strings.Split(parts[0], "=")
+				if len(pparts) > 1 {
+					cookies[pparts[0]] = pparts[1]
+				}
 			}
 		}
+	} else {
+		// find no cookie
 	}
 	forwardUrlPattern := regexp.MustCompile(`<forwardUrl>(.*)</forwardUrl>`)
 	matched := forwardUrlPattern.FindAllStringSubmatch(string(loginResp), -1)
@@ -78,13 +109,32 @@ func (r *SBMCConsole) GetIdracConsoleJNLP(ctx context.Context, sku, model string
 	if len(matched) > 0 && len(matched[0]) > 1 {
 		token = matched[0][1]
 	}
+	log.Debugf("token: %s", token)
 	cookies["tokenvalue"] = token
+	cookies["batteriesIcon"] = "status_ok"
+	cookies["fansIcon"] = "status_ok"
+	cookies["intrusionIcon"] = "status_ok"
+	cookies["removableFlashMediaIcon"] = "status_ok"
+	cookies["temperaturesIcon"] = "status_ok"
+	cookies["voltagesIcon"] = "status_ok"
+	cookies["powerSuppliesIcon"] = "status_ok"
+	cookies["sysidledicon"] = "ledIcon grayLed"
 
 	getHdr := http.Header{}
 	setCookieHeader(getHdr, cookies)
+	getHdr.Set("Referer", fmt.Sprintf("https://%s/sysSummaryData.html", r.host))
+	getHdr.Set("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+	getHdr.Set("Accept-Encoding", "gzip, deflate, br")
+	getHdr.Set("Accept-Language", "zh-CN,zh;q=0.9,en;q=0.8")
 
-	sysStr := url.QueryEscape(fmt.Sprintf("idrac-%s, %s, User: %s", sku, model, r.username))
-	path := fmt.Sprintf("viewer.jnlp(%s@0@%s@%d@ST1=%s)", r.host, sysStr, time.Now().UnixNano()/1000000, token)
+	sysStr := url.QueryEscape(fmt.Sprintf("idrac-%s, %s,  slot , User: %s", sku, model, r.username))
+	// sysStr := url.QueryEscape(fmt.Sprintf("idrac-%s, %s,  slot , &#29992;&#25143;&#65306; %s", sku, model, r.username))
+	var path string
+	if len(token) > 0 {
+		path = fmt.Sprintf("viewer.jnlp(%s@0@%s@%d@ST1=%s)", r.host, sysStr, time.Now().UnixNano()/1000000, token)
+	} else {
+		path = fmt.Sprintf("viewer.jnlp(%s@0@%s@%d)", r.host, sysStr, time.Now().UnixNano()/1000000)
+	}
 
 	_, rspBody, err := r.RawRequest(ctx, httputils.GET, path, getHdr, nil)
 	if err != nil {
