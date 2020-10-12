@@ -22,7 +22,7 @@ var (
 
 func init() {
 	VpcPeeringConnections = NewComputeManager("vpc_peering_connection", "vpc_peering_connections",
-		[]string{"ID", "Name", "Enabled", "Status", "Public_Scope", "Domain_Id", "Domain"},
+		[]string{"ID", "Name", "Enabled", "Status", "vpc_id", "peer_vpc_id", "peer_account_id", "Public_Scope", "Domain_Id", "Domain"},
 		[]string{})
 
 	registerCompute(&VpcPeeringConnections)
