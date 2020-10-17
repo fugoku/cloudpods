@@ -27,7 +27,7 @@ func init() {
 	cmd.Show(new(options.SuggestRuleShowOptions))
 	cmd.Perform("enable", new(options.SuggestRuleShowOptions))
 	cmd.Perform("disable", new(options.SuggestRuleShowOptions))
-	cmd.Delete(new(options.CommonAlertDeleteOptions))
+	cmd.BatchDelete(new(options.CommonAlertDeleteOptions))
 	cmd.Perform("config", new(options.SuggestRuleConfigOptions))
 
 }
