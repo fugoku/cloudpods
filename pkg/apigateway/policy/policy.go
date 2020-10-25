@@ -17,44 +17,27 @@ package policy
 import (
 	"yunion.io/x/jsonutils"
 
-	"yunion.io/x/onecloud/pkg/cloudcommon/policy"
 	"yunion.io/x/onecloud/pkg/mcclient"
 	"yunion.io/x/onecloud/pkg/mcclient/modules"
 )
 
 func PolicyCreate(s *mcclient.ClientSession, params jsonutils.JSONObject) (jsonutils.JSONObject, error) {
-	/*params := jsonutils.NewDict()
-	params.Add(jsonutils.NewString(args.TYPE), "type")
-	params.Add(jsonutils.NewString(policy.String()), "policy")
-	*/
 	result, err := modules.Policies.Create(s, params)
 	if err != nil {
 		return nil, err
 	}
-	policy.PolicyManager.SyncOnce()
 	return result, nil
 }
 
 func PolicyPatch(s *mcclient.ClientSession, idstr string, params jsonutils.JSONObject) (jsonutils.JSONObject, error) {
-	/*params := jsonutils.NewDict()
-	if len(name) > 0 {
-		params.Add(jsonutils.NewString(name), "type")
-	}
-	if policy != nil {
-		params.Add(jsonutils.NewString(policy.String()), "policy")
-	}*/
 	result, err := modules.Policies.Patch(s, idstr, params)
 	if err != nil {
 		return nil, err
 	}
-	policy.PolicyManager.SyncOnce()
 	return result, nil
 }
 
 func PolicyDelete(s *mcclient.ClientSession, idstr string) error {
 	_, err := modules.Policies.Delete(s, idstr, nil)
-	if err != nil {
-		policy.PolicyManager.SyncOnce()
-	}
 	return err
 }
