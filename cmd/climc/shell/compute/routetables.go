@@ -15,126 +15,20 @@
 package compute
 
 import (
-	"fmt"
-	"strings"
-
-	"yunion.io/x/jsonutils"
-
-	"yunion.io/x/onecloud/pkg/mcclient"
-	"yunion.io/x/onecloud/pkg/mcclient/modulebase"
+	"yunion.io/x/onecloud/cmd/climc/shell"
 	"yunion.io/x/onecloud/pkg/mcclient/modules"
 	"yunion.io/x/onecloud/pkg/mcclient/options"
 )
 
 func init() {
-	printRouteTableList := func(list *modulebase.ListResult, columns []string) {
-		data := list.Data
-		for _, jsonObj := range data {
-			jd := jsonObj.(*jsonutils.JSONDict)
-			routesObj, err := jd.GetArray("routes")
-			if err != nil {
-				continue
-			}
-			routes := []string{}
-			for _, routeObj := range routesObj {
-				typ, _ := routeObj.GetString("type")
-				cidr, _ := routeObj.GetString("cidr")
-				next_hop_type, _ := routeObj.GetString("next_hop_type")
-				next_hop_id, _ := routeObj.GetString("next_hop_id")
-				route := fmt.Sprintf("%8s: %18s %s", typ, cidr, next_hop_type)
-				if next_hop_id != "" {
-					route += fmt.Sprintf(":%s", next_hop_id)
-				}
-				routes = append(routes, route)
-			}
-			s := strings.Join(routes, "\n")
-			jd.Set("routes", jsonutils.NewString(s))
-		}
-		printList(list, columns)
-	}
-
-	R(&options.RouteTableCreateOptions{}, "routetable-create", "Create routetable", func(s *mcclient.ClientSession, opts *options.RouteTableCreateOptions) error {
-		params, err := opts.Params()
-		if err != nil {
-			return err
-		}
-		routetable, err := modules.RouteTables.Create(s, params)
-		if err != nil {
-			return err
-		}
-		printObjectRecursive(routetable)
-		return nil
-	})
-	R(&options.RouteTableGetOptions{}, "routetable-show", "Show routetable", func(s *mcclient.ClientSession, opts *options.RouteTableGetOptions) error {
-		routetable, err := modules.RouteTables.Get(s, opts.ID, nil)
-		if err != nil {
-			return err
-		}
-		printObjectRecursive(routetable)
-		return nil
-	})
-	R(&options.RouteTableListOptions{}, "routetable-list", "List routetables", func(s *mcclient.ClientSession, opts *options.RouteTableListOptions) error {
-		params, err := options.ListStructToParams(opts)
-		if err != nil {
-			return err
-		}
-		result, err := modules.RouteTables.List(s, params)
-		if err != nil {
-			return err
-		}
-		printRouteTableList(result, modules.RouteTables.GetColumns(s))
-		return nil
-	})
-	R(&options.RouteTableUpdateOptions{}, "routetable-update", "Update routetable", func(s *mcclient.ClientSession, opts *options.RouteTableUpdateOptions) error {
-		params, err := opts.Params()
-		if err != nil {
-			return err
-		}
-		routetable, err := modules.RouteTables.Update(s, opts.ID, params)
-		if err != nil {
-			return err
-		}
-		printObjectRecursive(routetable)
-		return nil
-	})
-	R(&options.RouteTableAddRoutesOptions{}, "routetable-add-routes", "Add routes to routetable", func(s *mcclient.ClientSession, opts *options.RouteTableAddRoutesOptions) error {
-		params, err := opts.Params()
-		if err != nil {
-			return err
-		}
-		routetable, err := modules.RouteTables.PerformAction(s, opts.ID, "add-routes", params)
-		if err != nil {
-			return err
-		}
-		printObjectRecursive(routetable)
-		return nil
-	})
-	R(&options.RouteTableDelRoutesOptions{}, "routetable-del-routes", "Del routes to routetable", func(s *mcclient.ClientSession, opts *options.RouteTableDelRoutesOptions) error {
-		params, err := opts.Params()
-		if err != nil {
-			return err
-		}
-		routetable, err := modules.RouteTables.PerformAction(s, opts.ID, "del-routes", params)
-		if err != nil {
-			return err
-		}
-		printObjectRecursive(routetable)
-		return nil
-	})
-	R(&options.RouteTableDeleteOptions{}, "routetable-delete", "Delete routetable", func(s *mcclient.ClientSession, opts *options.RouteTableDeleteOptions) error {
-		routetable, err := modules.RouteTables.Delete(s, opts.ID, nil)
-		if err != nil {
-			return err
-		}
-		printObjectRecursive(routetable)
-		return nil
-	})
-	R(&options.RouteTablePurgeOptions{}, "routetable-purge", "Purge routetable", func(s *mcclient.ClientSession, opts *options.RouteTablePurgeOptions) error {
-		routetable, err := modules.RouteTables.PerformAction(s, opts.ID, "purge", nil)
-		if err != nil {
-			return err
-		}
-		printObjectRecursive(routetable)
-		return nil
-	})
+	cmd := shell.NewResourceCmd(&modules.RouteTables).WithKeyword("routetable")
+	cmd.List(&options.RouteTableListOptions{})
+	cmd.Show(&options.RouteTableIdOptions{})
+	cmd.Create(&options.RouteTableCreateOptions{})
+	cmd.Update(&options.RouteTableUpdateOptions{})
+	cmd.Delete(&options.RouteTableIdOptions{})
+	cmd.Perform("syncstatus", &options.RouteTableIdOptions{})
+	cmd.Perform("add-routes", &options.RouteTableAddRoutesOptions{})
+	cmd.Perform("del-routes", &options.RouteTableDelRoutesOptions{})
+	cmd.Perform("purge", &options.RouteTableIdOptions{})
 }
