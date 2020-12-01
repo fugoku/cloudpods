@@ -15,50 +15,15 @@
 package compute
 
 import (
-	"yunion.io/x/onecloud/pkg/mcclient"
+	"yunion.io/x/onecloud/cmd/climc/shell"
 	"yunion.io/x/onecloud/pkg/mcclient/modules"
 	"yunion.io/x/onecloud/pkg/mcclient/options"
 )
 
 func init() {
-	type DBInstanceAccountListOptions struct {
-		options.BaseListOptions
-		DBInstance string `help:"ID or Name of DBInstance" json:"dbinstance"`
-	}
-	R(&DBInstanceAccountListOptions{}, "dbinstance-account-list", "List DB instance accounts", func(s *mcclient.ClientSession, opts *DBInstanceAccountListOptions) error {
-		params, err := options.ListStructToParams(opts)
-		if err != nil {
-			return err
-		}
-
-		result, err := modules.DBInstanceAccounts.List(s, params)
-		if err != nil {
-			return err
-		}
-		printList(result, modules.DBInstanceAccounts.GetColumns(s))
-		return nil
-	})
-
-	type DBInstanceAccountIdOptions struct {
-		ID string `help:"ID or Name of DBInstanceaccount"`
-	}
-
-	R(&DBInstanceAccountIdOptions{}, "dbinstance-account-show", "Show DB instance account", func(s *mcclient.ClientSession, opts *DBInstanceAccountIdOptions) error {
-		account, err := modules.DBInstanceAccounts.Get(s, opts.ID, nil)
-		if err != nil {
-			return err
-		}
-		printObject(account)
-		return nil
-	})
-
-	R(&DBInstanceAccountIdOptions{}, "dbinstance-account-delete", "Delete DB instance account", func(s *mcclient.ClientSession, opts *DBInstanceAccountIdOptions) error {
-		account, err := modules.DBInstanceAccounts.Delete(s, opts.ID, nil)
-		if err != nil {
-			return err
-		}
-		printObject(account)
-		return nil
-	})
-
+	cmd := shell.NewResourceCmd(&modules.DBInstanceAccounts).WithKeyword("dbinstance-account")
+	cmd.List(&options.DBInstanceAccountListOptions{})
+	cmd.Update(&options.BaseUpdateOptions{})
+	cmd.Show(&options.DBInstanceAccountIdOptions{})
+	cmd.Delete(&options.DBInstanceAccountIdOptions{})
 }
