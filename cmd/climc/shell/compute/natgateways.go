@@ -15,67 +15,18 @@
 package compute
 
 import (
-	"yunion.io/x/onecloud/pkg/mcclient"
+	"yunion.io/x/onecloud/cmd/climc/shell"
+	api "yunion.io/x/onecloud/pkg/apis/compute"
 	"yunion.io/x/onecloud/pkg/mcclient/modules"
-	"yunion.io/x/onecloud/pkg/mcclient/options"
+	"yunion.io/x/onecloud/pkg/mcclient/options/compute"
 )
 
 func init() {
+	cmd := shell.NewResourceCmd(&modules.NatGateways).WithKeyword("nat")
 
-	R(&options.NatGatewayListOptions{}, "natgateway-list", "List NAT gateways", func(s *mcclient.ClientSession, opts *options.NatGatewayListOptions) error {
-		params, err := options.ListStructToParams(opts)
-		if err != nil {
-			return err
-		}
-		result, err := modules.NatGateways.List(s, params)
-		if err != nil {
-			return err
-		}
-		printList(result, modules.NatGateways.GetColumns(s))
-		return nil
-	})
-
-	R(&options.NatGatewayIdOptions{}, "natgateway-show", "Show a NAT gateway", func(s *mcclient.ClientSession, args *options.NatGatewayIdOptions) error {
-		results, err := modules.NatGateways.Get(s, args.ID, nil)
-		if err != nil {
-			return err
-		}
-		printObject(results)
-		return nil
-	})
-
-	R(&options.NatGatewayIdOptions{}, "natgateway-syncstatus", "Sync NAT gateway status", func(s *mcclient.ClientSession, args *options.NatGatewayIdOptions) error {
-		result, err := modules.NatGateways.PerformAction(s, args.ID, "syncstatus", nil)
-		if err != nil {
-			return err
-		}
-		printObject(result)
-		return nil
-	})
-
-	type NatGatewayListEipOptions struct {
-		ID string `help:"ID"`
-	}
-
-	R(&NatGatewayListEipOptions{}, "natgateway-dnat-resources", "list resources in dnats of natgateway",
-		func(s *mcclient.ClientSession, opts *NatGatewayListEipOptions) error {
-
-			ret, err := modules.NatGateways.PerformAction(s, opts.ID, "dnat-resources", nil)
-			if err != nil {
-				return err
-			}
-			printObject(ret)
-			return nil
-		})
-
-	R(&NatGatewayListEipOptions{}, "natgateway-snat-resources", "list resources in snats of natgateway",
-		func(s *mcclient.ClientSession, opts *NatGatewayListEipOptions) error {
-
-			ret, err := modules.NatGateways.PerformAction(s, opts.ID, "snat-resources", nil)
-			if err != nil {
-				return err
-			}
-			printObject(ret)
-			return nil
-		})
+	cmd.List(&compute.NatGatewayListOptions{})
+	cmd.Create(&api.NatgatewayCreateInput{})
+	cmd.Show(&compute.NatGatewayIdOptions{})
+	cmd.Delete(&compute.NatGatewayDeleteOption{})
+	cmd.Perform("syncstauts", &compute.NatGatewayIdOptions{})
 }
