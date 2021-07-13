@@ -9,5 +9,4 @@ import (
 func init() {
 	cmd := shell.NewResourceCmd(modules.MonitorResourceManager)
 	cmd.Get("", new(options.MonitorResourceJointAlertOptions))
-
 }
