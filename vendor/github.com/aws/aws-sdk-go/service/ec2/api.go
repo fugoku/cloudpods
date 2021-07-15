@@ -515,19 +515,20 @@ func (c *EC2) AdvertiseByoipCidrRequest(input *AdvertiseByoipCidrInput) (req *re
 // AdvertiseByoipCidr API operation for Amazon Elastic Compute Cloud.
 //
 // Advertises an IPv4 or IPv6 address range that is provisioned for use with
-// your AWS resources through bring your own IP addresses (BYOIP).
+// your Amazon Web Services resources through bring your own IP addresses (BYOIP).
 //
 // You can perform this operation at most once every 10 seconds, even if you
 // specify different address ranges each time.
 //
 // We recommend that you stop advertising the BYOIP CIDR from other locations
-// when you advertise it from AWS. To minimize down time, you can configure
-// your AWS resources to use an address from a BYOIP CIDR before it is advertised,
-// and then simultaneously stop advertising it from the current location and
-// start advertising it through AWS.
+// when you advertise it from Amazon Web Services. To minimize down time, you
+// can configure your Amazon Web Services resources to use an address from a
+// BYOIP CIDR before it is advertised, and then simultaneously stop advertising
+// it from the current location and start advertising it through Amazon Web
+// Services.
 //
 // It can take a few minutes before traffic to the specified addresses starts
-// routing to AWS because of BGP propagation delays.
+// routing to Amazon Web Services because of BGP propagation delays.
 //
 // To stop advertising the BYOIP CIDR, use WithdrawByoipCidr.
 //
@@ -603,22 +604,22 @@ func (c *EC2) AllocateAddressRequest(input *AllocateAddressInput) (req *request.
 
 // AllocateAddress API operation for Amazon Elastic Compute Cloud.
 //
-// Allocates an Elastic IP address to your AWS account. After you allocate the
-// Elastic IP address you can associate it with an instance or network interface.
-// After you release an Elastic IP address, it is released to the IP address
-// pool and can be allocated to a different AWS account.
+// Allocates an Elastic IP address to your account. After you allocate the Elastic
+// IP address you can associate it with an instance or network interface. After
+// you release an Elastic IP address, it is released to the IP address pool
+// and can be allocated to a different account.
 //
-// You can allocate an Elastic IP address from an address pool owned by AWS
-// or from an address pool created from a public IPv4 address range that you
-// have brought to AWS for use with your AWS resources using bring your own
-// IP addresses (BYOIP). For more information, see Bring Your Own IP Addresses
-// (BYOIP) (https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-byoip.html)
+// You can allocate an Elastic IP address from an address pool owned by Amazon
+// Web Services or from an address pool created from a public IPv4 address range
+// that you have brought to Amazon Web Services for use with your Amazon Web
+// Services resources using bring your own IP addresses (BYOIP). For more information,
+// see Bring Your Own IP Addresses (BYOIP) (https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-byoip.html)
 // in the Amazon Elastic Compute Cloud User Guide.
 //
 // [EC2-VPC] If you release an Elastic IP address, you might be able to recover
 // it. You cannot recover an Elastic IP address that you released after it is
-// allocated to another AWS account. You cannot recover an Elastic IP address
-// for EC2-Classic. To attempt to recover an Elastic IP address that you released,
+// allocated to another account. You cannot recover an Elastic IP address for
+// EC2-Classic. To attempt to recover an Elastic IP address that you released,
 // specify it in this operation.
 //
 // An Elastic IP address is for use either in the EC2-Classic platform or in
@@ -1314,18 +1315,18 @@ func (c *EC2) AssociateEnclaveCertificateIamRoleRequest(input *AssociateEnclaveC
 // see AWS Certificate Manager for Nitro Enclaves (https://docs.aws.amazon.com/enclaves/latest/user/nitro-enclave-refapp.html)
 // in the AWS Nitro Enclaves User Guide.
 //
-// When the IAM role is associated with the ACM certificate, places the certificate,
-// certificate chain, and encrypted private key in an Amazon S3 bucket that
-// only the associated IAM role can access. The private key of the certificate
+// When the IAM role is associated with the ACM certificate, the certificate,
+// certificate chain, and encrypted private key are placed in an Amazon S3 bucket
+// that only the associated IAM role can access. The private key of the certificate
 // is encrypted with an AWS-managed KMS customer master (CMK) that has an attached
 // attestation-based CMK policy.
 //
 // To enable the IAM role to access the Amazon S3 object, you must grant it
 // permission to call s3:GetObject on the Amazon S3 bucket returned by the command.
 // To enable the IAM role to access the AWS KMS CMK, you must grant it permission
-// to call kms:Decrypt on AWS KMS CMK returned by the command. For more information,
-// see Grant the role permission to access the certificate and encryption key
-// (https://docs.aws.amazon.com/enclaves/latest/user/nitro-enclave-refapp.html#add-policy)
+// to call kms:Decrypt on the AWS KMS CMK returned by the command. For more
+// information, see Grant the role permission to access the certificate and
+// encryption key (https://docs.aws.amazon.com/enclaves/latest/user/nitro-enclave-refapp.html#add-policy)
 // in the AWS Nitro Enclaves User Guide.
 //
 // Returns awserr.Error for service API and SDK errors. Use runtime type assertions
@@ -1738,6 +1739,88 @@ func (c *EC2) AssociateTransitGatewayRouteTable(input *AssociateTransitGatewayRo
 // for more information on using Contexts.
 func (c *EC2) AssociateTransitGatewayRouteTableWithContext(ctx aws.Context, input *AssociateTransitGatewayRouteTableInput, opts ...request.Option) (*AssociateTransitGatewayRouteTableOutput, error) {
 	req, out := c.AssociateTransitGatewayRouteTableRequest(input)
+	req.SetContext(ctx)
+	req.ApplyOptions(opts...)
+	return out, req.Send()
+}
+
+const opAssociateTrunkInterface = "AssociateTrunkInterface"
+
+// AssociateTrunkInterfaceRequest generates a "aws/request.Request" representing the
+// client's request for the AssociateTrunkInterface operation. The "output" return
+// value will be populated with the request's response once the request completes
+// successfully.
+//
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
+//
+// See AssociateTrunkInterface for more information on using the AssociateTrunkInterface
+// API call, and error handling.
+//
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
+//
+//    // Example sending a request using the AssociateTrunkInterfaceRequest method.
+//    req, resp := client.AssociateTrunkInterfaceRequest(params)
+//
+//    err := req.Send()
+//    if err == nil { // resp is now filled
+//        fmt.Println(resp)
+//    }
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/AssociateTrunkInterface
+func (c *EC2) AssociateTrunkInterfaceRequest(input *AssociateTrunkInterfaceInput) (req *request.Request, output *AssociateTrunkInterfaceOutput) {
+	op := &request.Operation{
+		Name:       opAssociateTrunkInterface,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &AssociateTrunkInterfaceInput{}
+	}
+
+	output = &AssociateTrunkInterfaceOutput{}
+	req = c.newRequest(op, input, output)
+	return
+}
+
+// AssociateTrunkInterface API operation for Amazon Elastic Compute Cloud.
+//
+// Associates a branch network interface with a trunk network interface.
+//
+// Before you create the association, run the create-network-interface (https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateNetworkInterface.html)
+// command and set --interface-type to trunk. You must also create a network
+// interface for each branch network interface that you want to associate with
+// the trunk network interface.
+//
+// For more information, see Network interface trunking (https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/eni-trunking.html)
+// in the Amazon Elastic Compute Cloud User Guide.
+//
+// Returns awserr.Error for service API and SDK errors. Use runtime type assertions
+// with awserr.Error's Code and Message methods to get detailed information about
+// the error.
+//
+// See the AWS API reference guide for Amazon Elastic Compute Cloud's
+// API operation AssociateTrunkInterface for usage and error information.
+// See also, https://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/AssociateTrunkInterface
+func (c *EC2) AssociateTrunkInterface(input *AssociateTrunkInterfaceInput) (*AssociateTrunkInterfaceOutput, error) {
+	req, out := c.AssociateTrunkInterfaceRequest(input)
+	return out, req.Send()
+}
+
+// AssociateTrunkInterfaceWithContext is the same as AssociateTrunkInterface with the addition of
+// the ability to pass a context and additional request options.
+//
+// See AssociateTrunkInterface for details on how to use this API operation.
+//
+// The context must be non-nil and will be used for request cancellation. If
+// the context is nil a panic will occur. In the future the SDK may create
+// sub-contexts for http.Requests. See https://golang.org/pkg/context/
+// for more information on using Contexts.
+func (c *EC2) AssociateTrunkInterfaceWithContext(ctx aws.Context, input *AssociateTrunkInterfaceInput, opts ...request.Option) (*AssociateTrunkInterfaceOutput, error) {
+	req, out := c.AssociateTrunkInterfaceRequest(input)
 	req.SetContext(ctx)
 	req.ApplyOptions(opts...)
 	return out, req.Send()
@@ -3397,14 +3480,26 @@ func (c *EC2) CopyImageRequest(input *CopyImageInput) (req *request.Request, out
 
 // CopyImage API operation for Amazon Elastic Compute Cloud.
 //
-// Initiates the copy of an AMI from the specified source Region to the current
-// Region. You specify the destination Region by using its endpoint when making
-// the request.
+// Initiates the copy of an AMI. You can copy an AMI from one Region to another,
+// or from a Region to an AWS Outpost. You can't copy an AMI from an Outpost
+// to a Region, from one Outpost to another, or within the same Outpost. To
+// copy an AMI to another partition, see CreateStoreImageTask (https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateStoreImageTask.html).
 //
-// Copies of encrypted backing snapshots for the AMI are encrypted. Copies of
-// unencrypted backing snapshots remain unencrypted, unless you set Encrypted
-// during the copy operation. You cannot create an unencrypted copy of an encrypted
-// backing snapshot.
+// To copy an AMI from one Region to another, specify the source Region using
+// the SourceRegion parameter, and specify the destination Region using its
+// endpoint. Copies of encrypted backing snapshots for the AMI are encrypted.
+// Copies of unencrypted backing snapshots remain unencrypted, unless you set
+// Encrypted during the copy operation. You cannot create an unencrypted copy
+// of an encrypted backing snapshot.
+//
+// To copy an AMI from a Region to an Outpost, specify the source Region using
+// the SourceRegion parameter, and specify the ARN of the destination Outpost
+// using DestinationOutpostArn. Backing snapshots copied to an Outpost are encrypted
+// by default using the default encryption key for the Region, or a different
+// key that you specify in the request using KmsKeyId. Outposts do not support
+// unencrypted snapshots. For more information, Amazon EBS local snapshots on
+// Outposts (https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/snapshots-outposts.html#ami)
+// in the Amazon Elastic Compute Cloud User Guide.
 //
 // For more information about the prerequisites and limits when copying an AMI,
 // see Copying an AMI (https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/CopyingAMIs.html)
@@ -3483,18 +3578,25 @@ func (c *EC2) CopySnapshotRequest(input *CopySnapshotInput) (req *request.Reques
 // CopySnapshot API operation for Amazon Elastic Compute Cloud.
 //
 // Copies a point-in-time snapshot of an EBS volume and stores it in Amazon
-// S3. You can copy the snapshot within the same Region or from one Region to
-// another. You can use the snapshot to create EBS volumes or Amazon Machine
-// Images (AMIs).
+// S3. You can copy a snapshot within the same Region, from one Region to another,
+// or from a Region to an Outpost. You can't copy a snapshot from an Outpost
+// to a Region, from one Outpost to another, or within the same Outpost.
 //
-// Copies of encrypted EBS snapshots remain encrypted. Copies of unencrypted
-// snapshots remain unencrypted, unless you enable encryption for the snapshot
-// copy operation. By default, encrypted snapshot copies use the default AWS
-// Key Management Service (AWS KMS) customer master key (CMK); however, you
-// can specify a different CMK.
+// You can use the snapshot to create EBS volumes or Amazon Machine Images (AMIs).
 //
-// To copy an encrypted snapshot that has been shared from another account,
-// you must have permissions for the CMK used to encrypt the snapshot.
+// When copying snapshots to a Region, copies of encrypted EBS snapshots remain
+// encrypted. Copies of unencrypted snapshots remain unencrypted, unless you
+// enable encryption for the snapshot copy operation. By default, encrypted
+// snapshot copies use the default AWS Key Management Service (AWS KMS) customer
+// master key (CMK); however, you can specify a different CMK. To copy an encrypted
+// snapshot that has been shared from another account, you must have permissions
+// for the CMK used to encrypt the snapshot.
+//
+// Snapshots copied to an Outpost are encrypted by default using the default
+// encryption key for the Region, or a different key that you specify in the
+// request using KmsKeyId. Outposts do not support unencrypted snapshots. For
+// more information, Amazon EBS local snapshots on Outposts (https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/snapshots-outposts.html#ami)
+// in the Amazon Elastic Compute Cloud User Guide.
 //
 // Snapshots created by copying another snapshot have an arbitrary volume ID
 // that should not be used for any purpose.
@@ -4693,7 +4795,7 @@ func (c *EC2) CreateInstanceExportTaskRequest(input *CreateInstanceExportTaskInp
 //
 // For information about the supported operating systems, image formats, and
 // known limitations for the types of instances you can export, see Exporting
-// an Instance as a VM Using VM Import/Export (https://docs.aws.amazon.com/vm-import/latest/userguide/vmexport.html)
+// an instance as a VM Using VM Import/Export (https://docs.aws.amazon.com/vm-import/latest/userguide/vmexport.html)
 // in the VM Import/Export User Guide.
 //
 // Returns awserr.Error for service API and SDK errors. Use runtime type assertions
@@ -5317,12 +5419,22 @@ func (c *EC2) CreateNatGatewayRequest(input *CreateNatGatewayInput) (req *reques
 
 // CreateNatGateway API operation for Amazon Elastic Compute Cloud.
 //
-// Creates a NAT gateway in the specified public subnet. This action creates
-// a network interface in the specified subnet with a private IP address from
-// the IP address range of the subnet. Internet-bound traffic from a private
-// subnet can be routed to the NAT gateway, therefore enabling instances in
-// the private subnet to connect to the internet. For more information, see
-// NAT Gateways (https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html)
+// Creates a NAT gateway in the specified subnet. This action creates a network
+// interface in the specified subnet with a private IP address from the IP address
+// range of the subnet. You can create either a public NAT gateway or a private
+// NAT gateway.
+//
+// With a public NAT gateway, internet-bound traffic from a private subnet can
+// be routed to the NAT gateway, so that instances in a private subnet can connect
+// to the internet.
+//
+// With a private NAT gateway, private communication is routed across VPCs and
+// on-premises networks through a transit gateway or virtual private gateway.
+// Common use cases include running large workloads behind a small pool of allowlisted
+// IPv4 addresses, preserving private IPv4 addresses, and communicating between
+// overlapping networks.
+//
+// For more information, see NAT Gateways (https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html)
 // in the Amazon Virtual Private Cloud User Guide.
 //
 // Returns awserr.Error for service API and SDK errors. Use runtime type assertions
@@ -5722,11 +5834,11 @@ func (c *EC2) CreateNetworkInterfacePermissionRequest(input *CreateNetworkInterf
 
 // CreateNetworkInterfacePermission API operation for Amazon Elastic Compute Cloud.
 //
-// Grants an AWS-authorized account permission to attach the specified network
-// interface to an instance in their account.
+// Grants an Amazon Web Services-authorized account permission to attach the
+// specified network interface to an instance in their account.
 //
-// You can grant permission to a single AWS account only, and only one account
-// at a time.
+// You can grant permission to a single account only, and only one account at
+// a time.
 //
 // Returns awserr.Error for service API and SDK errors. Use runtime type assertions
 // with awserr.Error's Code and Message methods to get detailed information about
@@ -5841,6 +5953,85 @@ func (c *EC2) CreatePlacementGroupWithContext(ctx aws.Context, input *CreatePlac
 	return out, req.Send()
 }
 
+const opCreateReplaceRootVolumeTask = "CreateReplaceRootVolumeTask"
+
+// CreateReplaceRootVolumeTaskRequest generates a "aws/request.Request" representing the
+// client's request for the CreateReplaceRootVolumeTask operation. The "output" return
+// value will be populated with the request's response once the request completes
+// successfully.
+//
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
+//
+// See CreateReplaceRootVolumeTask for more information on using the CreateReplaceRootVolumeTask
+// API call, and error handling.
+//
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
+//
+//    // Example sending a request using the CreateReplaceRootVolumeTaskRequest method.
+//    req, resp := client.CreateReplaceRootVolumeTaskRequest(params)
+//
+//    err := req.Send()
+//    if err == nil { // resp is now filled
+//        fmt.Println(resp)
+//    }
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/CreateReplaceRootVolumeTask
+func (c *EC2) CreateReplaceRootVolumeTaskRequest(input *CreateReplaceRootVolumeTaskInput) (req *request.Request, output *CreateReplaceRootVolumeTaskOutput) {
+	op := &request.Operation{
+		Name:       opCreateReplaceRootVolumeTask,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &CreateReplaceRootVolumeTaskInput{}
+	}
+
+	output = &CreateReplaceRootVolumeTaskOutput{}
+	req = c.newRequest(op, input, output)
+	return
+}
+
+// CreateReplaceRootVolumeTask API operation for Amazon Elastic Compute Cloud.
+//
+// Creates a root volume replacement task for an Amazon EC2 instance. The root
+// volume can either be restored to its initial launch state, or it can be restored
+// using a specific snapshot.
+//
+// For more information, see Replace a root volume (https://docs.aws.amazon.com/)
+// in the Amazon Elastic Compute Cloud User Guide.
+//
+// Returns awserr.Error for service API and SDK errors. Use runtime type assertions
+// with awserr.Error's Code and Message methods to get detailed information about
+// the error.
+//
+// See the AWS API reference guide for Amazon Elastic Compute Cloud's
+// API operation CreateReplaceRootVolumeTask for usage and error information.
+// See also, https://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/CreateReplaceRootVolumeTask
+func (c *EC2) CreateReplaceRootVolumeTask(input *CreateReplaceRootVolumeTaskInput) (*CreateReplaceRootVolumeTaskOutput, error) {
+	req, out := c.CreateReplaceRootVolumeTaskRequest(input)
+	return out, req.Send()
+}
+
+// CreateReplaceRootVolumeTaskWithContext is the same as CreateReplaceRootVolumeTask with the addition of
+// the ability to pass a context and additional request options.
+//
+// See CreateReplaceRootVolumeTask for details on how to use this API operation.
+//
+// The context must be non-nil and will be used for request cancellation. If
+// the context is nil a panic will occur. In the future the SDK may create
+// sub-contexts for http.Requests. See https://golang.org/pkg/context/
+// for more information on using Contexts.
+func (c *EC2) CreateReplaceRootVolumeTaskWithContext(ctx aws.Context, input *CreateReplaceRootVolumeTaskInput, opts ...request.Option) (*CreateReplaceRootVolumeTaskOutput, error) {
+	req, out := c.CreateReplaceRootVolumeTaskRequest(input)
+	req.SetContext(ctx)
+	req.ApplyOptions(opts...)
+	return out, req.Send()
+}
+
 const opCreateReservedInstancesListing = "CreateReservedInstancesListing"
 
 // CreateReservedInstancesListingRequest generates a "aws/request.Request" representing the
@@ -5932,6 +6123,88 @@ func (c *EC2) CreateReservedInstancesListing(input *CreateReservedInstancesListi
 // for more information on using Contexts.
 func (c *EC2) CreateReservedInstancesListingWithContext(ctx aws.Context, input *CreateReservedInstancesListingInput, opts ...request.Option) (*CreateReservedInstancesListingOutput, error) {
 	req, out := c.CreateReservedInstancesListingRequest(input)
+	req.SetContext(ctx)
+	req.ApplyOptions(opts...)
+	return out, req.Send()
+}
+
+const opCreateRestoreImageTask = "CreateRestoreImageTask"
+
+// CreateRestoreImageTaskRequest generates a "aws/request.Request" representing the
+// client's request for the CreateRestoreImageTask operation. The "output" return
+// value will be populated with the request's response once the request completes
+// successfully.
+//
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
+//
+// See CreateRestoreImageTask for more information on using the CreateRestoreImageTask
+// API call, and error handling.
+//
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
+//
+//    // Example sending a request using the CreateRestoreImageTaskRequest method.
+//    req, resp := client.CreateRestoreImageTaskRequest(params)
+//
+//    err := req.Send()
+//    if err == nil { // resp is now filled
+//        fmt.Println(resp)
+//    }
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/CreateRestoreImageTask
+func (c *EC2) CreateRestoreImageTaskRequest(input *CreateRestoreImageTaskInput) (req *request.Request, output *CreateRestoreImageTaskOutput) {
+	op := &request.Operation{
+		Name:       opCreateRestoreImageTask,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &CreateRestoreImageTaskInput{}
+	}
+
+	output = &CreateRestoreImageTaskOutput{}
+	req = c.newRequest(op, input, output)
+	return
+}
+
+// CreateRestoreImageTask API operation for Amazon Elastic Compute Cloud.
+//
+// Starts a task that restores an AMI from an S3 object that was previously
+// created by using CreateStoreImageTask (https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateStoreImageTask.html).
+//
+// To use this API, you must have the required permissions. For more information,
+// see Permissions for storing and restoring AMIs using S3 (https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ami-store-restore.html#ami-s3-permissions)
+// in the Amazon Elastic Compute Cloud User Guide.
+//
+// For more information, see Store and restore an AMI using S3 (https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ami-store-restore.html)
+// in the Amazon Elastic Compute Cloud User Guide.
+//
+// Returns awserr.Error for service API and SDK errors. Use runtime type assertions
+// with awserr.Error's Code and Message methods to get detailed information about
+// the error.
+//
+// See the AWS API reference guide for Amazon Elastic Compute Cloud's
+// API operation CreateRestoreImageTask for usage and error information.
+// See also, https://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/CreateRestoreImageTask
+func (c *EC2) CreateRestoreImageTask(input *CreateRestoreImageTaskInput) (*CreateRestoreImageTaskOutput, error) {
+	req, out := c.CreateRestoreImageTaskRequest(input)
+	return out, req.Send()
+}
+
+// CreateRestoreImageTaskWithContext is the same as CreateRestoreImageTask with the addition of
+// the ability to pass a context and additional request options.
+//
+// See CreateRestoreImageTask for details on how to use this API operation.
+//
+// The context must be non-nil and will be used for request cancellation. If
+// the context is nil a panic will occur. In the future the SDK may create
+// sub-contexts for http.Requests. See https://golang.org/pkg/context/
+// for more information on using Contexts.
+func (c *EC2) CreateRestoreImageTaskWithContext(ctx aws.Context, input *CreateRestoreImageTaskInput, opts ...request.Option) (*CreateRestoreImageTaskOutput, error) {
+	req, out := c.CreateRestoreImageTaskRequest(input)
 	req.SetContext(ctx)
 	req.ApplyOptions(opts...)
 	return out, req.Send()
@@ -6255,6 +6528,12 @@ func (c *EC2) CreateSnapshotRequest(input *CreateSnapshotInput) (req *request.Re
 // snapshots for backups, to make copies of EBS volumes, and to save data before
 // shutting down an instance.
 //
+// You can create snapshots of volumes in a Region and volumes on an Outpost.
+// If you create a snapshot of a volume in a Region, the snapshot must be stored
+// in the same Region as the volume. If you create a snapshot of a volume on
+// an Outpost, the snapshot can be stored on the same Outpost as the volume,
+// or in the Region for that Outpost.
+//
 // When a snapshot is created, any AWS Marketplace product codes that are associated
 // with the source volume are propagated to the snapshot.
 //
@@ -6361,6 +6640,12 @@ func (c *EC2) CreateSnapshotsRequest(input *CreateSnapshotsInput) (req *request.
 // will produce one snapshot each that is crash-consistent across the instance.
 // Boot volumes can be excluded by changing the parameters.
 //
+// You can create multi-volume snapshots of instances in a Region and instances
+// on an Outpost. If you create snapshots from an instance in a Region, the
+// snapshots must be stored in the same Region as the instance. If you create
+// snapshots from an instance on an Outpost, the snapshots can be stored on
+// the same Outpost as the instance, or in the Region for that Outpost.
+//
 // Returns awserr.Error for service API and SDK errors. Use runtime type assertions
 // with awserr.Error's Code and Message methods to get detailed information about
 // the error.
@@ -6434,7 +6719,7 @@ func (c *EC2) CreateSpotDatafeedSubscriptionRequest(input *CreateSpotDatafeedSub
 // CreateSpotDatafeedSubscription API operation for Amazon Elastic Compute Cloud.
 //
 // Creates a data feed for Spot Instances, enabling you to view Spot Instance
-// usage logs. You can create one data feed per AWS account. For more information,
+// usage logs. You can create one data feed per account. For more information,
 // see Spot Instance data feed (https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-data-feeds.html)
 // in the Amazon EC2 User Guide for Linux Instances.
 //
@@ -6461,6 +6746,87 @@ func (c *EC2) CreateSpotDatafeedSubscription(input *CreateSpotDatafeedSubscripti
 // for more information on using Contexts.
 func (c *EC2) CreateSpotDatafeedSubscriptionWithContext(ctx aws.Context, input *CreateSpotDatafeedSubscriptionInput, opts ...request.Option) (*CreateSpotDatafeedSubscriptionOutput, error) {
 	req, out := c.CreateSpotDatafeedSubscriptionRequest(input)
+	req.SetContext(ctx)
+	req.ApplyOptions(opts...)
+	return out, req.Send()
+}
+
+const opCreateStoreImageTask = "CreateStoreImageTask"
+
+// CreateStoreImageTaskRequest generates a "aws/request.Request" representing the
+// client's request for the CreateStoreImageTask operation. The "output" return
+// value will be populated with the request's response once the request completes
+// successfully.
+//
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
+//
+// See CreateStoreImageTask for more information on using the CreateStoreImageTask
+// API call, and error handling.
+//
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
+//
+//    // Example sending a request using the CreateStoreImageTaskRequest method.
+//    req, resp := client.CreateStoreImageTaskRequest(params)
+//
+//    err := req.Send()
+//    if err == nil { // resp is now filled
+//        fmt.Println(resp)
+//    }
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/CreateStoreImageTask
+func (c *EC2) CreateStoreImageTaskRequest(input *CreateStoreImageTaskInput) (req *request.Request, output *CreateStoreImageTaskOutput) {
+	op := &request.Operation{
+		Name:       opCreateStoreImageTask,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &CreateStoreImageTaskInput{}
+	}
+
+	output = &CreateStoreImageTaskOutput{}
+	req = c.newRequest(op, input, output)
+	return
+}
+
+// CreateStoreImageTask API operation for Amazon Elastic Compute Cloud.
+//
+// Stores an AMI as a single object in an S3 bucket.
+//
+// To use this API, you must have the required permissions. For more information,
+// see Permissions for storing and restoring AMIs using S3 (https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ami-store-restore.html#ami-s3-permissions)
+// in the Amazon Elastic Compute Cloud User Guide.
+//
+// For more information, see Store and restore an AMI using S3 (https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ami-store-restore.html)
+// in the Amazon Elastic Compute Cloud User Guide.
+//
+// Returns awserr.Error for service API and SDK errors. Use runtime type assertions
+// with awserr.Error's Code and Message methods to get detailed information about
+// the error.
+//
+// See the AWS API reference guide for Amazon Elastic Compute Cloud's
+// API operation CreateStoreImageTask for usage and error information.
+// See also, https://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/CreateStoreImageTask
+func (c *EC2) CreateStoreImageTask(input *CreateStoreImageTaskInput) (*CreateStoreImageTaskOutput, error) {
+	req, out := c.CreateStoreImageTaskRequest(input)
+	return out, req.Send()
+}
+
+// CreateStoreImageTaskWithContext is the same as CreateStoreImageTask with the addition of
+// the ability to pass a context and additional request options.
+//
+// See CreateStoreImageTask for details on how to use this API operation.
+//
+// The context must be non-nil and will be used for request cancellation. If
+// the context is nil a panic will occur. In the future the SDK may create
+// sub-contexts for http.Requests. See https://golang.org/pkg/context/
+// for more information on using Contexts.
+func (c *EC2) CreateStoreImageTaskWithContext(ctx aws.Context, input *CreateStoreImageTaskInput, opts ...request.Option) (*CreateStoreImageTaskOutput, error) {
+	req, out := c.CreateStoreImageTaskRequest(input)
 	req.SetContext(ctx)
 	req.ApplyOptions(opts...)
 	return out, req.Send()
@@ -9758,9 +10124,10 @@ func (c *EC2) DeleteNatGatewayRequest(input *DeleteNatGatewayInput) (req *reques
 
 // DeleteNatGateway API operation for Amazon Elastic Compute Cloud.
 //
-// Deletes the specified NAT gateway. Deleting a NAT gateway disassociates its
-// Elastic IP address, but does not release the address from your account. Deleting
-// a NAT gateway does not delete any NAT gateway routes in your route tables.
+// Deletes the specified NAT gateway. Deleting a public NAT gateway disassociates
+// its Elastic IP address, but does not release the address from your account.
+// Deleting a NAT gateway does not delete any NAT gateway routes in your route
+// tables.
 //
 // Returns awserr.Error for service API and SDK errors. Use runtime type assertions
 // with awserr.Error's Code and Message methods to get detailed information about
@@ -12272,12 +12639,26 @@ func (c *EC2) DeleteVpcEndpointsRequest(input *DeleteVpcEndpointsInput) (req *re
 
 // DeleteVpcEndpoints API operation for Amazon Elastic Compute Cloud.
 //
-// Deletes one or more specified VPC endpoints. Deleting a gateway endpoint
-// also deletes the endpoint routes in the route tables that were associated
-// with the endpoint. Deleting an interface endpoint or a Gateway Load Balancer
-// endpoint deletes the endpoint network interfaces. Gateway Load Balancer endpoints
-// can only be deleted if the routes that are associated with the endpoint are
-// deleted.
+// Deletes one or more specified VPC endpoints. You can delete any of the following
+// types of VPC endpoints.
+//
+//    * Gateway endpoint,
+//
+//    * Gateway Load Balancer endpoint,
+//
+//    * Interface endpoint
+//
+// The following rules apply when you delete a VPC endpoint:
+//
+//    * When you delete a gateway endpoint, we delete the endpoint routes in
+//    the route tables that are associated with the endpoint.
+//
+//    * When you delete a Gateway Load Balancer endpoint, we delete the endpoint
+//    network interfaces. You can only delete Gateway Load Balancer endpoints
+//    when the routes that are associated with the endpoint are deleted.
+//
+//    * When you delete an interface endpoint, we delete the endpoint network
+//    interfaces.
 //
 // Returns awserr.Error for service API and SDK errors. Use runtime type assertions
 // with awserr.Error's Code and Message methods to get detailed information about
@@ -12674,8 +13055,8 @@ func (c *EC2) DeprovisionByoipCidrRequest(input *DeprovisionByoipCidrInput) (req
 // DeprovisionByoipCidr API operation for Amazon Elastic Compute Cloud.
 //
 // Releases the specified address range that you provisioned for use with your
-// AWS resources through bring your own IP addresses (BYOIP) and deletes the
-// corresponding address pool.
+// Amazon Web Services resources through bring your own IP addresses (BYOIP)
+// and deletes the corresponding address pool.
 //
 // Before you can release an address range, you must stop advertising it using
 // WithdrawByoipCidr and you must not have any IP addresses allocated from its
@@ -13189,6 +13570,139 @@ func (c *EC2) DescribeAddressesWithContext(ctx aws.Context, input *DescribeAddre
 	return out, req.Send()
 }
 
+const opDescribeAddressesAttribute = "DescribeAddressesAttribute"
+
+// DescribeAddressesAttributeRequest generates a "aws/request.Request" representing the
+// client's request for the DescribeAddressesAttribute operation. The "output" return
+// value will be populated with the request's response once the request completes
+// successfully.
+//
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
+//
+// See DescribeAddressesAttribute for more information on using the DescribeAddressesAttribute
+// API call, and error handling.
+//
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
+//
+//    // Example sending a request using the DescribeAddressesAttributeRequest method.
+//    req, resp := client.DescribeAddressesAttributeRequest(params)
+//
+//    err := req.Send()
+//    if err == nil { // resp is now filled
+//        fmt.Println(resp)
+//    }
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeAddressesAttribute
+func (c *EC2) DescribeAddressesAttributeRequest(input *DescribeAddressesAttributeInput) (req *request.Request, output *DescribeAddressesAttributeOutput) {
+	op := &request.Operation{
+		Name:       opDescribeAddressesAttribute,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+		Paginator: &request.Paginator{
+			InputTokens:     []string{"NextToken"},
+			OutputTokens:    []string{"NextToken"},
+			LimitToken:      "MaxResults",
+			TruncationToken: "",
+		},
+	}
+
+	if input == nil {
+		input = &DescribeAddressesAttributeInput{}
+	}
+
+	output = &DescribeAddressesAttributeOutput{}
+	req = c.newRequest(op, input, output)
+	return
+}
+
+// DescribeAddressesAttribute API operation for Amazon Elastic Compute Cloud.
+//
+// Describes the attributes of the specified Elastic IP addresses. For requirements,
+// see Using reverse DNS for email applications (https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html#Using_Elastic_Addressing_Reverse_DNS).
+//
+// Returns awserr.Error for service API and SDK errors. Use runtime type assertions
+// with awserr.Error's Code and Message methods to get detailed information about
+// the error.
+//
+// See the AWS API reference guide for Amazon Elastic Compute Cloud's
+// API operation DescribeAddressesAttribute for usage and error information.
+// See also, https://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeAddressesAttribute
+func (c *EC2) DescribeAddressesAttribute(input *DescribeAddressesAttributeInput) (*DescribeAddressesAttributeOutput, error) {
+	req, out := c.DescribeAddressesAttributeRequest(input)
+	return out, req.Send()
+}
+
+// DescribeAddressesAttributeWithContext is the same as DescribeAddressesAttribute with the addition of
+// the ability to pass a context and additional request options.
+//
+// See DescribeAddressesAttribute for details on how to use this API operation.
+//
+// The context must be non-nil and will be used for request cancellation. If
+// the context is nil a panic will occur. In the future the SDK may create
+// sub-contexts for http.Requests. See https://golang.org/pkg/context/
+// for more information on using Contexts.
+func (c *EC2) DescribeAddressesAttributeWithContext(ctx aws.Context, input *DescribeAddressesAttributeInput, opts ...request.Option) (*DescribeAddressesAttributeOutput, error) {
+	req, out := c.DescribeAddressesAttributeRequest(input)
+	req.SetContext(ctx)
+	req.ApplyOptions(opts...)
+	return out, req.Send()
+}
+
+// DescribeAddressesAttributePages iterates over the pages of a DescribeAddressesAttribute operation,
+// calling the "fn" function with the response data for each page. To stop
+// iterating, return false from the fn function.
+//
+// See DescribeAddressesAttribute method for more information on how to use this operation.
+//
+// Note: This operation can generate multiple requests to a service.
+//
+//    // Example iterating over at most 3 pages of a DescribeAddressesAttribute operation.
+//    pageNum := 0
+//    err := client.DescribeAddressesAttributePages(params,
+//        func(page *ec2.DescribeAddressesAttributeOutput, lastPage bool) bool {
+//            pageNum++
+//            fmt.Println(page)
+//            return pageNum <= 3
+//        })
+//
+func (c *EC2) DescribeAddressesAttributePages(input *DescribeAddressesAttributeInput, fn func(*DescribeAddressesAttributeOutput, bool) bool) error {
+	return c.DescribeAddressesAttributePagesWithContext(aws.BackgroundContext(), input, fn)
+}
+
+// DescribeAddressesAttributePagesWithContext same as DescribeAddressesAttributePages except
+// it takes a Context and allows setting request options on the pages.
+//
+// The context must be non-nil and will be used for request cancellation. If
+// the context is nil a panic will occur. In the future the SDK may create
+// sub-contexts for http.Requests. See https://golang.org/pkg/context/
+// for more information on using Contexts.
+func (c *EC2) DescribeAddressesAttributePagesWithContext(ctx aws.Context, input *DescribeAddressesAttributeInput, fn func(*DescribeAddressesAttributeOutput, bool) bool, opts ...request.Option) error {
+	p := request.Pagination{
+		NewRequest: func() (*request.Request, error) {
+			var inCpy *DescribeAddressesAttributeInput
+			if input != nil {
+				tmp := *input
+				inCpy = &tmp
+			}
+			req, _ := c.DescribeAddressesAttributeRequest(inCpy)
+			req.SetContext(ctx)
+			req.ApplyOptions(opts...)
+			return req, nil
+		},
+	}
+
+	for p.Next() {
+		if !fn(p.Page().(*DescribeAddressesAttributeOutput), !p.HasNextPage()) {
+			break
+		}
+	}
+
+	return p.Err()
+}
+
 const opDescribeAggregateIdFormat = "DescribeAggregateIdFormat"
 
 // DescribeAggregateIdFormatRequest generates a "aws/request.Request" representing the
@@ -13622,7 +14136,7 @@ func (c *EC2) DescribeCapacityReservationsRequest(input *DescribeCapacityReserva
 // DescribeCapacityReservations API operation for Amazon Elastic Compute Cloud.
 //
 // Describes one or more of your Capacity Reservations. The results describe
-// only the Capacity Reservations in the AWS Region that you're currently using.
+// only the Capacity Reservations in the Region that you're currently using.
 //
 // Returns awserr.Error for service API and SDK errors. Use runtime type assertions
 // with awserr.Error's Code and Message methods to get detailed information about
@@ -17087,8 +17601,8 @@ func (c *EC2) DescribeImagesRequest(input *DescribeImagesInput) (req *request.Re
 //
 // Recently deregistered images appear in the returned results for a short interval
 // and then return empty results. After all instances that reference a deregistered
-// AMI are terminated, specifying the ID of the image results in an error indicating
-// that the AMI ID cannot be found.
+// AMI are terminated, specifying the ID of the image will eventually return
+// an error indicating that the AMI ID cannot be found.
 //
 // Returns awserr.Error for service API and SDK errors. Use runtime type assertions
 // with awserr.Error's Code and Message methods to get detailed information about
@@ -19716,7 +20230,8 @@ func (c *EC2) DescribeManagedPrefixListsRequest(input *DescribeManagedPrefixList
 
 // DescribeManagedPrefixLists API operation for Amazon Elastic Compute Cloud.
 //
-// Describes your managed prefix lists and any AWS-managed prefix lists.
+// Describes your managed prefix lists and any Amazon Web Services-managed prefix
+// lists.
 //
 // To view the entries for your prefix list, use GetManagedPrefixListEntries.
 //
@@ -20930,9 +21445,9 @@ func (c *EC2) DescribePrefixListsRequest(input *DescribePrefixListsInput) (req *
 
 // DescribePrefixLists API operation for Amazon Elastic Compute Cloud.
 //
-// Describes available AWS services in a prefix list format, which includes
-// the prefix list name and prefix list ID of the service and the IP address
-// range for the service.
+// Describes available Amazon Web Services services in a prefix list format,
+// which includes the prefix list name and prefix list ID of the service and
+// the IP address range for the service.
 //
 // We recommend that you use DescribeManagedPrefixLists instead.
 //
@@ -21373,6 +21888,140 @@ func (c *EC2) DescribeRegionsWithContext(ctx aws.Context, input *DescribeRegions
 	req.SetContext(ctx)
 	req.ApplyOptions(opts...)
 	return out, req.Send()
+}
+
+const opDescribeReplaceRootVolumeTasks = "DescribeReplaceRootVolumeTasks"
+
+// DescribeReplaceRootVolumeTasksRequest generates a "aws/request.Request" representing the
+// client's request for the DescribeReplaceRootVolumeTasks operation. The "output" return
+// value will be populated with the request's response once the request completes
+// successfully.
+//
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
+//
+// See DescribeReplaceRootVolumeTasks for more information on using the DescribeReplaceRootVolumeTasks
+// API call, and error handling.
+//
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
+//
+//    // Example sending a request using the DescribeReplaceRootVolumeTasksRequest method.
+//    req, resp := client.DescribeReplaceRootVolumeTasksRequest(params)
+//
+//    err := req.Send()
+//    if err == nil { // resp is now filled
+//        fmt.Println(resp)
+//    }
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeReplaceRootVolumeTasks
+func (c *EC2) DescribeReplaceRootVolumeTasksRequest(input *DescribeReplaceRootVolumeTasksInput) (req *request.Request, output *DescribeReplaceRootVolumeTasksOutput) {
+	op := &request.Operation{
+		Name:       opDescribeReplaceRootVolumeTasks,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+		Paginator: &request.Paginator{
+			InputTokens:     []string{"NextToken"},
+			OutputTokens:    []string{"NextToken"},
+			LimitToken:      "MaxResults",
+			TruncationToken: "",
+		},
+	}
+
+	if input == nil {
+		input = &DescribeReplaceRootVolumeTasksInput{}
+	}
+
+	output = &DescribeReplaceRootVolumeTasksOutput{}
+	req = c.newRequest(op, input, output)
+	return
+}
+
+// DescribeReplaceRootVolumeTasks API operation for Amazon Elastic Compute Cloud.
+//
+// Describes a root volume replacement task. For more information, see Replace
+// a root volume (https://docs.aws.amazon.com/) in the Amazon Elastic Compute
+// Cloud User Guide.
+//
+// Returns awserr.Error for service API and SDK errors. Use runtime type assertions
+// with awserr.Error's Code and Message methods to get detailed information about
+// the error.
+//
+// See the AWS API reference guide for Amazon Elastic Compute Cloud's
+// API operation DescribeReplaceRootVolumeTasks for usage and error information.
+// See also, https://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeReplaceRootVolumeTasks
+func (c *EC2) DescribeReplaceRootVolumeTasks(input *DescribeReplaceRootVolumeTasksInput) (*DescribeReplaceRootVolumeTasksOutput, error) {
+	req, out := c.DescribeReplaceRootVolumeTasksRequest(input)
+	return out, req.Send()
+}
+
+// DescribeReplaceRootVolumeTasksWithContext is the same as DescribeReplaceRootVolumeTasks with the addition of
+// the ability to pass a context and additional request options.
+//
+// See DescribeReplaceRootVolumeTasks for details on how to use this API operation.
+//
+// The context must be non-nil and will be used for request cancellation. If
+// the context is nil a panic will occur. In the future the SDK may create
+// sub-contexts for http.Requests. See https://golang.org/pkg/context/
+// for more information on using Contexts.
+func (c *EC2) DescribeReplaceRootVolumeTasksWithContext(ctx aws.Context, input *DescribeReplaceRootVolumeTasksInput, opts ...request.Option) (*DescribeReplaceRootVolumeTasksOutput, error) {
+	req, out := c.DescribeReplaceRootVolumeTasksRequest(input)
+	req.SetContext(ctx)
+	req.ApplyOptions(opts...)
+	return out, req.Send()
+}
+
+// DescribeReplaceRootVolumeTasksPages iterates over the pages of a DescribeReplaceRootVolumeTasks operation,
+// calling the "fn" function with the response data for each page. To stop
+// iterating, return false from the fn function.
+//
+// See DescribeReplaceRootVolumeTasks method for more information on how to use this operation.
+//
+// Note: This operation can generate multiple requests to a service.
+//
+//    // Example iterating over at most 3 pages of a DescribeReplaceRootVolumeTasks operation.
+//    pageNum := 0
+//    err := client.DescribeReplaceRootVolumeTasksPages(params,
+//        func(page *ec2.DescribeReplaceRootVolumeTasksOutput, lastPage bool) bool {
+//            pageNum++
+//            fmt.Println(page)
+//            return pageNum <= 3
+//        })
+//
+func (c *EC2) DescribeReplaceRootVolumeTasksPages(input *DescribeReplaceRootVolumeTasksInput, fn func(*DescribeReplaceRootVolumeTasksOutput, bool) bool) error {
+	return c.DescribeReplaceRootVolumeTasksPagesWithContext(aws.BackgroundContext(), input, fn)
+}
+
+// DescribeReplaceRootVolumeTasksPagesWithContext same as DescribeReplaceRootVolumeTasksPages except
+// it takes a Context and allows setting request options on the pages.
+//
+// The context must be non-nil and will be used for request cancellation. If
+// the context is nil a panic will occur. In the future the SDK may create
+// sub-contexts for http.Requests. See https://golang.org/pkg/context/
+// for more information on using Contexts.
+func (c *EC2) DescribeReplaceRootVolumeTasksPagesWithContext(ctx aws.Context, input *DescribeReplaceRootVolumeTasksInput, fn func(*DescribeReplaceRootVolumeTasksOutput, bool) bool, opts ...request.Option) error {
+	p := request.Pagination{
+		NewRequest: func() (*request.Request, error) {
+			var inCpy *DescribeReplaceRootVolumeTasksInput
+			if input != nil {
+				tmp := *input
+				inCpy = &tmp
+			}
+			req, _ := c.DescribeReplaceRootVolumeTasksRequest(inCpy)
+			req.SetContext(ctx)
+			req.ApplyOptions(opts...)
+			return req, nil
+		},
+	}
+
+	for p.Next() {
+		if !fn(p.Page().(*DescribeReplaceRootVolumeTasksOutput), !p.HasNextPage()) {
+			break
+		}
+	}
+
+	return p.Err()
 }
 
 const opDescribeReservedInstances = "DescribeReservedInstances"
@@ -23279,10 +23928,10 @@ func (c *EC2) DescribeSpotPriceHistoryRequest(input *DescribeSpotPriceHistoryInp
 // pricing history (https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-spot-instances-history.html)
 // in the Amazon EC2 User Guide for Linux Instances.
 //
-// When you specify a start and end time, this operation returns the prices
-// of the instance types within the time range that you specified and the time
-// when the price changed. The price is valid within the time period that you
-// specified; the response merely indicates the last time that the price changed.
+// When you specify a start and end time, the operation returns the prices of
+// the instance types within that time range. It also returns the last price
+// change before the start time, which is the effective price as of the start
+// time.
 //
 // Returns awserr.Error for service API and SDK errors. Use runtime type assertions
 // with awserr.Error's Code and Message methods to get detailed information about
@@ -23492,6 +24141,154 @@ func (c *EC2) DescribeStaleSecurityGroupsPagesWithContext(ctx aws.Context, input
 
 	for p.Next() {
 		if !fn(p.Page().(*DescribeStaleSecurityGroupsOutput), !p.HasNextPage()) {
+			break
+		}
+	}
+
+	return p.Err()
+}
+
+const opDescribeStoreImageTasks = "DescribeStoreImageTasks"
+
+// DescribeStoreImageTasksRequest generates a "aws/request.Request" representing the
+// client's request for the DescribeStoreImageTasks operation. The "output" return
+// value will be populated with the request's response once the request completes
+// successfully.
+//
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
+//
+// See DescribeStoreImageTasks for more information on using the DescribeStoreImageTasks
+// API call, and error handling.
+//
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
+//
+//    // Example sending a request using the DescribeStoreImageTasksRequest method.
+//    req, resp := client.DescribeStoreImageTasksRequest(params)
+//
+//    err := req.Send()
+//    if err == nil { // resp is now filled
+//        fmt.Println(resp)
+//    }
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeStoreImageTasks
+func (c *EC2) DescribeStoreImageTasksRequest(input *DescribeStoreImageTasksInput) (req *request.Request, output *DescribeStoreImageTasksOutput) {
+	op := &request.Operation{
+		Name:       opDescribeStoreImageTasks,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+		Paginator: &request.Paginator{
+			InputTokens:     []string{"NextToken"},
+			OutputTokens:    []string{"NextToken"},
+			LimitToken:      "MaxResults",
+			TruncationToken: "",
+		},
+	}
+
+	if input == nil {
+		input = &DescribeStoreImageTasksInput{}
+	}
+
+	output = &DescribeStoreImageTasksOutput{}
+	req = c.newRequest(op, input, output)
+	return
+}
+
+// DescribeStoreImageTasks API operation for Amazon Elastic Compute Cloud.
+//
+// Describes the progress of the AMI store tasks. You can describe the store
+// tasks for specified AMIs. If you don't specify the AMIs, you get a paginated
+// list of store tasks from the last 31 days.
+//
+// For each AMI task, the response indicates if the task is InProgress, Completed,
+// or Failed. For tasks InProgress, the response shows the estimated progress
+// as a percentage.
+//
+// Tasks are listed in reverse chronological order. Currently, only tasks from
+// the past 31 days can be viewed.
+//
+// To use this API, you must have the required permissions. For more information,
+// see Permissions for storing and restoring AMIs using S3 (https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ami-store-restore.html#ami-s3-permissions)
+// in the Amazon Elastic Compute Cloud User Guide.
+//
+// For more information, see Store and restore an AMI using S3 (https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ami-store-restore.html)
+// in the Amazon Elastic Compute Cloud User Guide.
+//
+// Returns awserr.Error for service API and SDK errors. Use runtime type assertions
+// with awserr.Error's Code and Message methods to get detailed information about
+// the error.
+//
+// See the AWS API reference guide for Amazon Elastic Compute Cloud's
+// API operation DescribeStoreImageTasks for usage and error information.
+// See also, https://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeStoreImageTasks
+func (c *EC2) DescribeStoreImageTasks(input *DescribeStoreImageTasksInput) (*DescribeStoreImageTasksOutput, error) {
+	req, out := c.DescribeStoreImageTasksRequest(input)
+	return out, req.Send()
+}
+
+// DescribeStoreImageTasksWithContext is the same as DescribeStoreImageTasks with the addition of
+// the ability to pass a context and additional request options.
+//
+// See DescribeStoreImageTasks for details on how to use this API operation.
+//
+// The context must be non-nil and will be used for request cancellation. If
+// the context is nil a panic will occur. In the future the SDK may create
+// sub-contexts for http.Requests. See https://golang.org/pkg/context/
+// for more information on using Contexts.
+func (c *EC2) DescribeStoreImageTasksWithContext(ctx aws.Context, input *DescribeStoreImageTasksInput, opts ...request.Option) (*DescribeStoreImageTasksOutput, error) {
+	req, out := c.DescribeStoreImageTasksRequest(input)
+	req.SetContext(ctx)
+	req.ApplyOptions(opts...)
+	return out, req.Send()
+}
+
+// DescribeStoreImageTasksPages iterates over the pages of a DescribeStoreImageTasks operation,
+// calling the "fn" function with the response data for each page. To stop
+// iterating, return false from the fn function.
+//
+// See DescribeStoreImageTasks method for more information on how to use this operation.
+//
+// Note: This operation can generate multiple requests to a service.
+//
+//    // Example iterating over at most 3 pages of a DescribeStoreImageTasks operation.
+//    pageNum := 0
+//    err := client.DescribeStoreImageTasksPages(params,
+//        func(page *ec2.DescribeStoreImageTasksOutput, lastPage bool) bool {
+//            pageNum++
+//            fmt.Println(page)
+//            return pageNum <= 3
+//        })
+//
+func (c *EC2) DescribeStoreImageTasksPages(input *DescribeStoreImageTasksInput, fn func(*DescribeStoreImageTasksOutput, bool) bool) error {
+	return c.DescribeStoreImageTasksPagesWithContext(aws.BackgroundContext(), input, fn)
+}
+
+// DescribeStoreImageTasksPagesWithContext same as DescribeStoreImageTasksPages except
+// it takes a Context and allows setting request options on the pages.
+//
+// The context must be non-nil and will be used for request cancellation. If
+// the context is nil a panic will occur. In the future the SDK may create
+// sub-contexts for http.Requests. See https://golang.org/pkg/context/
+// for more information on using Contexts.
+func (c *EC2) DescribeStoreImageTasksPagesWithContext(ctx aws.Context, input *DescribeStoreImageTasksInput, fn func(*DescribeStoreImageTasksOutput, bool) bool, opts ...request.Option) error {
+	p := request.Pagination{
+		NewRequest: func() (*request.Request, error) {
+			var inCpy *DescribeStoreImageTasksInput
+			if input != nil {
+				tmp := *input
+				inCpy = &tmp
+			}
+			req, _ := c.DescribeStoreImageTasksRequest(inCpy)
+			req.SetContext(ctx)
+			req.ApplyOptions(opts...)
+			return req, nil
+		},
+	}
+
+	for p.Next() {
+		if !fn(p.Page().(*DescribeStoreImageTasksOutput), !p.HasNextPage()) {
 			break
 		}
 	}
@@ -25228,6 +26025,80 @@ func (c *EC2) DescribeTransitGatewaysPagesWithContext(ctx aws.Context, input *De
 	return p.Err()
 }
 
+const opDescribeTrunkInterfaceAssociations = "DescribeTrunkInterfaceAssociations"
+
+// DescribeTrunkInterfaceAssociationsRequest generates a "aws/request.Request" representing the
+// client's request for the DescribeTrunkInterfaceAssociations operation. The "output" return
+// value will be populated with the request's response once the request completes
+// successfully.
+//
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
+//
+// See DescribeTrunkInterfaceAssociations for more information on using the DescribeTrunkInterfaceAssociations
+// API call, and error handling.
+//
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
+//
+//    // Example sending a request using the DescribeTrunkInterfaceAssociationsRequest method.
+//    req, resp := client.DescribeTrunkInterfaceAssociationsRequest(params)
+//
+//    err := req.Send()
+//    if err == nil { // resp is now filled
+//        fmt.Println(resp)
+//    }
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeTrunkInterfaceAssociations
+func (c *EC2) DescribeTrunkInterfaceAssociationsRequest(input *DescribeTrunkInterfaceAssociationsInput) (req *request.Request, output *DescribeTrunkInterfaceAssociationsOutput) {
+	op := &request.Operation{
+		Name:       opDescribeTrunkInterfaceAssociations,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &DescribeTrunkInterfaceAssociationsInput{}
+	}
+
+	output = &DescribeTrunkInterfaceAssociationsOutput{}
+	req = c.newRequest(op, input, output)
+	return
+}
+
+// DescribeTrunkInterfaceAssociations API operation for Amazon Elastic Compute Cloud.
+//
+// Describes one or more network interface trunk associations.
+//
+// Returns awserr.Error for service API and SDK errors. Use runtime type assertions
+// with awserr.Error's Code and Message methods to get detailed information about
+// the error.
+//
+// See the AWS API reference guide for Amazon Elastic Compute Cloud's
+// API operation DescribeTrunkInterfaceAssociations for usage and error information.
+// See also, https://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeTrunkInterfaceAssociations
+func (c *EC2) DescribeTrunkInterfaceAssociations(input *DescribeTrunkInterfaceAssociationsInput) (*DescribeTrunkInterfaceAssociationsOutput, error) {
+	req, out := c.DescribeTrunkInterfaceAssociationsRequest(input)
+	return out, req.Send()
+}
+
+// DescribeTrunkInterfaceAssociationsWithContext is the same as DescribeTrunkInterfaceAssociations with the addition of
+// the ability to pass a context and additional request options.
+//
+// See DescribeTrunkInterfaceAssociations for details on how to use this API operation.
+//
+// The context must be non-nil and will be used for request cancellation. If
+// the context is nil a panic will occur. In the future the SDK may create
+// sub-contexts for http.Requests. See https://golang.org/pkg/context/
+// for more information on using Contexts.
+func (c *EC2) DescribeTrunkInterfaceAssociationsWithContext(ctx aws.Context, input *DescribeTrunkInterfaceAssociationsInput, opts ...request.Option) (*DescribeTrunkInterfaceAssociationsOutput, error) {
+	req, out := c.DescribeTrunkInterfaceAssociationsRequest(input)
+	req.SetContext(ctx)
+	req.ApplyOptions(opts...)
+	return out, req.Send()
+}
+
 const opDescribeVolumeAttribute = "DescribeVolumeAttribute"
 
 // DescribeVolumeAttributeRequest generates a "aws/request.Request" representing the
@@ -26622,12 +27493,12 @@ func (c *EC2) DescribeVpcEndpointServicesRequest(input *DescribeVpcEndpointServi
 //
 // Describes available services to which you can create a VPC endpoint.
 //
-// When the service provider and the consumer have different accounts multiple
+// When the service provider and the consumer have different accounts in multiple
 // Availability Zones, and the consumer views the VPC endpoint service information,
 // the response only includes the common Availability Zones. For example, when
 // the service provider account uses us-east-1a and us-east-1c and the consumer
-// uses us-east-1a and us-east-1a and us-east-1b, the response includes the
-// VPC endpoint services in the common Availability Zone, us-east-1a.
+// uses us-east-1a and us-east-1b, the response includes the VPC endpoint services
+// in the common Availability Zone, us-east-1a.
 //
 // Returns awserr.Error for service API and SDK errors. Use runtime type assertions
 // with awserr.Error's Code and Message methods to get detailed information about
@@ -27762,6 +28633,161 @@ func (c *EC2) DisableFastSnapshotRestoresWithContext(ctx aws.Context, input *Dis
 	return out, req.Send()
 }
 
+const opDisableImageDeprecation = "DisableImageDeprecation"
+
+// DisableImageDeprecationRequest generates a "aws/request.Request" representing the
+// client's request for the DisableImageDeprecation operation. The "output" return
+// value will be populated with the request's response once the request completes
+// successfully.
+//
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
+//
+// See DisableImageDeprecation for more information on using the DisableImageDeprecation
+// API call, and error handling.
+//
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
+//
+//    // Example sending a request using the DisableImageDeprecationRequest method.
+//    req, resp := client.DisableImageDeprecationRequest(params)
+//
+//    err := req.Send()
+//    if err == nil { // resp is now filled
+//        fmt.Println(resp)
+//    }
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DisableImageDeprecation
+func (c *EC2) DisableImageDeprecationRequest(input *DisableImageDeprecationInput) (req *request.Request, output *DisableImageDeprecationOutput) {
+	op := &request.Operation{
+		Name:       opDisableImageDeprecation,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &DisableImageDeprecationInput{}
+	}
+
+	output = &DisableImageDeprecationOutput{}
+	req = c.newRequest(op, input, output)
+	return
+}
+
+// DisableImageDeprecation API operation for Amazon Elastic Compute Cloud.
+//
+// Cancels the deprecation of the specified AMI.
+//
+// For more information, see Deprecate an AMI (https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ami-deprecate.html)
+// in the Amazon Elastic Compute Cloud User Guide.
+//
+// Returns awserr.Error for service API and SDK errors. Use runtime type assertions
+// with awserr.Error's Code and Message methods to get detailed information about
+// the error.
+//
+// See the AWS API reference guide for Amazon Elastic Compute Cloud's
+// API operation DisableImageDeprecation for usage and error information.
+// See also, https://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DisableImageDeprecation
+func (c *EC2) DisableImageDeprecation(input *DisableImageDeprecationInput) (*DisableImageDeprecationOutput, error) {
+	req, out := c.DisableImageDeprecationRequest(input)
+	return out, req.Send()
+}
+
+// DisableImageDeprecationWithContext is the same as DisableImageDeprecation with the addition of
+// the ability to pass a context and additional request options.
+//
+// See DisableImageDeprecation for details on how to use this API operation.
+//
+// The context must be non-nil and will be used for request cancellation. If
+// the context is nil a panic will occur. In the future the SDK may create
+// sub-contexts for http.Requests. See https://golang.org/pkg/context/
+// for more information on using Contexts.
+func (c *EC2) DisableImageDeprecationWithContext(ctx aws.Context, input *DisableImageDeprecationInput, opts ...request.Option) (*DisableImageDeprecationOutput, error) {
+	req, out := c.DisableImageDeprecationRequest(input)
+	req.SetContext(ctx)
+	req.ApplyOptions(opts...)
+	return out, req.Send()
+}
+
+const opDisableSerialConsoleAccess = "DisableSerialConsoleAccess"
+
+// DisableSerialConsoleAccessRequest generates a "aws/request.Request" representing the
+// client's request for the DisableSerialConsoleAccess operation. The "output" return
+// value will be populated with the request's response once the request completes
+// successfully.
+//
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
+//
+// See DisableSerialConsoleAccess for more information on using the DisableSerialConsoleAccess
+// API call, and error handling.
+//
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
+//
+//    // Example sending a request using the DisableSerialConsoleAccessRequest method.
+//    req, resp := client.DisableSerialConsoleAccessRequest(params)
+//
+//    err := req.Send()
+//    if err == nil { // resp is now filled
+//        fmt.Println(resp)
+//    }
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DisableSerialConsoleAccess
+func (c *EC2) DisableSerialConsoleAccessRequest(input *DisableSerialConsoleAccessInput) (req *request.Request, output *DisableSerialConsoleAccessOutput) {
+	op := &request.Operation{
+		Name:       opDisableSerialConsoleAccess,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &DisableSerialConsoleAccessInput{}
+	}
+
+	output = &DisableSerialConsoleAccessOutput{}
+	req = c.newRequest(op, input, output)
+	return
+}
+
+// DisableSerialConsoleAccess API operation for Amazon Elastic Compute Cloud.
+//
+// Disables access to the EC2 serial console of all instances for your account.
+// By default, access to the EC2 serial console is disabled for your account.
+// For more information, see Manage account access to the EC2 serial console
+// (https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configure-access-to-serial-console.html#serial-console-account-access)
+// in the Amazon EC2 User Guide.
+//
+// Returns awserr.Error for service API and SDK errors. Use runtime type assertions
+// with awserr.Error's Code and Message methods to get detailed information about
+// the error.
+//
+// See the AWS API reference guide for Amazon Elastic Compute Cloud's
+// API operation DisableSerialConsoleAccess for usage and error information.
+// See also, https://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DisableSerialConsoleAccess
+func (c *EC2) DisableSerialConsoleAccess(input *DisableSerialConsoleAccessInput) (*DisableSerialConsoleAccessOutput, error) {
+	req, out := c.DisableSerialConsoleAccessRequest(input)
+	return out, req.Send()
+}
+
+// DisableSerialConsoleAccessWithContext is the same as DisableSerialConsoleAccess with the addition of
+// the ability to pass a context and additional request options.
+//
+// See DisableSerialConsoleAccess for details on how to use this API operation.
+//
+// The context must be non-nil and will be used for request cancellation. If
+// the context is nil a panic will occur. In the future the SDK may create
+// sub-contexts for http.Requests. See https://golang.org/pkg/context/
+// for more information on using Contexts.
+func (c *EC2) DisableSerialConsoleAccessWithContext(ctx aws.Context, input *DisableSerialConsoleAccessInput, opts ...request.Option) (*DisableSerialConsoleAccessOutput, error) {
+	req, out := c.DisableSerialConsoleAccessRequest(input)
+	req.SetContext(ctx)
+	req.ApplyOptions(opts...)
+	return out, req.Send()
+}
+
 const opDisableTransitGatewayRouteTablePropagation = "DisableTransitGatewayRouteTablePropagation"
 
 // DisableTransitGatewayRouteTablePropagationRequest generates a "aws/request.Request" representing the
@@ -28695,6 +29721,81 @@ func (c *EC2) DisassociateTransitGatewayRouteTableWithContext(ctx aws.Context, i
 	return out, req.Send()
 }
 
+const opDisassociateTrunkInterface = "DisassociateTrunkInterface"
+
+// DisassociateTrunkInterfaceRequest generates a "aws/request.Request" representing the
+// client's request for the DisassociateTrunkInterface operation. The "output" return
+// value will be populated with the request's response once the request completes
+// successfully.
+//
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
+//
+// See DisassociateTrunkInterface for more information on using the DisassociateTrunkInterface
+// API call, and error handling.
+//
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
+//
+//    // Example sending a request using the DisassociateTrunkInterfaceRequest method.
+//    req, resp := client.DisassociateTrunkInterfaceRequest(params)
+//
+//    err := req.Send()
+//    if err == nil { // resp is now filled
+//        fmt.Println(resp)
+//    }
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DisassociateTrunkInterface
+func (c *EC2) DisassociateTrunkInterfaceRequest(input *DisassociateTrunkInterfaceInput) (req *request.Request, output *DisassociateTrunkInterfaceOutput) {
+	op := &request.Operation{
+		Name:       opDisassociateTrunkInterface,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &DisassociateTrunkInterfaceInput{}
+	}
+
+	output = &DisassociateTrunkInterfaceOutput{}
+	req = c.newRequest(op, input, output)
+	return
+}
+
+// DisassociateTrunkInterface API operation for Amazon Elastic Compute Cloud.
+//
+// Removes an association between a branch network interface with a trunk network
+// interface.
+//
+// Returns awserr.Error for service API and SDK errors. Use runtime type assertions
+// with awserr.Error's Code and Message methods to get detailed information about
+// the error.
+//
+// See the AWS API reference guide for Amazon Elastic Compute Cloud's
+// API operation DisassociateTrunkInterface for usage and error information.
+// See also, https://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DisassociateTrunkInterface
+func (c *EC2) DisassociateTrunkInterface(input *DisassociateTrunkInterfaceInput) (*DisassociateTrunkInterfaceOutput, error) {
+	req, out := c.DisassociateTrunkInterfaceRequest(input)
+	return out, req.Send()
+}
+
+// DisassociateTrunkInterfaceWithContext is the same as DisassociateTrunkInterface with the addition of
+// the ability to pass a context and additional request options.
+//
+// See DisassociateTrunkInterface for details on how to use this API operation.
+//
+// The context must be non-nil and will be used for request cancellation. If
+// the context is nil a panic will occur. In the future the SDK may create
+// sub-contexts for http.Requests. See https://golang.org/pkg/context/
+// for more information on using Contexts.
+func (c *EC2) DisassociateTrunkInterfaceWithContext(ctx aws.Context, input *DisassociateTrunkInterfaceInput, opts ...request.Option) (*DisassociateTrunkInterfaceOutput, error) {
+	req, out := c.DisassociateTrunkInterfaceRequest(input)
+	req.SetContext(ctx)
+	req.ApplyOptions(opts...)
+	return out, req.Send()
+}
+
 const opDisassociateVpcCidrBlock = "DisassociateVpcCidrBlock"
 
 // DisassociateVpcCidrBlockRequest generates a "aws/request.Request" representing the
@@ -28822,7 +29923,7 @@ func (c *EC2) EnableEbsEncryptionByDefaultRequest(input *EnableEbsEncryptionByDe
 // Enables EBS encryption by default for your account in the current Region.
 //
 // After you enable encryption by default, the EBS volumes that you create are
-// are always encrypted, either using the default CMK or the CMK that you specified
+// always encrypted, either using the default CMK or the CMK that you specified
 // when you created each volume. For more information, see Amazon EBS encryption
 // (https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html)
 // in the Amazon Elastic Compute Cloud User Guide.
@@ -28942,6 +30043,161 @@ func (c *EC2) EnableFastSnapshotRestores(input *EnableFastSnapshotRestoresInput)
 // for more information on using Contexts.
 func (c *EC2) EnableFastSnapshotRestoresWithContext(ctx aws.Context, input *EnableFastSnapshotRestoresInput, opts ...request.Option) (*EnableFastSnapshotRestoresOutput, error) {
 	req, out := c.EnableFastSnapshotRestoresRequest(input)
+	req.SetContext(ctx)
+	req.ApplyOptions(opts...)
+	return out, req.Send()
+}
+
+const opEnableImageDeprecation = "EnableImageDeprecation"
+
+// EnableImageDeprecationRequest generates a "aws/request.Request" representing the
+// client's request for the EnableImageDeprecation operation. The "output" return
+// value will be populated with the request's response once the request completes
+// successfully.
+//
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
+//
+// See EnableImageDeprecation for more information on using the EnableImageDeprecation
+// API call, and error handling.
+//
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
+//
+//    // Example sending a request using the EnableImageDeprecationRequest method.
+//    req, resp := client.EnableImageDeprecationRequest(params)
+//
+//    err := req.Send()
+//    if err == nil { // resp is now filled
+//        fmt.Println(resp)
+//    }
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/EnableImageDeprecation
+func (c *EC2) EnableImageDeprecationRequest(input *EnableImageDeprecationInput) (req *request.Request, output *EnableImageDeprecationOutput) {
+	op := &request.Operation{
+		Name:       opEnableImageDeprecation,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &EnableImageDeprecationInput{}
+	}
+
+	output = &EnableImageDeprecationOutput{}
+	req = c.newRequest(op, input, output)
+	return
+}
+
+// EnableImageDeprecation API operation for Amazon Elastic Compute Cloud.
+//
+// Enables deprecation of the specified AMI at the specified date and time.
+//
+// For more information, see Deprecate an AMI (https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ami-deprecate.html)
+// in the Amazon Elastic Compute Cloud User Guide.
+//
+// Returns awserr.Error for service API and SDK errors. Use runtime type assertions
+// with awserr.Error's Code and Message methods to get detailed information about
+// the error.
+//
+// See the AWS API reference guide for Amazon Elastic Compute Cloud's
+// API operation EnableImageDeprecation for usage and error information.
+// See also, https://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/EnableImageDeprecation
+func (c *EC2) EnableImageDeprecation(input *EnableImageDeprecationInput) (*EnableImageDeprecationOutput, error) {
+	req, out := c.EnableImageDeprecationRequest(input)
+	return out, req.Send()
+}
+
+// EnableImageDeprecationWithContext is the same as EnableImageDeprecation with the addition of
+// the ability to pass a context and additional request options.
+//
+// See EnableImageDeprecation for details on how to use this API operation.
+//
+// The context must be non-nil and will be used for request cancellation. If
+// the context is nil a panic will occur. In the future the SDK may create
+// sub-contexts for http.Requests. See https://golang.org/pkg/context/
+// for more information on using Contexts.
+func (c *EC2) EnableImageDeprecationWithContext(ctx aws.Context, input *EnableImageDeprecationInput, opts ...request.Option) (*EnableImageDeprecationOutput, error) {
+	req, out := c.EnableImageDeprecationRequest(input)
+	req.SetContext(ctx)
+	req.ApplyOptions(opts...)
+	return out, req.Send()
+}
+
+const opEnableSerialConsoleAccess = "EnableSerialConsoleAccess"
+
+// EnableSerialConsoleAccessRequest generates a "aws/request.Request" representing the
+// client's request for the EnableSerialConsoleAccess operation. The "output" return
+// value will be populated with the request's response once the request completes
+// successfully.
+//
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
+//
+// See EnableSerialConsoleAccess for more information on using the EnableSerialConsoleAccess
+// API call, and error handling.
+//
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
+//
+//    // Example sending a request using the EnableSerialConsoleAccessRequest method.
+//    req, resp := client.EnableSerialConsoleAccessRequest(params)
+//
+//    err := req.Send()
+//    if err == nil { // resp is now filled
+//        fmt.Println(resp)
+//    }
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/EnableSerialConsoleAccess
+func (c *EC2) EnableSerialConsoleAccessRequest(input *EnableSerialConsoleAccessInput) (req *request.Request, output *EnableSerialConsoleAccessOutput) {
+	op := &request.Operation{
+		Name:       opEnableSerialConsoleAccess,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &EnableSerialConsoleAccessInput{}
+	}
+
+	output = &EnableSerialConsoleAccessOutput{}
+	req = c.newRequest(op, input, output)
+	return
+}
+
+// EnableSerialConsoleAccess API operation for Amazon Elastic Compute Cloud.
+//
+// Enables access to the EC2 serial console of all instances for your account.
+// By default, access to the EC2 serial console is disabled for your account.
+// For more information, see Manage account access to the EC2 serial console
+// (https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configure-access-to-serial-console.html#serial-console-account-access)
+// in the Amazon EC2 User Guide.
+//
+// Returns awserr.Error for service API and SDK errors. Use runtime type assertions
+// with awserr.Error's Code and Message methods to get detailed information about
+// the error.
+//
+// See the AWS API reference guide for Amazon Elastic Compute Cloud's
+// API operation EnableSerialConsoleAccess for usage and error information.
+// See also, https://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/EnableSerialConsoleAccess
+func (c *EC2) EnableSerialConsoleAccess(input *EnableSerialConsoleAccessInput) (*EnableSerialConsoleAccessOutput, error) {
+	req, out := c.EnableSerialConsoleAccessRequest(input)
+	return out, req.Send()
+}
+
+// EnableSerialConsoleAccessWithContext is the same as EnableSerialConsoleAccess with the addition of
+// the ability to pass a context and additional request options.
+//
+// See EnableSerialConsoleAccess for details on how to use this API operation.
+//
+// The context must be non-nil and will be used for request cancellation. If
+// the context is nil a panic will occur. In the future the SDK may create
+// sub-contexts for http.Requests. See https://golang.org/pkg/context/
+// for more information on using Contexts.
+func (c *EC2) EnableSerialConsoleAccessWithContext(ctx aws.Context, input *EnableSerialConsoleAccessInput, opts ...request.Option) (*EnableSerialConsoleAccessOutput, error) {
+	req, out := c.EnableSerialConsoleAccessRequest(input)
 	req.SetContext(ctx)
 	req.ApplyOptions(opts...)
 	return out, req.Send()
@@ -29533,7 +30789,7 @@ func (c *EC2) ExportImageRequest(input *ExportImageInput) (req *request.Request,
 // ExportImage API operation for Amazon Elastic Compute Cloud.
 //
 // Exports an Amazon Machine Image (AMI) to a VM file. For more information,
-// see Exporting a VM Directory from an Amazon Machine Image (AMI) (https://docs.aws.amazon.com/vm-import/latest/userguide/vmexport_image.html)
+// see Exporting a VM directly from an Amazon Machine Image (AMI) (https://docs.aws.amazon.com/vm-import/latest/userguide/vmexport_image.html)
 // in the VM Import/Export User Guide.
 //
 // Returns awserr.Error for service API and SDK errors. Use runtime type assertions
@@ -29902,9 +31158,9 @@ func (c *EC2) GetCapacityReservationUsageRequest(input *GetCapacityReservationUs
 //
 // Gets usage information about a Capacity Reservation. If the Capacity Reservation
 // is shared, it shows usage information for the Capacity Reservation owner
-// and each AWS account that is currently using the shared capacity. If the
-// Capacity Reservation is not shared, it shows only the Capacity Reservation
-// owner's usage.
+// and each account that is currently using the shared capacity. If the Capacity
+// Reservation is not shared, it shows only the Capacity Reservation owner's
+// usage.
 //
 // Returns awserr.Error for service API and SDK errors. Use runtime type assertions
 // with awserr.Error's Code and Message methods to get detailed information about
@@ -30404,6 +31660,93 @@ func (c *EC2) GetEbsEncryptionByDefault(input *GetEbsEncryptionByDefaultInput) (
 // for more information on using Contexts.
 func (c *EC2) GetEbsEncryptionByDefaultWithContext(ctx aws.Context, input *GetEbsEncryptionByDefaultInput, opts ...request.Option) (*GetEbsEncryptionByDefaultOutput, error) {
 	req, out := c.GetEbsEncryptionByDefaultRequest(input)
+	req.SetContext(ctx)
+	req.ApplyOptions(opts...)
+	return out, req.Send()
+}
+
+const opGetFlowLogsIntegrationTemplate = "GetFlowLogsIntegrationTemplate"
+
+// GetFlowLogsIntegrationTemplateRequest generates a "aws/request.Request" representing the
+// client's request for the GetFlowLogsIntegrationTemplate operation. The "output" return
+// value will be populated with the request's response once the request completes
+// successfully.
+//
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
+//
+// See GetFlowLogsIntegrationTemplate for more information on using the GetFlowLogsIntegrationTemplate
+// API call, and error handling.
+//
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
+//
+//    // Example sending a request using the GetFlowLogsIntegrationTemplateRequest method.
+//    req, resp := client.GetFlowLogsIntegrationTemplateRequest(params)
+//
+//    err := req.Send()
+//    if err == nil { // resp is now filled
+//        fmt.Println(resp)
+//    }
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/GetFlowLogsIntegrationTemplate
+func (c *EC2) GetFlowLogsIntegrationTemplateRequest(input *GetFlowLogsIntegrationTemplateInput) (req *request.Request, output *GetFlowLogsIntegrationTemplateOutput) {
+	op := &request.Operation{
+		Name:       opGetFlowLogsIntegrationTemplate,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &GetFlowLogsIntegrationTemplateInput{}
+	}
+
+	output = &GetFlowLogsIntegrationTemplateOutput{}
+	req = c.newRequest(op, input, output)
+	return
+}
+
+// GetFlowLogsIntegrationTemplate API operation for Amazon Elastic Compute Cloud.
+//
+// Generates a CloudFormation template that streamlines and automates the integration
+// of VPC flow logs with Amazon Athena. This make it easier for you to query
+// and gain insights from VPC flow logs data. Based on the information that
+// you provide, we configure resources in the template to do the following:
+//
+//    * Create a table in Athena that maps fields to a custom log format
+//
+//    * Create a Lambda function that updates the table with new partitions
+//    on a daily, weekly, or monthly basis
+//
+//    * Create a table partitioned between two timestamps in the past
+//
+//    * Create a set of named queries in Athena that you can use to get started
+//    quickly
+//
+// Returns awserr.Error for service API and SDK errors. Use runtime type assertions
+// with awserr.Error's Code and Message methods to get detailed information about
+// the error.
+//
+// See the AWS API reference guide for Amazon Elastic Compute Cloud's
+// API operation GetFlowLogsIntegrationTemplate for usage and error information.
+// See also, https://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/GetFlowLogsIntegrationTemplate
+func (c *EC2) GetFlowLogsIntegrationTemplate(input *GetFlowLogsIntegrationTemplateInput) (*GetFlowLogsIntegrationTemplateOutput, error) {
+	req, out := c.GetFlowLogsIntegrationTemplateRequest(input)
+	return out, req.Send()
+}
+
+// GetFlowLogsIntegrationTemplateWithContext is the same as GetFlowLogsIntegrationTemplate with the addition of
+// the ability to pass a context and additional request options.
+//
+// See GetFlowLogsIntegrationTemplate for details on how to use this API operation.
+//
+// The context must be non-nil and will be used for request cancellation. If
+// the context is nil a panic will occur. In the future the SDK may create
+// sub-contexts for http.Requests. See https://golang.org/pkg/context/
+// for more information on using Contexts.
+func (c *EC2) GetFlowLogsIntegrationTemplateWithContext(ctx aws.Context, input *GetFlowLogsIntegrationTemplateInput, opts ...request.Option) (*GetFlowLogsIntegrationTemplateOutput, error) {
+	req, out := c.GetFlowLogsIntegrationTemplateRequest(input)
 	req.SetContext(ctx)
 	req.ApplyOptions(opts...)
 	return out, req.Send()
@@ -31129,6 +32472,84 @@ func (c *EC2) GetReservedInstancesExchangeQuote(input *GetReservedInstancesExcha
 // for more information on using Contexts.
 func (c *EC2) GetReservedInstancesExchangeQuoteWithContext(ctx aws.Context, input *GetReservedInstancesExchangeQuoteInput, opts ...request.Option) (*GetReservedInstancesExchangeQuoteOutput, error) {
 	req, out := c.GetReservedInstancesExchangeQuoteRequest(input)
+	req.SetContext(ctx)
+	req.ApplyOptions(opts...)
+	return out, req.Send()
+}
+
+const opGetSerialConsoleAccessStatus = "GetSerialConsoleAccessStatus"
+
+// GetSerialConsoleAccessStatusRequest generates a "aws/request.Request" representing the
+// client's request for the GetSerialConsoleAccessStatus operation. The "output" return
+// value will be populated with the request's response once the request completes
+// successfully.
+//
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
+//
+// See GetSerialConsoleAccessStatus for more information on using the GetSerialConsoleAccessStatus
+// API call, and error handling.
+//
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
+//
+//    // Example sending a request using the GetSerialConsoleAccessStatusRequest method.
+//    req, resp := client.GetSerialConsoleAccessStatusRequest(params)
+//
+//    err := req.Send()
+//    if err == nil { // resp is now filled
+//        fmt.Println(resp)
+//    }
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/GetSerialConsoleAccessStatus
+func (c *EC2) GetSerialConsoleAccessStatusRequest(input *GetSerialConsoleAccessStatusInput) (req *request.Request, output *GetSerialConsoleAccessStatusOutput) {
+	op := &request.Operation{
+		Name:       opGetSerialConsoleAccessStatus,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &GetSerialConsoleAccessStatusInput{}
+	}
+
+	output = &GetSerialConsoleAccessStatusOutput{}
+	req = c.newRequest(op, input, output)
+	return
+}
+
+// GetSerialConsoleAccessStatus API operation for Amazon Elastic Compute Cloud.
+//
+// Retrieves the access status of your account to the EC2 serial console of
+// all instances. By default, access to the EC2 serial console is disabled for
+// your account. For more information, see Manage account access to the EC2
+// serial console (https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configure-access-to-serial-console.html#serial-console-account-access)
+// in the Amazon EC2 User Guide.
+//
+// Returns awserr.Error for service API and SDK errors. Use runtime type assertions
+// with awserr.Error's Code and Message methods to get detailed information about
+// the error.
+//
+// See the AWS API reference guide for Amazon Elastic Compute Cloud's
+// API operation GetSerialConsoleAccessStatus for usage and error information.
+// See also, https://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/GetSerialConsoleAccessStatus
+func (c *EC2) GetSerialConsoleAccessStatus(input *GetSerialConsoleAccessStatusInput) (*GetSerialConsoleAccessStatusOutput, error) {
+	req, out := c.GetSerialConsoleAccessStatusRequest(input)
+	return out, req.Send()
+}
+
+// GetSerialConsoleAccessStatusWithContext is the same as GetSerialConsoleAccessStatus with the addition of
+// the ability to pass a context and additional request options.
+//
+// See GetSerialConsoleAccessStatus for details on how to use this API operation.
+//
+// The context must be non-nil and will be used for request cancellation. If
+// the context is nil a panic will occur. In the future the SDK may create
+// sub-contexts for http.Requests. See https://golang.org/pkg/context/
+// for more information on using Contexts.
+func (c *EC2) GetSerialConsoleAccessStatusWithContext(ctx aws.Context, input *GetSerialConsoleAccessStatusInput, opts ...request.Option) (*GetSerialConsoleAccessStatusOutput, error) {
+	req, out := c.GetSerialConsoleAccessStatusRequest(input)
 	req.SetContext(ctx)
 	req.ApplyOptions(opts...)
 	return out, req.Send()
@@ -31922,8 +33343,10 @@ func (c *EC2) ImportImageRequest(input *ImportImageInput) (req *request.Request,
 // ImportImage API operation for Amazon Elastic Compute Cloud.
 //
 // Import single or multi-volume disk images or EBS snapshots into an Amazon
-// Machine Image (AMI). For more information, see Importing a VM as an Image
-// Using VM Import/Export (https://docs.aws.amazon.com/vm-import/latest/userguide/vmimport-image-import.html)
+// Machine Image (AMI).
+//
+// For more information, see Importing a VM as an image using VM Import/Export
+// (https://docs.aws.amazon.com/vm-import/latest/userguide/vmimport-image-import.html)
 // in the VM Import/Export User Guide.
 //
 // Returns awserr.Error for service API and SDK errors. Use runtime type assertions
@@ -31999,9 +33422,14 @@ func (c *EC2) ImportInstanceRequest(input *ImportInstanceInput) (req *request.Re
 // ImportInstance API operation for Amazon Elastic Compute Cloud.
 //
 // Creates an import instance task using metadata from the specified disk image.
-// ImportInstance only supports single-volume VMs. To import multi-volume VMs,
-// use ImportImage. For more information, see Importing a Virtual Machine Using
-// the Amazon EC2 CLI (https://docs.aws.amazon.com/AWSEC2/latest/CommandLineReference/ec2-cli-vmimport-export.html).
+//
+// This API action supports only single-volume VMs. To import multi-volume VMs,
+// use ImportImage instead.
+//
+// This API action is not supported by the AWS Command Line Interface (AWS CLI).
+// For information about using the Amazon EC2 CLI, which is deprecated, see
+// Importing a VM to Amazon EC2 (https://awsdocs.s3.amazonaws.com/EC2/ec2-clt.pdf#UsingVirtualMachinesinAmazonEC2)
+// in the Amazon EC2 CLI Reference PDF file.
 //
 // For information about the import manifest referenced by this API action,
 // see VM Import Manifest (https://docs.aws.amazon.com/AWSEC2/latest/APIReference/manifest.html).
@@ -32161,6 +33589,10 @@ func (c *EC2) ImportSnapshotRequest(input *ImportSnapshotInput) (req *request.Re
 //
 // Imports a disk into an EBS snapshot.
 //
+// For more information, see Importing a disk as a snapshot using VM Import/Export
+// (https://docs.aws.amazon.com/vm-import/latest/userguide/vmimport-import-snapshot.html)
+// in the VM Import/Export User Guide.
+//
 // Returns awserr.Error for service API and SDK errors. Use runtime type assertions
 // with awserr.Error's Code and Message methods to get detailed information about
 // the error.
@@ -32233,8 +33665,16 @@ func (c *EC2) ImportVolumeRequest(input *ImportVolumeInput) (req *request.Reques
 
 // ImportVolume API operation for Amazon Elastic Compute Cloud.
 //
-// Creates an import volume task using metadata from the specified disk image.For
-// more information, see Importing Disks to Amazon EBS (https://docs.aws.amazon.com/AWSEC2/latest/CommandLineReference/importing-your-volumes-into-amazon-ebs.html).
+// Creates an import volume task using metadata from the specified disk image.
+//
+// This API action supports only single-volume VMs. To import multi-volume VMs,
+// use ImportImage instead. To import a disk to a snapshot, use ImportSnapshot
+// instead.
+//
+// This API action is not supported by the AWS Command Line Interface (AWS CLI).
+// For information about using the Amazon EC2 CLI, which is deprecated, see
+// Importing Disks to Amazon EBS (https://awsdocs.s3.amazonaws.com/EC2/ec2-clt.pdf#importing-your-volumes-into-amazon-ebs)
+// in the Amazon EC2 CLI Reference PDF file.
 //
 // For information about the import manifest referenced by this API action,
 // see VM Import Manifest (https://docs.aws.amazon.com/AWSEC2/latest/APIReference/manifest.html).
@@ -32262,6 +33702,81 @@ func (c *EC2) ImportVolume(input *ImportVolumeInput) (*ImportVolumeOutput, error
 // for more information on using Contexts.
 func (c *EC2) ImportVolumeWithContext(ctx aws.Context, input *ImportVolumeInput, opts ...request.Option) (*ImportVolumeOutput, error) {
 	req, out := c.ImportVolumeRequest(input)
+	req.SetContext(ctx)
+	req.ApplyOptions(opts...)
+	return out, req.Send()
+}
+
+const opModifyAddressAttribute = "ModifyAddressAttribute"
+
+// ModifyAddressAttributeRequest generates a "aws/request.Request" representing the
+// client's request for the ModifyAddressAttribute operation. The "output" return
+// value will be populated with the request's response once the request completes
+// successfully.
+//
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
+//
+// See ModifyAddressAttribute for more information on using the ModifyAddressAttribute
+// API call, and error handling.
+//
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
+//
+//    // Example sending a request using the ModifyAddressAttributeRequest method.
+//    req, resp := client.ModifyAddressAttributeRequest(params)
+//
+//    err := req.Send()
+//    if err == nil { // resp is now filled
+//        fmt.Println(resp)
+//    }
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ModifyAddressAttribute
+func (c *EC2) ModifyAddressAttributeRequest(input *ModifyAddressAttributeInput) (req *request.Request, output *ModifyAddressAttributeOutput) {
+	op := &request.Operation{
+		Name:       opModifyAddressAttribute,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &ModifyAddressAttributeInput{}
+	}
+
+	output = &ModifyAddressAttributeOutput{}
+	req = c.newRequest(op, input, output)
+	return
+}
+
+// ModifyAddressAttribute API operation for Amazon Elastic Compute Cloud.
+//
+// Modifies an attribute of the specified Elastic IP address. For requirements,
+// see Using reverse DNS for email applications (https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html#Using_Elastic_Addressing_Reverse_DNS).
+//
+// Returns awserr.Error for service API and SDK errors. Use runtime type assertions
+// with awserr.Error's Code and Message methods to get detailed information about
+// the error.
+//
+// See the AWS API reference guide for Amazon Elastic Compute Cloud's
+// API operation ModifyAddressAttribute for usage and error information.
+// See also, https://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ModifyAddressAttribute
+func (c *EC2) ModifyAddressAttribute(input *ModifyAddressAttributeInput) (*ModifyAddressAttributeOutput, error) {
+	req, out := c.ModifyAddressAttributeRequest(input)
+	return out, req.Send()
+}
+
+// ModifyAddressAttributeWithContext is the same as ModifyAddressAttribute with the addition of
+// the ability to pass a context and additional request options.
+//
+// See ModifyAddressAttribute for details on how to use this API operation.
+//
+// The context must be non-nil and will be used for request cancellation. If
+// the context is nil a panic will occur. In the future the SDK may create
+// sub-contexts for http.Requests. See https://golang.org/pkg/context/
+// for more information on using Contexts.
+func (c *EC2) ModifyAddressAttributeWithContext(ctx aws.Context, input *ModifyAddressAttributeInput, opts ...request.Option) (*ModifyAddressAttributeOutput, error) {
+	req, out := c.ModifyAddressAttributeRequest(input)
 	req.SetContext(ctx)
 	req.ApplyOptions(opts...)
 	return out, req.Send()
@@ -32544,14 +34059,14 @@ func (c *EC2) ModifyDefaultCreditSpecificationRequest(input *ModifyDefaultCredit
 // ModifyDefaultCreditSpecification API operation for Amazon Elastic Compute Cloud.
 //
 // Modifies the default credit option for CPU usage of burstable performance
-// instances. The default credit option is set at the account level per AWS
-// Region, and is specified per instance family. All new burstable performance
-// instances in the account launch using the default credit option.
+// instances. The default credit option is set at the account level per Region,
+// and is specified per instance family. All new burstable performance instances
+// in the account launch using the default credit option.
 //
 // ModifyDefaultCreditSpecification is an asynchronous operation, which works
-// at an AWS Region level and modifies the credit option for each Availability
-// Zone. All zones in a Region are updated within five minutes. But if instances
-// are launched during this operation, they might not get the new credit option
+// at an Region level and modifies the credit option for each Availability Zone.
+// All zones in a Region are updated within five minutes. But if instances are
+// launched during this operation, they might not get the new credit option
 // until the zone is updated. To verify whether the update has occurred, you
 // can call GetDefaultCreditSpecification and check DefaultCreditSpecification
 // for updates.
@@ -36050,16 +37565,16 @@ func (c *EC2) ProvisionByoipCidrRequest(input *ProvisionByoipCidrInput) (req *re
 
 // ProvisionByoipCidr API operation for Amazon Elastic Compute Cloud.
 //
-// Provisions an IPv4 or IPv6 address range for use with your AWS resources
-// through bring your own IP addresses (BYOIP) and creates a corresponding address
-// pool. After the address range is provisioned, it is ready to be advertised
+// Provisions an IPv4 or IPv6 address range for use with your Amazon Web Services
+// resources through bring your own IP addresses (BYOIP) and creates a corresponding
+// address pool. After the address range is provisioned, it is ready to be advertised
 // using AdvertiseByoipCidr.
 //
-// AWS verifies that you own the address range and are authorized to advertise
-// it. You must ensure that the address range is registered to you and that
-// you created an RPKI ROA to authorize Amazon ASNs 16509 and 14618 to advertise
-// the address range. For more information, see Bring Your Own IP Addresses
-// (BYOIP) (https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-byoip.html)
+// Amazon Web Services verifies that you own the address range and are authorized
+// to advertise it. You must ensure that the address range is registered to
+// you and that you created an RPKI ROA to authorize Amazon ASNs 16509 and 14618
+// to advertise the address range. For more information, see Bring your own
+// IP addresses (BYOIP) (https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-byoip.html)
 // in the Amazon Elastic Compute Cloud User Guide.
 //
 // Provisioning an address range is an asynchronous operation, so the call returns
@@ -36480,11 +37995,24 @@ func (c *EC2) RegisterImageRequest(input *RegisterImageInput) (req *request.Requ
 // For Amazon EBS-backed instances, CreateImage creates and registers the AMI
 // in a single request, so you don't have to register the AMI yourself.
 //
-// You can also use RegisterImage to create an Amazon EBS-backed Linux AMI from
-// a snapshot of a root device volume. You specify the snapshot using the block
-// device mapping. For more information, see Launching a Linux instance from
-// a backup (https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-launch-snapshot.html)
+// If needed, you can deregister an AMI at any time. Any modifications you make
+// to an AMI backed by an instance store volume invalidates its registration.
+// If you make changes to an image, deregister the previous image and register
+// the new image.
+//
+// Register a snapshot of a root device volume
+//
+// You can use RegisterImage to create an Amazon EBS-backed Linux AMI from a
+// snapshot of a root device volume. You specify the snapshot using a block
+// device mapping. You can't set the encryption state of the volume using the
+// block device mapping. If the snapshot is encrypted, or encryption by default
+// is enabled, the root volume of an instance launched from the AMI is encrypted.
+//
+// For more information, see Create a Linux AMI from a snapshot (https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/creating-an-ami-ebs.html#creating-launching-ami-from-snapshot)
+// and Use encryption with EBS-backed AMIs (https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AMIEncryption.html)
 // in the Amazon Elastic Compute Cloud User Guide.
+//
+// AWS Marketplace product codes
 //
 // If any snapshots have AWS Marketplace product codes, they are copied to the
 // new AMI.
@@ -36510,11 +38038,6 @@ func (c *EC2) RegisterImageRequest(input *RegisterImageInput) (req *request.Requ
 // how to obtain the platform details and billing information of an AMI, see
 // Obtaining billing information (https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ami-billing-info.html)
 // in the Amazon Elastic Compute Cloud User Guide.
-//
-// If needed, you can deregister an AMI at any time. Any modifications you make
-// to an AMI backed by an instance store volume invalidates its registration.
-// If you make changes to an image, deregister the previous image and register
-// the new image.
 //
 // Returns awserr.Error for service API and SDK errors. Use runtime type assertions
 // with awserr.Error's Code and Message methods to get detailed information about
@@ -37224,7 +38747,7 @@ func (c *EC2) ReleaseAddressRequest(input *ReleaseAddressInput) (req *request.Re
 // Be sure to update your DNS records and any servers or devices that communicate
 // with the address. If you attempt to release an Elastic IP address that you
 // already released, you'll get an AuthFailure error if the address is already
-// allocated to another AWS account.
+// allocated to another account.
 //
 // [EC2-VPC] After you release an Elastic IP address for use in a VPC, you might
 // be able to recover it. For more information, see AllocateAddress.
@@ -38064,6 +39587,81 @@ func (c *EC2) RequestSpotInstances(input *RequestSpotInstancesInput) (*RequestSp
 // for more information on using Contexts.
 func (c *EC2) RequestSpotInstancesWithContext(ctx aws.Context, input *RequestSpotInstancesInput, opts ...request.Option) (*RequestSpotInstancesOutput, error) {
 	req, out := c.RequestSpotInstancesRequest(input)
+	req.SetContext(ctx)
+	req.ApplyOptions(opts...)
+	return out, req.Send()
+}
+
+const opResetAddressAttribute = "ResetAddressAttribute"
+
+// ResetAddressAttributeRequest generates a "aws/request.Request" representing the
+// client's request for the ResetAddressAttribute operation. The "output" return
+// value will be populated with the request's response once the request completes
+// successfully.
+//
+// Use "Send" method on the returned Request to send the API call to the service.
+// the "output" return value is not valid until after Send returns without error.
+//
+// See ResetAddressAttribute for more information on using the ResetAddressAttribute
+// API call, and error handling.
+//
+// This method is useful when you want to inject custom logic or configuration
+// into the SDK's request lifecycle. Such as custom headers, or retry logic.
+//
+//
+//    // Example sending a request using the ResetAddressAttributeRequest method.
+//    req, resp := client.ResetAddressAttributeRequest(params)
+//
+//    err := req.Send()
+//    if err == nil { // resp is now filled
+//        fmt.Println(resp)
+//    }
+//
+// See also, https://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ResetAddressAttribute
+func (c *EC2) ResetAddressAttributeRequest(input *ResetAddressAttributeInput) (req *request.Request, output *ResetAddressAttributeOutput) {
+	op := &request.Operation{
+		Name:       opResetAddressAttribute,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &ResetAddressAttributeInput{}
+	}
+
+	output = &ResetAddressAttributeOutput{}
+	req = c.newRequest(op, input, output)
+	return
+}
+
+// ResetAddressAttribute API operation for Amazon Elastic Compute Cloud.
+//
+// Resets the attribute of the specified IP address. For requirements, see Using
+// reverse DNS for email applications (https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html#Using_Elastic_Addressing_Reverse_DNS).
+//
+// Returns awserr.Error for service API and SDK errors. Use runtime type assertions
+// with awserr.Error's Code and Message methods to get detailed information about
+// the error.
+//
+// See the AWS API reference guide for Amazon Elastic Compute Cloud's
+// API operation ResetAddressAttribute for usage and error information.
+// See also, https://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ResetAddressAttribute
+func (c *EC2) ResetAddressAttribute(input *ResetAddressAttributeInput) (*ResetAddressAttributeOutput, error) {
+	req, out := c.ResetAddressAttributeRequest(input)
+	return out, req.Send()
+}
+
+// ResetAddressAttributeWithContext is the same as ResetAddressAttribute with the addition of
+// the ability to pass a context and additional request options.
+//
+// See ResetAddressAttribute for details on how to use this API operation.
+//
+// The context must be non-nil and will be used for request cancellation. If
+// the context is nil a panic will occur. In the future the SDK may create
+// sub-contexts for http.Requests. See https://golang.org/pkg/context/
+// for more information on using Contexts.
+func (c *EC2) ResetAddressAttributeWithContext(ctx aws.Context, input *ResetAddressAttributeInput, opts ...request.Option) (*ResetAddressAttributeOutput, error) {
+	req, out := c.ResetAddressAttributeRequest(input)
 	req.SetContext(ctx)
 	req.ApplyOptions(opts...)
 	return out, req.Send()
@@ -39641,11 +41239,7 @@ func (c *EC2) StartInstancesRequest(input *StartInstancesInput) (req *request.Re
 // released and you are not billed for instance usage. However, your root partition
 // Amazon EBS volume remains and continues to persist your data, and you are
 // charged for Amazon EBS volume usage. You can restart your instance at any
-// time. Every time you start your Windows instance, Amazon EC2 charges you
-// for a full instance hour. If you stop and restart your Windows instance,
-// a new instance hour begins and Amazon EC2 charges you for another full instance
-// hour even if you are still within the same 60-minute period when it was stopped.
-// Every time you start your Linux instance, Amazon EC2 charges a one-minute
+// time. Every time you start your instance, Amazon EC2 charges a one-minute
 // minimum for instance usage, and thereafter charges per second for instance
 // usage.
 //
@@ -39899,12 +41493,8 @@ func (c *EC2) StopInstancesRequest(input *StopInstancesInput) (req *request.Requ
 // We don't charge usage for a stopped instance, or data transfer fees; however,
 // your root partition Amazon EBS volume remains and continues to persist your
 // data, and you are charged for Amazon EBS volume usage. Every time you start
-// your Windows instance, Amazon EC2 charges you for a full instance hour. If
-// you stop and restart your Windows instance, a new instance hour begins and
-// Amazon EC2 charges you for another full instance hour even if you are still
-// within the same 60-minute period when it was stopped. Every time you start
-// your Linux instance, Amazon EC2 charges a one-minute minimum for instance
-// usage, and thereafter charges per second for instance usage.
+// your instance, Amazon EC2 charges a one-minute minimum for instance usage,
+// and thereafter charges per second for instance usage.
 //
 // You can't stop or hibernate instance store-backed instances. You can't use
 // the Stop action to hibernate Spot Instances, but you can specify that Amazon
@@ -40087,6 +41677,36 @@ func (c *EC2) TerminateInstancesRequest(input *TerminateInstancesInput) (req *re
 //
 // If you specify multiple instances and the request fails (for example, because
 // of a single incorrect instance ID), none of the instances are terminated.
+//
+// If you terminate multiple instances across multiple Availability Zones, and
+// one or more of the specified instances are enabled for termination protection,
+// the request fails with the following results:
+//
+//    * The specified instances that are in the same Availability Zone as the
+//    protected instance are not terminated.
+//
+//    * The specified instances that are in different Availability Zones, where
+//    no other specified instances are protected, are successfully terminated.
+//
+// For example, say you have the following instances:
+//
+//    * Instance A: us-east-1a; Not protected
+//
+//    * Instance B: us-east-1a; Not protected
+//
+//    * Instance C: us-east-1b; Protected
+//
+//    * Instance D: us-east-1b; not protected
+//
+// If you attempt to terminate all of these instances in the same request, the
+// request reports failure with the following results:
+//
+//    * Instance A and Instance B are successfully terminated because none of
+//    the specified instances in us-east-1a are enabled for termination protection.
+//
+//    * Instance C and Instance D fail to terminate because at least one of
+//    the specified instances in us-east-1b (Instance C) is enabled for termination
+//    protection.
 //
 // Terminated instances remain visible after termination (for approximately
 // one hour).
@@ -40571,7 +42191,7 @@ func (c *EC2) WithdrawByoipCidrRequest(input *WithdrawByoipCidrInput) (req *requ
 // specify different address ranges each time.
 //
 // It can take a few minutes before traffic to the specified addresses stops
-// routing to AWS because of BGP propagation delays.
+// routing to Amazon Web Services because of BGP propagation delays.
 //
 // Returns awserr.Error for service API and SDK errors. Use runtime type assertions
 // with awserr.Error's Code and Message methods to get detailed information about
@@ -41261,7 +42881,7 @@ type Address struct {
 	// The ID of the network interface.
 	NetworkInterfaceId *string `locationName:"networkInterfaceId" type:"string"`
 
-	// The ID of the AWS account that owns the network interface.
+	// The ID of the account that owns the network interface.
 	NetworkInterfaceOwnerId *string `locationName:"networkInterfaceOwnerId" type:"string"`
 
 	// The private IP address associated with the Elastic IP address.
@@ -41368,6 +42988,57 @@ func (s *Address) SetPublicIpv4Pool(v string) *Address {
 // SetTags sets the Tags field's value.
 func (s *Address) SetTags(v []*Tag) *Address {
 	s.Tags = v
+	return s
+}
+
+// The attributes associated with an Elastic IP address.
+type AddressAttribute struct {
+	_ struct{} `type:"structure"`
+
+	// [EC2-VPC] The allocation ID.
+	AllocationId *string `locationName:"allocationId" type:"string"`
+
+	// The pointer (PTR) record for the IP address.
+	PtrRecord *string `locationName:"ptrRecord" type:"string"`
+
+	// The updated PTR record for the IP address.
+	PtrRecordUpdate *PtrUpdateStatus `locationName:"ptrRecordUpdate" type:"structure"`
+
+	// The public IP address.
+	PublicIp *string `locationName:"publicIp" type:"string"`
+}
+
+// String returns the string representation
+func (s AddressAttribute) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s AddressAttribute) GoString() string {
+	return s.String()
+}
+
+// SetAllocationId sets the AllocationId field's value.
+func (s *AddressAttribute) SetAllocationId(v string) *AddressAttribute {
+	s.AllocationId = &v
+	return s
+}
+
+// SetPtrRecord sets the PtrRecord field's value.
+func (s *AddressAttribute) SetPtrRecord(v string) *AddressAttribute {
+	s.PtrRecord = &v
+	return s
+}
+
+// SetPtrRecordUpdate sets the PtrRecordUpdate field's value.
+func (s *AddressAttribute) SetPtrRecordUpdate(v *PtrUpdateStatus) *AddressAttribute {
+	s.PtrRecordUpdate = v
+	return s
+}
+
+// SetPublicIp sets the PublicIp field's value.
+func (s *AddressAttribute) SetPublicIp(v string) *AddressAttribute {
+	s.PublicIp = &v
 	return s
 }
 
@@ -41546,8 +43217,8 @@ func (s *AllocateAddressInput) SetTagSpecifications(v []*TagSpecification) *Allo
 type AllocateAddressOutput struct {
 	_ struct{} `type:"structure"`
 
-	// [EC2-VPC] The ID that AWS assigns to represent the allocation of the Elastic
-	// IP address for use with instances in a VPC.
+	// [EC2-VPC] The ID that Amazon Web Services assigns to represent the allocation
+	// of the Elastic IP address for use with instances in a VPC.
 	AllocationId *string `locationName:"allocationId" type:"string"`
 
 	// The carrier IP address. This option is only available for network interfaces
@@ -42392,8 +44063,10 @@ func (s *ApplySecurityGroupsToClientVpnTargetNetworkOutput) SetSecurityGroupIds(
 type AssignIpv6AddressesInput struct {
 	_ struct{} `type:"structure"`
 
-	// The number of IPv6 addresses to assign to the network interface. Amazon EC2
-	// automatically selects the IPv6 addresses from the subnet range. You can't
+	// The number of additional IPv6 addresses to assign to the network interface.
+	// The specified number of IPv6 addresses are assigned in addition to the existing
+	// IPv6 addresses that are already assigned to the network interface. Amazon
+	// EC2 automatically selects the IPv6 addresses from the subnet range. You can't
 	// use this option if specifying specific IPv6 addresses.
 	Ipv6AddressCount *int64 `locationName:"ipv6AddressCount" type:"integer"`
 
@@ -42451,7 +44124,8 @@ func (s *AssignIpv6AddressesInput) SetNetworkInterfaceId(v string) *AssignIpv6Ad
 type AssignIpv6AddressesOutput struct {
 	_ struct{} `type:"structure"`
 
-	// The IPv6 addresses assigned to the network interface.
+	// The new IPv6 addresses assigned to the network interface. Existing IPv6 addresses
+	// that were assigned to the network interface before the request are not included.
 	AssignedIpv6Addresses []*string `locationName:"assignedIpv6Addresses" locationNameList:"item" type:"list"`
 
 	// The ID of the network interface.
@@ -42629,10 +44303,10 @@ type AssociateAddressInput struct {
 	// it is UnauthorizedOperation.
 	DryRun *bool `locationName:"dryRun" type:"boolean"`
 
-	// The ID of the instance. This is required for EC2-Classic. For EC2-VPC, you
-	// can specify either the instance ID or the network interface ID, but not both.
-	// The operation fails if you specify an instance ID unless exactly one network
-	// interface is attached.
+	// The ID of the instance. The instance must have exactly one attached network
+	// interface. For EC2-VPC, you can specify either the instance ID or the network
+	// interface ID, but not both. For EC2-Classic, you must specify an instance
+	// ID and the instance must be in the running state.
 	InstanceId *string `type:"string"`
 
 	// [EC2-VPC] The ID of the network interface. If the instance has more than
@@ -42647,8 +44321,8 @@ type AssociateAddressInput struct {
 	// address is associated with the primary private IP address.
 	PrivateIpAddress *string `locationName:"privateIpAddress" type:"string"`
 
-	// The Elastic IP address to associate with the instance. This is required for
-	// EC2-Classic.
+	// [EC2-Classic] The Elastic IP address to associate with the instance. This
+	// is required for EC2-Classic.
 	PublicIp *string `type:"string"`
 }
 
@@ -42981,7 +44655,7 @@ type AssociateEnclaveCertificateIamRoleOutput struct {
 	CertificateS3BucketName *string `locationName:"certificateS3BucketName" type:"string"`
 
 	// The Amazon S3 object key where the certificate, certificate chain, and encrypted
-	// private key bundle are stored. The object key is formatted as follows: certificate_arn/role_arn.
+	// private key bundle are stored. The object key is formatted as follows: role_arn/certificate_arn.
 	CertificateS3ObjectKey *string `locationName:"certificateS3ObjectKey" type:"string"`
 
 	// The ID of the AWS KMS CMK used to encrypt the private key of the certificate.
@@ -43440,6 +45114,132 @@ func (s *AssociateTransitGatewayRouteTableOutput) SetAssociation(v *TransitGatew
 	return s
 }
 
+type AssociateTrunkInterfaceInput struct {
+	_ struct{} `type:"structure"`
+
+	// The ID of the branch network interface.
+	//
+	// BranchInterfaceId is a required field
+	BranchInterfaceId *string `type:"string" required:"true"`
+
+	// Unique, case-sensitive identifier that you provide to ensure the idempotency
+	// of the request. For more information, see How to Ensure Idempotency (https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Run_Instance_Idempotency.html).
+	ClientToken *string `type:"string" idempotencyToken:"true"`
+
+	// Checks whether you have the required permissions for the action, without
+	// actually making the request, and provides an error response. If you have
+	// the required permissions, the error response is DryRunOperation. Otherwise,
+	// it is UnauthorizedOperation.
+	DryRun *bool `type:"boolean"`
+
+	// The application key. This applies to the GRE protocol.
+	GreKey *int64 `type:"integer"`
+
+	// The ID of the trunk network interface.
+	//
+	// TrunkInterfaceId is a required field
+	TrunkInterfaceId *string `type:"string" required:"true"`
+
+	// The ID of the VLAN. This applies to the VLAN protocol.
+	VlanId *int64 `type:"integer"`
+}
+
+// String returns the string representation
+func (s AssociateTrunkInterfaceInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s AssociateTrunkInterfaceInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *AssociateTrunkInterfaceInput) Validate() error {
+	invalidParams := request.ErrInvalidParams{Context: "AssociateTrunkInterfaceInput"}
+	if s.BranchInterfaceId == nil {
+		invalidParams.Add(request.NewErrParamRequired("BranchInterfaceId"))
+	}
+	if s.TrunkInterfaceId == nil {
+		invalidParams.Add(request.NewErrParamRequired("TrunkInterfaceId"))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// SetBranchInterfaceId sets the BranchInterfaceId field's value.
+func (s *AssociateTrunkInterfaceInput) SetBranchInterfaceId(v string) *AssociateTrunkInterfaceInput {
+	s.BranchInterfaceId = &v
+	return s
+}
+
+// SetClientToken sets the ClientToken field's value.
+func (s *AssociateTrunkInterfaceInput) SetClientToken(v string) *AssociateTrunkInterfaceInput {
+	s.ClientToken = &v
+	return s
+}
+
+// SetDryRun sets the DryRun field's value.
+func (s *AssociateTrunkInterfaceInput) SetDryRun(v bool) *AssociateTrunkInterfaceInput {
+	s.DryRun = &v
+	return s
+}
+
+// SetGreKey sets the GreKey field's value.
+func (s *AssociateTrunkInterfaceInput) SetGreKey(v int64) *AssociateTrunkInterfaceInput {
+	s.GreKey = &v
+	return s
+}
+
+// SetTrunkInterfaceId sets the TrunkInterfaceId field's value.
+func (s *AssociateTrunkInterfaceInput) SetTrunkInterfaceId(v string) *AssociateTrunkInterfaceInput {
+	s.TrunkInterfaceId = &v
+	return s
+}
+
+// SetVlanId sets the VlanId field's value.
+func (s *AssociateTrunkInterfaceInput) SetVlanId(v int64) *AssociateTrunkInterfaceInput {
+	s.VlanId = &v
+	return s
+}
+
+type AssociateTrunkInterfaceOutput struct {
+	_ struct{} `type:"structure"`
+
+	// Unique, case-sensitive identifier that you provide to ensure the idempotency
+	// of the request. For more information, see How to Ensure Idempotency (https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Run_Instance_Idempotency.html).
+	ClientToken *string `locationName:"clientToken" type:"string"`
+
+	// Information about the association between the trunk network interface and
+	// branch network interface.
+	InterfaceAssociation *TrunkInterfaceAssociation `locationName:"interfaceAssociation" type:"structure"`
+}
+
+// String returns the string representation
+func (s AssociateTrunkInterfaceOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s AssociateTrunkInterfaceOutput) GoString() string {
+	return s.String()
+}
+
+// SetClientToken sets the ClientToken field's value.
+func (s *AssociateTrunkInterfaceOutput) SetClientToken(v string) *AssociateTrunkInterfaceOutput {
+	s.ClientToken = &v
+	return s
+}
+
+// SetInterfaceAssociation sets the InterfaceAssociation field's value.
+func (s *AssociateTrunkInterfaceOutput) SetInterfaceAssociation(v *TrunkInterfaceAssociation) *AssociateTrunkInterfaceOutput {
+	s.InterfaceAssociation = v
+	return s
+}
+
 type AssociateVpcCidrBlockInput struct {
 	_ struct{} `type:"structure"`
 
@@ -43586,7 +45386,7 @@ type AssociatedRole struct {
 
 	// The key of the Amazon S3 object ey where the certificate, certificate chain,
 	// and encrypted private key bundle is stored. The object key is formated as
-	// follows: certificate_arn/role_arn.
+	// follows: role_arn/certificate_arn.
 	CertificateS3ObjectKey *string `locationName:"certificateS3ObjectKey" type:"string"`
 
 	// The ID of the KMS customer master key (CMK) used to encrypt the private key.
@@ -43691,6 +45491,77 @@ func (s *AssociationStatus) SetCode(v string) *AssociationStatus {
 // SetMessage sets the Message field's value.
 func (s *AssociationStatus) SetMessage(v string) *AssociationStatus {
 	s.Message = &v
+	return s
+}
+
+// Describes integration options for Amazon Athena.
+type AthenaIntegration struct {
+	_ struct{} `type:"structure"`
+
+	// The location in Amazon S3 to store the generated CloudFormation template.
+	//
+	// IntegrationResultS3DestinationArn is a required field
+	IntegrationResultS3DestinationArn *string `type:"string" required:"true"`
+
+	// The end date for the partition.
+	PartitionEndDate *time.Time `type:"timestamp"`
+
+	// The schedule for adding new partitions to the table.
+	//
+	// PartitionLoadFrequency is a required field
+	PartitionLoadFrequency *string `type:"string" required:"true" enum:"PartitionLoadFrequency"`
+
+	// The start date for the partition.
+	PartitionStartDate *time.Time `type:"timestamp"`
+}
+
+// String returns the string representation
+func (s AthenaIntegration) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s AthenaIntegration) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *AthenaIntegration) Validate() error {
+	invalidParams := request.ErrInvalidParams{Context: "AthenaIntegration"}
+	if s.IntegrationResultS3DestinationArn == nil {
+		invalidParams.Add(request.NewErrParamRequired("IntegrationResultS3DestinationArn"))
+	}
+	if s.PartitionLoadFrequency == nil {
+		invalidParams.Add(request.NewErrParamRequired("PartitionLoadFrequency"))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// SetIntegrationResultS3DestinationArn sets the IntegrationResultS3DestinationArn field's value.
+func (s *AthenaIntegration) SetIntegrationResultS3DestinationArn(v string) *AthenaIntegration {
+	s.IntegrationResultS3DestinationArn = &v
+	return s
+}
+
+// SetPartitionEndDate sets the PartitionEndDate field's value.
+func (s *AthenaIntegration) SetPartitionEndDate(v time.Time) *AthenaIntegration {
+	s.PartitionEndDate = &v
+	return s
+}
+
+// SetPartitionLoadFrequency sets the PartitionLoadFrequency field's value.
+func (s *AthenaIntegration) SetPartitionLoadFrequency(v string) *AthenaIntegration {
+	s.PartitionLoadFrequency = &v
+	return s
+}
+
+// SetPartitionStartDate sets the PartitionStartDate field's value.
+func (s *AthenaIntegration) SetPartitionStartDate(v time.Time) *AthenaIntegration {
+	s.PartitionStartDate = &v
 	return s
 }
 
@@ -45194,7 +47065,7 @@ func (s *BundleTaskError) SetMessage(v string) *BundleTaskError {
 }
 
 // Information about an address range that is provisioned for use with your
-// AWS resources through bring your own IP addresses (BYOIP).
+// Amazon Web Services resources through bring your own IP addresses (BYOIP).
 type ByoipCidr struct {
 	_ struct{} `type:"structure"`
 
@@ -46053,7 +47924,11 @@ type CapacityReservation struct {
 	// The type of instance for which the Capacity Reservation reserves capacity.
 	InstanceType *string `locationName:"instanceType" type:"string"`
 
-	// The ID of the AWS account that owns the Capacity Reservation.
+	// The Amazon Resource Name (ARN) of the Outpost on which the Capacity Reservation
+	// was created.
+	OutpostArn *string `locationName:"outpostArn" type:"string"`
+
+	// The ID of the account that owns the Capacity Reservation.
 	OwnerId *string `locationName:"ownerId" type:"string"`
 
 	// The date and time at which the Capacity Reservation was started.
@@ -46087,10 +47962,10 @@ type CapacityReservation struct {
 	// can have one of the following tenancy settings:
 	//
 	//    * default - The Capacity Reservation is created on hardware that is shared
-	//    with other AWS accounts.
+	//    with other accounts.
 	//
 	//    * dedicated - The Capacity Reservation is created on single-tenant hardware
-	//    that is dedicated to a single AWS account.
+	//    that is dedicated to a single account.
 	Tenancy *string `locationName:"tenancy" type:"string" enum:"CapacityReservationTenancy"`
 
 	// The total number of instances for which the Capacity Reservation reserves
@@ -46186,6 +48061,12 @@ func (s *CapacityReservation) SetInstanceType(v string) *CapacityReservation {
 	return s
 }
 
+// SetOutpostArn sets the OutpostArn field's value.
+func (s *CapacityReservation) SetOutpostArn(v string) *CapacityReservation {
+	s.OutpostArn = &v
+	return s
+}
+
 // SetOwnerId sets the OwnerId field's value.
 func (s *CapacityReservation) SetOwnerId(v string) *CapacityReservation {
 	s.OwnerId = &v
@@ -46229,7 +48110,7 @@ type CapacityReservationGroup struct {
 	// The ARN of the resource group.
 	GroupArn *string `locationName:"groupArn" type:"string"`
 
-	// The ID of the AWS account that owns the resource group.
+	// The ID of the account that owns the resource group.
 	OwnerId *string `locationName:"ownerId" type:"string"`
 }
 
@@ -46617,9 +48498,8 @@ func (s *CertificateAuthenticationRequest) SetClientRootCertificateChainArn(v st
 }
 
 // Provides authorization for Amazon to bring a specific IP address range to
-// a specific AWS account using bring your own IP addresses (BYOIP). For more
-// information, see Prepare to Bring Your Address Range to Your AWS Account
-// (https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-byoip.html#prepare-for-byoip)
+// a specific account using bring your own IP addresses (BYOIP). For more information,
+// see Configuring your BYOIP address range (https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-byoip.html#prepare-for-byoip)
 // in the Amazon Elastic Compute Cloud User Guide.
 type CidrAuthorizationContext struct {
 	_ struct{} `type:"structure"`
@@ -47909,7 +49789,7 @@ func (s *ConfirmProductInstanceInput) SetProductCode(v string) *ConfirmProductIn
 type ConfirmProductInstanceOutput struct {
 	_ struct{} `type:"structure"`
 
-	// The AWS account ID of the instance owner. This is only present if the product
+	// The account ID of the instance owner. This is only present if the product
 	// code is attached to the instance.
 	OwnerId *string `locationName:"ownerId" type:"string"`
 
@@ -48310,12 +50190,22 @@ type CopyImageInput struct {
 	_ struct{} `type:"structure"`
 
 	// Unique, case-sensitive identifier you provide to ensure idempotency of the
-	// request. For more information, see How to Ensure Idempotency (https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Run_Instance_Idempotency.html)
-	// in the Amazon Elastic Compute Cloud User Guide.
+	// request. For more information, see Ensuring idempotency (https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html)
+	// in the Amazon EC2 API Reference.
 	ClientToken *string `type:"string"`
 
 	// A description for the new AMI in the destination Region.
 	Description *string `type:"string"`
+
+	// The Amazon Resource Name (ARN) of the Outpost to which to copy the AMI. Only
+	// specify this parameter when copying an AMI from an AWS Region to an Outpost.
+	// The AMI must be in the Region of the destination Outpost. You cannot copy
+	// an AMI from an Outpost to a Region, from one Outpost to another, or within
+	// the same Outpost.
+	//
+	// For more information, see Copying AMIs from an AWS Region to an Outpost (https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/snapshots-outposts.html#copy-amis)
+	// in the Amazon Elastic Compute Cloud User Guide.
+	DestinationOutpostArn *string `type:"string"`
 
 	// Checks whether you have the required permissions for the action, without
 	// actually making the request, and provides an error response. If you have
@@ -48412,6 +50302,12 @@ func (s *CopyImageInput) SetDescription(v string) *CopyImageInput {
 	return s
 }
 
+// SetDestinationOutpostArn sets the DestinationOutpostArn field's value.
+func (s *CopyImageInput) SetDestinationOutpostArn(v string) *CopyImageInput {
+	s.DestinationOutpostArn = &v
+	return s
+}
+
 // SetDryRun sets the DryRun field's value.
 func (s *CopyImageInput) SetDryRun(v bool) *CopyImageInput {
 	s.DryRun = &v
@@ -48477,6 +50373,17 @@ type CopySnapshotInput struct {
 
 	// A description for the EBS snapshot.
 	Description *string `type:"string"`
+
+	// The Amazon Resource Name (ARN) of the Outpost to which to copy the snapshot.
+	// Only specify this parameter when copying a snapshot from an AWS Region to
+	// an Outpost. The snapshot must be in the Region for the destination Outpost.
+	// You cannot copy a snapshot from an Outpost to a Region, from one Outpost
+	// to another, or within the same Outpost.
+	//
+	// For more information, see Copying snapshots from an AWS Region to an Outpost
+	// (https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/snapshots-outposts.html#copy-snapshots)
+	// in the Amazon Elastic Compute Cloud User Guide.
+	DestinationOutpostArn *string `type:"string"`
 
 	// The destination Region to use in the PresignedUrl parameter of a snapshot
 	// copy operation. This parameter is only valid for specifying the destination
@@ -48580,6 +50487,12 @@ func (s *CopySnapshotInput) Validate() error {
 // SetDescription sets the Description field's value.
 func (s *CopySnapshotInput) SetDescription(v string) *CopySnapshotInput {
 	s.Description = &v
+	return s
+}
+
+// SetDestinationOutpostArn sets the DestinationOutpostArn field's value.
+func (s *CopySnapshotInput) SetDestinationOutpostArn(v string) *CopySnapshotInput {
+	s.DestinationOutpostArn = &v
 	return s
 }
 
@@ -48819,6 +50732,10 @@ type CreateCapacityReservationInput struct {
 	// InstanceType is a required field
 	InstanceType *string `type:"string" required:"true"`
 
+	// The Amazon Resource Name (ARN) of the Outpost on which to create the Capacity
+	// Reservation.
+	OutpostArn *string `type:"string"`
+
 	// The tags to apply to the Capacity Reservation during launch.
 	TagSpecifications []*TagSpecification `locationNameList:"item" type:"list"`
 
@@ -48826,10 +50743,10 @@ type CreateCapacityReservationInput struct {
 	// can have one of the following tenancy settings:
 	//
 	//    * default - The Capacity Reservation is created on hardware that is shared
-	//    with other AWS accounts.
+	//    with other accounts.
 	//
 	//    * dedicated - The Capacity Reservation is created on single-tenant hardware
-	//    that is dedicated to a single AWS account.
+	//    that is dedicated to a single account.
 	Tenancy *string `type:"string" enum:"CapacityReservationTenancy"`
 }
 
@@ -48931,6 +50848,12 @@ func (s *CreateCapacityReservationInput) SetInstancePlatform(v string) *CreateCa
 // SetInstanceType sets the InstanceType field's value.
 func (s *CreateCapacityReservationInput) SetInstanceType(v string) *CreateCapacityReservationInput {
 	s.InstanceType = &v
+	return s
+}
+
+// SetOutpostArn sets the OutpostArn field's value.
+func (s *CreateCapacityReservationInput) SetOutpostArn(v string) *CreateCapacityReservationInput {
+	s.OutpostArn = &v
 	return s
 }
 
@@ -49960,6 +51883,9 @@ type CreateFleetInput struct {
 	// of the request. For more information, see Ensuring Idempotency (https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
 	ClientToken *string `type:"string"`
 
+	// Reserved.
+	Context *string `type:"string"`
+
 	// Checks whether you have the required permissions for the action, without
 	// actually making the request, and provides an error response. If you have
 	// the required permissions, the error response is DryRunOperation. Otherwise,
@@ -49979,16 +51905,24 @@ type CreateFleetInput struct {
 	// Describes the configuration of On-Demand Instances in an EC2 Fleet.
 	OnDemandOptions *OnDemandOptionsRequest `type:"structure"`
 
-	// Indicates whether EC2 Fleet should replace unhealthy instances.
+	// Indicates whether EC2 Fleet should replace unhealthy Spot Instances. Supported
+	// only for fleets of type maintain. For more information, see EC2 Fleet health
+	// checks (https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/manage-ec2-fleet.html#ec2-fleet-health-checks)
+	// in the Amazon EC2 User Guide.
 	ReplaceUnhealthyInstances *bool `type:"boolean"`
 
 	// Describes the configuration of Spot Instances in an EC2 Fleet.
 	SpotOptions *SpotOptionsRequest `type:"structure"`
 
-	// The key-value pair for tagging the EC2 Fleet request on creation. The value
-	// for ResourceType must be fleet, otherwise the fleet request fails. To tag
-	// instances at launch, specify the tags in the launch template (https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-launch-templates.html#create-launch-template).
-	// For information about tagging after launch, see Tagging your resources (https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html#tag-resources).
+	// The key-value pair for tagging the EC2 Fleet request on creation. For more
+	// information, see Tagging your resources (https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html#tag-resources).
+	//
+	// If the fleet type is instant, specify a resource type of fleet to tag the
+	// fleet or instance to tag the instances at launch.
+	//
+	// If the fleet type is maintain or request, specify a resource type of fleet
+	// to tag the fleet. You cannot specify a resource type of instance. To tag
+	// instances at launch, specify the tags in a launch template (https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-launch-templates.html#create-launch-template).
 	TagSpecifications []*TagSpecification `locationName:"TagSpecification" locationNameList:"item" type:"list"`
 
 	// The number of units to request.
@@ -50000,7 +51934,7 @@ type CreateFleetInput struct {
 	// expires.
 	TerminateInstancesWithExpiration *bool `type:"boolean"`
 
-	// The type of request. The default value is maintain.
+	// The fleet type. The default value is maintain.
 	//
 	//    * maintain - The EC2 Fleet places an asynchronous request for your desired
 	//    capacity, and continues to maintain your desired Spot capacity by replenishing
@@ -50073,6 +52007,12 @@ func (s *CreateFleetInput) Validate() error {
 // SetClientToken sets the ClientToken field's value.
 func (s *CreateFleetInput) SetClientToken(v string) *CreateFleetInput {
 	s.ClientToken = &v
+	return s
+}
+
+// SetContext sets the Context field's value.
+func (s *CreateFleetInput) SetContext(v string) *CreateFleetInput {
+	s.Context = &v
 	return s
 }
 
@@ -50215,14 +52155,14 @@ type CreateFleetOutput struct {
 	_ struct{} `type:"structure"`
 
 	// Information about the instances that could not be launched by the fleet.
-	// Valid only when Type is set to instant.
+	// Supported only for fleets of type instant.
 	Errors []*CreateFleetError `locationName:"errorSet" locationNameList:"item" type:"list"`
 
 	// The ID of the EC2 Fleet.
 	FleetId *string `locationName:"fleetId" type:"string"`
 
-	// Information about the instances that were launched by the fleet. Valid only
-	// when Type is set to instant.
+	// Information about the instances that were launched by the fleet. Supported
+	// only for fleets of type instant.
 	Instances []*CreateFleetInstance `locationName:"fleetInstanceSet" locationNameList:"item" type:"list"`
 }
 
@@ -50777,7 +52717,7 @@ type CreateInstanceExportTaskInput struct {
 	// maximum length is 255 characters.
 	Description *string `locationName:"description" type:"string"`
 
-	// The format and location for an instance export task.
+	// The format and location for an export instance task.
 	//
 	// ExportToS3Task is a required field
 	ExportToS3Task *ExportToS3TaskSpecification `locationName:"exportToS3" type:"structure" required:"true"`
@@ -50787,7 +52727,7 @@ type CreateInstanceExportTaskInput struct {
 	// InstanceId is a required field
 	InstanceId *string `locationName:"instanceId" type:"string" required:"true"`
 
-	// The tags to apply to the instance export task during creation.
+	// The tags to apply to the export instance task during creation.
 	TagSpecifications []*TagSpecification `locationName:"TagSpecification" locationNameList:"item" type:"list"`
 
 	// The target virtualization environment.
@@ -50858,7 +52798,7 @@ func (s *CreateInstanceExportTaskInput) SetTargetEnvironment(v string) *CreateIn
 type CreateInstanceExportTaskOutput struct {
 	_ struct{} `type:"structure"`
 
-	// Information about the instance export task.
+	// Information about the export instance task.
 	ExportTask *ExportTask `locationName:"exportTask" type:"structure"`
 }
 
@@ -51685,18 +53625,21 @@ func (s *CreateManagedPrefixListOutput) SetPrefixList(v *ManagedPrefixList) *Cre
 type CreateNatGatewayInput struct {
 	_ struct{} `type:"structure"`
 
-	// The allocation ID of an Elastic IP address to associate with the NAT gateway.
-	// If the Elastic IP address is associated with another resource, you must first
-	// disassociate it.
-	//
-	// AllocationId is a required field
-	AllocationId *string `type:"string" required:"true"`
+	// [Public NAT gateways only] The allocation ID of an Elastic IP address to
+	// associate with the NAT gateway. You cannot specify an Elastic IP address
+	// with a private NAT gateway. If the Elastic IP address is associated with
+	// another resource, you must first disassociate it.
+	AllocationId *string `type:"string"`
 
 	// Unique, case-sensitive identifier that you provide to ensure the idempotency
 	// of the request. For more information, see How to Ensure Idempotency (https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
 	//
 	// Constraint: Maximum 64 ASCII characters.
 	ClientToken *string `type:"string" idempotencyToken:"true"`
+
+	// Indicates whether the NAT gateway supports public or private connectivity.
+	// The default is public connectivity.
+	ConnectivityType *string `type:"string" enum:"ConnectivityType"`
 
 	// Checks whether you have the required permissions for the action, without
 	// actually making the request, and provides an error response. If you have
@@ -51726,9 +53669,6 @@ func (s CreateNatGatewayInput) GoString() string {
 // Validate inspects the fields of the type to determine if they are valid.
 func (s *CreateNatGatewayInput) Validate() error {
 	invalidParams := request.ErrInvalidParams{Context: "CreateNatGatewayInput"}
-	if s.AllocationId == nil {
-		invalidParams.Add(request.NewErrParamRequired("AllocationId"))
-	}
 	if s.SubnetId == nil {
 		invalidParams.Add(request.NewErrParamRequired("SubnetId"))
 	}
@@ -51748,6 +53688,12 @@ func (s *CreateNatGatewayInput) SetAllocationId(v string) *CreateNatGatewayInput
 // SetClientToken sets the ClientToken field's value.
 func (s *CreateNatGatewayInput) SetClientToken(v string) *CreateNatGatewayInput {
 	s.ClientToken = &v
+	return s
+}
+
+// SetConnectivityType sets the ConnectivityType field's value.
+func (s *CreateNatGatewayInput) SetConnectivityType(v string) *CreateNatGatewayInput {
+	s.ConnectivityType = &v
 	return s
 }
 
@@ -52209,6 +54155,10 @@ func (s *CreateNetworkInsightsPathOutput) SetNetworkInsightsPath(v *NetworkInsig
 type CreateNetworkInterfaceInput struct {
 	_ struct{} `type:"structure"`
 
+	// Unique, case-sensitive identifier that you provide to ensure the idempotency
+	// of the request. For more information, see Ensuring Idempotency (https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
+	ClientToken *string `type:"string" idempotencyToken:"true"`
+
 	// A description for the network interface.
 	Description *string `locationName:"description" type:"string"`
 
@@ -52223,7 +54173,10 @@ type CreateNetworkInterfaceInput struct {
 
 	// Indicates the type of network interface. To create an Elastic Fabric Adapter
 	// (EFA), specify efa. For more information, see Elastic Fabric Adapter (https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/efa.html)
-	// in the Amazon Elastic Compute Cloud User Guide.
+	// in the Amazon Elastic Compute Cloud User Guide. To create a trunk network
+	// interface, specify efa. For more information, see Network interface trunking
+	// (https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/eni-trunking.html) in
+	// the Amazon Elastic Compute Cloud User Guide.
 	InterfaceType *string `type:"string" enum:"NetworkInterfaceCreationType"`
 
 	// The number of IPv6 addresses to assign to a network interface. Amazon EC2
@@ -52288,6 +54241,12 @@ func (s *CreateNetworkInterfaceInput) Validate() error {
 		return invalidParams
 	}
 	return nil
+}
+
+// SetClientToken sets the ClientToken field's value.
+func (s *CreateNetworkInterfaceInput) SetClientToken(v string) *CreateNetworkInterfaceInput {
+	s.ClientToken = &v
+	return s
 }
 
 // SetDescription sets the Description field's value.
@@ -52360,6 +54319,10 @@ func (s *CreateNetworkInterfaceInput) SetTagSpecifications(v []*TagSpecification
 type CreateNetworkInterfaceOutput struct {
 	_ struct{} `type:"structure"`
 
+	// The token to use to retrieve the next page of results. This value is null
+	// when there are no more results to return.
+	ClientToken *string `locationName:"clientToken" type:"string"`
+
 	// Information about the network interface.
 	NetworkInterface *NetworkInterface `locationName:"networkInterface" type:"structure"`
 }
@@ -52374,6 +54337,12 @@ func (s CreateNetworkInterfaceOutput) GoString() string {
 	return s.String()
 }
 
+// SetClientToken sets the ClientToken field's value.
+func (s *CreateNetworkInterfaceOutput) SetClientToken(v string) *CreateNetworkInterfaceOutput {
+	s.ClientToken = &v
+	return s
+}
+
 // SetNetworkInterface sets the NetworkInterface field's value.
 func (s *CreateNetworkInterfaceOutput) SetNetworkInterface(v *NetworkInterface) *CreateNetworkInterfaceOutput {
 	s.NetworkInterface = v
@@ -52384,10 +54353,10 @@ func (s *CreateNetworkInterfaceOutput) SetNetworkInterface(v *NetworkInterface) 
 type CreateNetworkInterfacePermissionInput struct {
 	_ struct{} `type:"structure"`
 
-	// The AWS account ID.
+	// The account ID.
 	AwsAccountId *string `type:"string"`
 
-	// The AWS service. Currently not supported.
+	// The Amazon Web Service. Currently not supported.
 	AwsService *string `type:"string"`
 
 	// Checks whether you have the required permissions for the action, without
@@ -52575,6 +54544,111 @@ func (s *CreatePlacementGroupOutput) SetPlacementGroup(v *PlacementGroup) *Creat
 	return s
 }
 
+type CreateReplaceRootVolumeTaskInput struct {
+	_ struct{} `type:"structure"`
+
+	// Unique, case-sensitive identifier you provide to ensure the idempotency of
+	// the request. If you do not specify a client token, a randomly generated token
+	// is used for the request to ensure idempotency. For more information, see
+	// Ensuring Idempotency (https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
+	ClientToken *string `type:"string" idempotencyToken:"true"`
+
+	// Checks whether you have the required permissions for the action, without
+	// actually making the request, and provides an error response. If you have
+	// the required permissions, the error response is DryRunOperation. Otherwise,
+	// it is UnauthorizedOperation.
+	DryRun *bool `type:"boolean"`
+
+	// The ID of the instance for which to replace the root volume.
+	//
+	// InstanceId is a required field
+	InstanceId *string `type:"string" required:"true"`
+
+	// The ID of the snapshot from which to restore the replacement root volume.
+	// If you want to restore the volume to the initial launch state, omit this
+	// parameter.
+	SnapshotId *string `type:"string"`
+
+	// The tags to apply to the root volume replacement task.
+	TagSpecifications []*TagSpecification `locationName:"TagSpecification" locationNameList:"item" type:"list"`
+}
+
+// String returns the string representation
+func (s CreateReplaceRootVolumeTaskInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s CreateReplaceRootVolumeTaskInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *CreateReplaceRootVolumeTaskInput) Validate() error {
+	invalidParams := request.ErrInvalidParams{Context: "CreateReplaceRootVolumeTaskInput"}
+	if s.InstanceId == nil {
+		invalidParams.Add(request.NewErrParamRequired("InstanceId"))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// SetClientToken sets the ClientToken field's value.
+func (s *CreateReplaceRootVolumeTaskInput) SetClientToken(v string) *CreateReplaceRootVolumeTaskInput {
+	s.ClientToken = &v
+	return s
+}
+
+// SetDryRun sets the DryRun field's value.
+func (s *CreateReplaceRootVolumeTaskInput) SetDryRun(v bool) *CreateReplaceRootVolumeTaskInput {
+	s.DryRun = &v
+	return s
+}
+
+// SetInstanceId sets the InstanceId field's value.
+func (s *CreateReplaceRootVolumeTaskInput) SetInstanceId(v string) *CreateReplaceRootVolumeTaskInput {
+	s.InstanceId = &v
+	return s
+}
+
+// SetSnapshotId sets the SnapshotId field's value.
+func (s *CreateReplaceRootVolumeTaskInput) SetSnapshotId(v string) *CreateReplaceRootVolumeTaskInput {
+	s.SnapshotId = &v
+	return s
+}
+
+// SetTagSpecifications sets the TagSpecifications field's value.
+func (s *CreateReplaceRootVolumeTaskInput) SetTagSpecifications(v []*TagSpecification) *CreateReplaceRootVolumeTaskInput {
+	s.TagSpecifications = v
+	return s
+}
+
+type CreateReplaceRootVolumeTaskOutput struct {
+	_ struct{} `type:"structure"`
+
+	// Information about the root volume replacement task.
+	ReplaceRootVolumeTask *ReplaceRootVolumeTask `locationName:"replaceRootVolumeTask" type:"structure"`
+}
+
+// String returns the string representation
+func (s CreateReplaceRootVolumeTaskOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s CreateReplaceRootVolumeTaskOutput) GoString() string {
+	return s.String()
+}
+
+// SetReplaceRootVolumeTask sets the ReplaceRootVolumeTask field's value.
+func (s *CreateReplaceRootVolumeTaskOutput) SetReplaceRootVolumeTask(v *ReplaceRootVolumeTask) *CreateReplaceRootVolumeTaskOutput {
+	s.ReplaceRootVolumeTask = v
+	return s
+}
+
 // Contains the parameters for CreateReservedInstancesListing.
 type CreateReservedInstancesListingInput struct {
 	_ struct{} `type:"structure"`
@@ -52683,6 +54757,119 @@ func (s CreateReservedInstancesListingOutput) GoString() string {
 // SetReservedInstancesListings sets the ReservedInstancesListings field's value.
 func (s *CreateReservedInstancesListingOutput) SetReservedInstancesListings(v []*ReservedInstancesListing) *CreateReservedInstancesListingOutput {
 	s.ReservedInstancesListings = v
+	return s
+}
+
+type CreateRestoreImageTaskInput struct {
+	_ struct{} `type:"structure"`
+
+	// The name of the S3 bucket that contains the stored AMI object.
+	//
+	// Bucket is a required field
+	Bucket *string `type:"string" required:"true"`
+
+	// Checks whether you have the required permissions for the action, without
+	// actually making the request, and provides an error response. If you have
+	// the required permissions, the error response is DryRunOperation. Otherwise,
+	// it is UnauthorizedOperation.
+	DryRun *bool `type:"boolean"`
+
+	// The name for the restored AMI. The name must be unique for AMIs in the Region
+	// for this account. If you do not provide a name, the new AMI gets the same
+	// name as the original AMI.
+	Name *string `type:"string"`
+
+	// The name of the stored AMI object in the bucket.
+	//
+	// ObjectKey is a required field
+	ObjectKey *string `type:"string" required:"true"`
+
+	// The tags to apply to the AMI and snapshots on restoration. You can tag the
+	// AMI, the snapshots, or both.
+	//
+	//    * To tag the AMI, the value for ResourceType must be image.
+	//
+	//    * To tag the snapshots, the value for ResourceType must be snapshot. The
+	//    same tag is applied to all of the snapshots that are created.
+	TagSpecifications []*TagSpecification `locationName:"TagSpecification" locationNameList:"item" type:"list"`
+}
+
+// String returns the string representation
+func (s CreateRestoreImageTaskInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s CreateRestoreImageTaskInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *CreateRestoreImageTaskInput) Validate() error {
+	invalidParams := request.ErrInvalidParams{Context: "CreateRestoreImageTaskInput"}
+	if s.Bucket == nil {
+		invalidParams.Add(request.NewErrParamRequired("Bucket"))
+	}
+	if s.ObjectKey == nil {
+		invalidParams.Add(request.NewErrParamRequired("ObjectKey"))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// SetBucket sets the Bucket field's value.
+func (s *CreateRestoreImageTaskInput) SetBucket(v string) *CreateRestoreImageTaskInput {
+	s.Bucket = &v
+	return s
+}
+
+// SetDryRun sets the DryRun field's value.
+func (s *CreateRestoreImageTaskInput) SetDryRun(v bool) *CreateRestoreImageTaskInput {
+	s.DryRun = &v
+	return s
+}
+
+// SetName sets the Name field's value.
+func (s *CreateRestoreImageTaskInput) SetName(v string) *CreateRestoreImageTaskInput {
+	s.Name = &v
+	return s
+}
+
+// SetObjectKey sets the ObjectKey field's value.
+func (s *CreateRestoreImageTaskInput) SetObjectKey(v string) *CreateRestoreImageTaskInput {
+	s.ObjectKey = &v
+	return s
+}
+
+// SetTagSpecifications sets the TagSpecifications field's value.
+func (s *CreateRestoreImageTaskInput) SetTagSpecifications(v []*TagSpecification) *CreateRestoreImageTaskInput {
+	s.TagSpecifications = v
+	return s
+}
+
+type CreateRestoreImageTaskOutput struct {
+	_ struct{} `type:"structure"`
+
+	// The AMI ID.
+	ImageId *string `locationName:"imageId" type:"string"`
+}
+
+// String returns the string representation
+func (s CreateRestoreImageTaskOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s CreateRestoreImageTaskOutput) GoString() string {
+	return s.String()
+}
+
+// SetImageId sets the ImageId field's value.
+func (s *CreateRestoreImageTaskOutput) SetImageId(v string) *CreateRestoreImageTaskOutput {
+	s.ImageId = &v
 	return s
 }
 
@@ -53105,6 +55292,25 @@ type CreateSnapshotInput struct {
 	// it is UnauthorizedOperation.
 	DryRun *bool `locationName:"dryRun" type:"boolean"`
 
+	// The Amazon Resource Name (ARN) of the AWS Outpost on which to create a local
+	// snapshot.
+	//
+	//    * To create a snapshot of a volume in a Region, omit this parameter. The
+	//    snapshot is created in the same Region as the volume.
+	//
+	//    * To create a snapshot of a volume on an Outpost and store the snapshot
+	//    in the Region, omit this parameter. The snapshot is created in the Region
+	//    for the Outpost.
+	//
+	//    * To create a snapshot of a volume on an Outpost and store the snapshot
+	//    on an Outpost, specify the ARN of the destination Outpost. The snapshot
+	//    must be created on the same Outpost as the volume.
+	//
+	// For more information, see Creating local snapshots from volumes on an Outpost
+	// (https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/snapshots-outposts.html#create-snapshot)
+	// in the Amazon Elastic Compute Cloud User Guide.
+	OutpostArn *string `type:"string"`
+
 	// The tags to apply to the snapshot during creation.
 	TagSpecifications []*TagSpecification `locationName:"TagSpecification" locationNameList:"item" type:"list"`
 
@@ -53149,6 +55355,12 @@ func (s *CreateSnapshotInput) SetDryRun(v bool) *CreateSnapshotInput {
 	return s
 }
 
+// SetOutpostArn sets the OutpostArn field's value.
+func (s *CreateSnapshotInput) SetOutpostArn(v string) *CreateSnapshotInput {
+	s.OutpostArn = &v
+	return s
+}
+
 // SetTagSpecifications sets the TagSpecifications field's value.
 func (s *CreateSnapshotInput) SetTagSpecifications(v []*TagSpecification) *CreateSnapshotInput {
 	s.TagSpecifications = v
@@ -53180,6 +55392,25 @@ type CreateSnapshotsInput struct {
 	//
 	// InstanceSpecification is a required field
 	InstanceSpecification *InstanceSpecification `type:"structure" required:"true"`
+
+	// The Amazon Resource Name (ARN) of the AWS Outpost on which to create the
+	// local snapshots.
+	//
+	//    * To create snapshots from an instance in a Region, omit this parameter.
+	//    The snapshots are created in the same Region as the instance.
+	//
+	//    * To create snapshots from an instance on an Outpost and store the snapshots
+	//    in the Region, omit this parameter. The snapshots are created in the Region
+	//    for the Outpost.
+	//
+	//    * To create snapshots from an instance on an Outpost and store the snapshots
+	//    on an Outpost, specify the ARN of the destination Outpost. The snapshots
+	//    must be created on the same Outpost as the instance.
+	//
+	// For more information, see Creating multi-volume local snapshots from instances
+	// on an Outpost (https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/snapshots-outposts.html#create-multivol-snapshot)
+	// in the Amazon Elastic Compute Cloud User Guide.
+	OutpostArn *string `type:"string"`
 
 	// Tags to apply to every snapshot specified by the instance.
 	TagSpecifications []*TagSpecification `locationName:"TagSpecification" locationNameList:"item" type:"list"`
@@ -53229,6 +55460,12 @@ func (s *CreateSnapshotsInput) SetDryRun(v bool) *CreateSnapshotsInput {
 // SetInstanceSpecification sets the InstanceSpecification field's value.
 func (s *CreateSnapshotsInput) SetInstanceSpecification(v *InstanceSpecification) *CreateSnapshotsInput {
 	s.InstanceSpecification = v
+	return s
+}
+
+// SetOutpostArn sets the OutpostArn field's value.
+func (s *CreateSnapshotsInput) SetOutpostArn(v string) *CreateSnapshotsInput {
+	s.OutpostArn = &v
 	return s
 }
 
@@ -53345,6 +55582,104 @@ func (s CreateSpotDatafeedSubscriptionOutput) GoString() string {
 // SetSpotDatafeedSubscription sets the SpotDatafeedSubscription field's value.
 func (s *CreateSpotDatafeedSubscriptionOutput) SetSpotDatafeedSubscription(v *SpotDatafeedSubscription) *CreateSpotDatafeedSubscriptionOutput {
 	s.SpotDatafeedSubscription = v
+	return s
+}
+
+type CreateStoreImageTaskInput struct {
+	_ struct{} `type:"structure"`
+
+	// The name of the S3 bucket in which the AMI object will be stored. The bucket
+	// must be in the Region in which the request is being made. The AMI object
+	// appears in the bucket only after the upload task has completed.
+	//
+	// Bucket is a required field
+	Bucket *string `type:"string" required:"true"`
+
+	// Checks whether you have the required permissions for the action, without
+	// actually making the request, and provides an error response. If you have
+	// the required permissions, the error response is DryRunOperation. Otherwise,
+	// it is UnauthorizedOperation.
+	DryRun *bool `type:"boolean"`
+
+	// The ID of the AMI.
+	//
+	// ImageId is a required field
+	ImageId *string `type:"string" required:"true"`
+
+	// The tags to apply to the AMI object that will be stored in the S3 bucket.
+	S3ObjectTags []*S3ObjectTag `locationName:"S3ObjectTag" locationNameList:"item" type:"list"`
+}
+
+// String returns the string representation
+func (s CreateStoreImageTaskInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s CreateStoreImageTaskInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *CreateStoreImageTaskInput) Validate() error {
+	invalidParams := request.ErrInvalidParams{Context: "CreateStoreImageTaskInput"}
+	if s.Bucket == nil {
+		invalidParams.Add(request.NewErrParamRequired("Bucket"))
+	}
+	if s.ImageId == nil {
+		invalidParams.Add(request.NewErrParamRequired("ImageId"))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// SetBucket sets the Bucket field's value.
+func (s *CreateStoreImageTaskInput) SetBucket(v string) *CreateStoreImageTaskInput {
+	s.Bucket = &v
+	return s
+}
+
+// SetDryRun sets the DryRun field's value.
+func (s *CreateStoreImageTaskInput) SetDryRun(v bool) *CreateStoreImageTaskInput {
+	s.DryRun = &v
+	return s
+}
+
+// SetImageId sets the ImageId field's value.
+func (s *CreateStoreImageTaskInput) SetImageId(v string) *CreateStoreImageTaskInput {
+	s.ImageId = &v
+	return s
+}
+
+// SetS3ObjectTags sets the S3ObjectTags field's value.
+func (s *CreateStoreImageTaskInput) SetS3ObjectTags(v []*S3ObjectTag) *CreateStoreImageTaskInput {
+	s.S3ObjectTags = v
+	return s
+}
+
+type CreateStoreImageTaskOutput struct {
+	_ struct{} `type:"structure"`
+
+	// The name of the stored AMI object in the S3 bucket.
+	ObjectKey *string `locationName:"objectKey" type:"string"`
+}
+
+// String returns the string representation
+func (s CreateStoreImageTaskOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s CreateStoreImageTaskOutput) GoString() string {
+	return s.String()
+}
+
+// SetObjectKey sets the ObjectKey field's value.
+func (s *CreateStoreImageTaskOutput) SetObjectKey(v string) *CreateStoreImageTaskOutput {
+	s.ObjectKey = &v
 	return s
 }
 
@@ -61310,6 +63645,115 @@ func (s *DescribeAccountAttributesOutput) SetAccountAttributes(v []*AccountAttri
 	return s
 }
 
+type DescribeAddressesAttributeInput struct {
+	_ struct{} `type:"structure"`
+
+	// [EC2-VPC] The allocation IDs.
+	AllocationIds []*string `locationName:"AllocationId" locationNameList:"item" type:"list"`
+
+	// The attribute of the IP address.
+	Attribute *string `type:"string" enum:"AddressAttributeName"`
+
+	// Checks whether you have the required permissions for the action, without
+	// actually making the request, and provides an error response. If you have
+	// the required permissions, the error response is DryRunOperation. Otherwise,
+	// it is UnauthorizedOperation.
+	DryRun *bool `type:"boolean"`
+
+	// The maximum number of results to return with a single call. To retrieve the
+	// remaining results, make another call with the returned nextToken value.
+	MaxResults *int64 `min:"1" type:"integer"`
+
+	// The token for the next page of results.
+	NextToken *string `type:"string"`
+}
+
+// String returns the string representation
+func (s DescribeAddressesAttributeInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DescribeAddressesAttributeInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *DescribeAddressesAttributeInput) Validate() error {
+	invalidParams := request.ErrInvalidParams{Context: "DescribeAddressesAttributeInput"}
+	if s.MaxResults != nil && *s.MaxResults < 1 {
+		invalidParams.Add(request.NewErrParamMinValue("MaxResults", 1))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// SetAllocationIds sets the AllocationIds field's value.
+func (s *DescribeAddressesAttributeInput) SetAllocationIds(v []*string) *DescribeAddressesAttributeInput {
+	s.AllocationIds = v
+	return s
+}
+
+// SetAttribute sets the Attribute field's value.
+func (s *DescribeAddressesAttributeInput) SetAttribute(v string) *DescribeAddressesAttributeInput {
+	s.Attribute = &v
+	return s
+}
+
+// SetDryRun sets the DryRun field's value.
+func (s *DescribeAddressesAttributeInput) SetDryRun(v bool) *DescribeAddressesAttributeInput {
+	s.DryRun = &v
+	return s
+}
+
+// SetMaxResults sets the MaxResults field's value.
+func (s *DescribeAddressesAttributeInput) SetMaxResults(v int64) *DescribeAddressesAttributeInput {
+	s.MaxResults = &v
+	return s
+}
+
+// SetNextToken sets the NextToken field's value.
+func (s *DescribeAddressesAttributeInput) SetNextToken(v string) *DescribeAddressesAttributeInput {
+	s.NextToken = &v
+	return s
+}
+
+type DescribeAddressesAttributeOutput struct {
+	_ struct{} `type:"structure"`
+
+	// Information about the IP addresses.
+	Addresses []*AddressAttribute `locationName:"addressSet" locationNameList:"item" type:"list"`
+
+	// The token to use to retrieve the next page of results. This value is null
+	// when there are no more results to return.
+	NextToken *string `locationName:"nextToken" type:"string"`
+}
+
+// String returns the string representation
+func (s DescribeAddressesAttributeOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DescribeAddressesAttributeOutput) GoString() string {
+	return s.String()
+}
+
+// SetAddresses sets the Addresses field's value.
+func (s *DescribeAddressesAttributeOutput) SetAddresses(v []*AddressAttribute) *DescribeAddressesAttributeOutput {
+	s.Addresses = v
+	return s
+}
+
+// SetNextToken sets the NextToken field's value.
+func (s *DescribeAddressesAttributeOutput) SetNextToken(v string) *DescribeAddressesAttributeOutput {
+	s.NextToken = &v
+	return s
+}
+
 type DescribeAddressesInput struct {
 	_ struct{} `type:"structure"`
 
@@ -61335,12 +63779,12 @@ type DescribeAddressesInput struct {
 	//    if any.
 	//
 	//    * network-border-group - A unique set of Availability Zones, Local Zones,
-	//    or Wavelength Zones from where AWS advertises IP addresses.
+	//    or Wavelength Zones from where Amazon Web Services advertises IP addresses.
 	//
 	//    * network-interface-id - [EC2-VPC] The ID of the network interface that
 	//    the address is associated with, if any.
 	//
-	//    * network-interface-owner-id - The AWS account ID of the owner.
+	//    * network-interface-owner-id - The account ID of the owner.
 	//
 	//    * private-ip-address - [EC2-VPC] The private IP address associated with
 	//    the Elastic IP address.
@@ -61806,7 +64250,7 @@ type DescribeCapacityReservationsInput struct {
 	//    * instance-type - The type of instance for which the Capacity Reservation
 	//    reserves capacity.
 	//
-	//    * owner-id - The ID of the AWS account that owns the Capacity Reservation.
+	//    * owner-id - The ID of the account that owns the Capacity Reservation.
 	//
 	//    * availability-zone-id - The Availability Zone ID of the Capacity Reservation.
 	//
@@ -61818,8 +64262,11 @@ type DescribeCapacityReservationsInput struct {
 	//    * tenancy - Indicates the tenancy of the Capacity Reservation. A Capacity
 	//    Reservation can have one of the following tenancy settings: default -
 	//    The Capacity Reservation is created on hardware that is shared with other
-	//    AWS accounts. dedicated - The Capacity Reservation is created on single-tenant
-	//    hardware that is dedicated to a single AWS account.
+	//    accounts. dedicated - The Capacity Reservation is created on single-tenant
+	//    hardware that is dedicated to a single account.
+	//
+	//    * outpost-arn - The Amazon Resource Name (ARN) of the Outpost on which
+	//    the Capacity Reservation was created.
 	//
 	//    * state - The current state of the Capacity Reservation. A Capacity Reservation
 	//    can be in one of the following states: active- The Capacity Reservation
@@ -61832,6 +64279,9 @@ type DescribeCapacityReservationsInput struct {
 	//    - The Capacity Reservation request has failed. A request might fail due
 	//    to invalid request parameters, capacity constraints, or instance limit
 	//    constraints. Failed requests are retained for 60 minutes.
+	//
+	//    * start-date - The date and time at which the Capacity Reservation was
+	//    started.
 	//
 	//    * end-date - The date and time at which the Capacity Reservation expires.
 	//    When a Capacity Reservation expires, the reserved capacity is released
@@ -65290,9 +67740,9 @@ type DescribeImageAttributeInput struct {
 
 	// The AMI attribute.
 	//
-	// Note: Depending on your account privileges, the blockDeviceMapping attribute
-	// may return a Client.AuthFailure error. If this happens, use DescribeImages
-	// to get information about the block device mapping for the AMI.
+	// Note: The blockDeviceMapping attribute is deprecated. Using this attribute
+	// returns the Client.AuthFailure error. To get information about the block
+	// device mappings for an AMI, use the DescribeImages action.
 	//
 	// Attribute is a required field
 	Attribute *string `type:"string" required:"true" enum:"ImageAttributeName"`
@@ -65360,6 +67810,9 @@ type DescribeImageAttributeOutput struct {
 	// The block device mapping entries.
 	BlockDeviceMappings []*BlockDeviceMapping `locationName:"blockDeviceMapping" locationNameList:"item" type:"list"`
 
+	// Describes a value for a resource attribute that is a String.
+	BootMode *AttributeValue `locationName:"bootMode" type:"structure"`
+
 	// A description for the AMI.
 	Description *AttributeValue `locationName:"description" type:"structure"`
 
@@ -65396,6 +67849,12 @@ func (s DescribeImageAttributeOutput) GoString() string {
 // SetBlockDeviceMappings sets the BlockDeviceMappings field's value.
 func (s *DescribeImageAttributeOutput) SetBlockDeviceMappings(v []*BlockDeviceMapping) *DescribeImageAttributeOutput {
 	s.BlockDeviceMappings = v
+	return s
+}
+
+// SetBootMode sets the BootMode field's value.
+func (s *DescribeImageAttributeOutput) SetBootMode(v *AttributeValue) *DescribeImageAttributeOutput {
+	s.BootMode = v
 	return s
 }
 
@@ -65495,13 +67954,13 @@ type DescribeImagesInput struct {
 	//
 	//    * name - The name of the AMI (provided during image creation).
 	//
-	//    * owner-alias - The owner alias, from an Amazon-maintained list (amazon
-	//    | aws-marketplace). This is not the user-configured AWS account alias
-	//    set using the IAM console. We recommend that you use the related parameter
-	//    instead of this filter.
+	//    * owner-alias - The owner alias (amazon | aws-marketplace). The valid
+	//    aliases are defined in an Amazon-maintained list. This is not the AWS
+	//    account alias that can be set using the IAM console. We recommend that
+	//    you use the Owner request parameter instead of this filter.
 	//
 	//    * owner-id - The AWS account ID of the owner. We recommend that you use
-	//    the related parameter instead of this filter.
+	//    the Owner request parameter instead of this filter.
 	//
 	//    * platform - The platform. To only list Windows-based AMIs, use windows.
 	//
@@ -65543,6 +68002,14 @@ type DescribeImagesInput struct {
 	// Default: Describes all images available to you.
 	ImageIds []*string `locationName:"ImageId" locationNameList:"ImageId" type:"list"`
 
+	// If true, all deprecated AMIs are included in the response. If false, no deprecated
+	// AMIs are included in the response. If no value is specified, the default
+	// value is false.
+	//
+	// If you are the AMI owner, all deprecated AMIs appear in the response regardless
+	// of the value (true or false) that you set for this parameter.
+	IncludeDeprecated *bool `type:"boolean"`
+
 	// Scopes the results to images with the specified owners. You can specify a
 	// combination of AWS account IDs, self, amazon, and aws-marketplace. If you
 	// omit this parameter, the results include all images for which you have launch
@@ -65581,6 +68048,12 @@ func (s *DescribeImagesInput) SetFilters(v []*Filter) *DescribeImagesInput {
 // SetImageIds sets the ImageIds field's value.
 func (s *DescribeImagesInput) SetImageIds(v []*string) *DescribeImagesInput {
 	s.ImageIds = v
+	return s
+}
+
+// SetIncludeDeprecated sets the IncludeDeprecated field's value.
+func (s *DescribeImagesInput) SetIncludeDeprecated(v bool) *DescribeImagesInput {
+	s.IncludeDeprecated = &v
 	return s
 }
 
@@ -65890,8 +68363,8 @@ type DescribeInstanceAttributeOutput struct {
 	// Indicates whether enhanced networking with ENA is enabled.
 	EnaSupport *AttributeBooleanValue `locationName:"enaSupport" type:"structure"`
 
-	// To enable the instance for AWS Nitro Enclaves, set this parameter to true;
-	// otherwise, set it to false.
+	// To enable the instance for Amazon Web Services Nitro Enclaves, set this parameter
+	// to true; otherwise, set it to false.
 	EnclaveOptions *EnclaveOptions `locationName:"enclaveOptions" type:"structure"`
 
 	// The security groups associated with the instance.
@@ -65919,9 +68392,12 @@ type DescribeInstanceAttributeOutput struct {
 	// The device name of the root device volume (for example, /dev/sda1).
 	RootDeviceName *AttributeValue `locationName:"rootDeviceName" type:"structure"`
 
-	// Indicates whether source/destination checking is enabled. A value of true
-	// means that checking is enabled, and false means that checking is disabled.
-	// This value must be false for a NAT instance to perform NAT.
+	// Enable or disable source/destination checks, which ensure that the instance
+	// is either the source or the destination of any traffic that it receives.
+	// If the value is true, source/destination checks are enabled; otherwise, they
+	// are disabled. The default value is true. You must disable source/destination
+	// checks if the instance runs services such as network address translation,
+	// routing, or firewalls.
 	SourceDestCheck *AttributeBooleanValue `locationName:"sourceDestCheck" type:"structure"`
 
 	// Indicates whether enhanced networking with the Intel 82599 Virtual Function
@@ -66554,6 +69030,9 @@ type DescribeInstanceTypesInput struct {
 	//
 	//    * memory-info.size-in-mib - The memory size.
 	//
+	//    * network-info.efa-info.maximum-efa-interfaces - The maximum number of
+	//    Elastic Fabric Adapters (EFAs) per instance.
+	//
 	//    * network-info.efa-supported - Indicates whether the instance type supports
 	//    Elastic Fabric Adapter (EFA) (true | false).
 	//
@@ -66580,6 +69059,8 @@ type DescribeInstanceTypesInput struct {
 	//
 	//    * processor-info.sustained-clock-speed-in-ghz - The CPU clock speed, in
 	//    GHz.
+	//
+	//    * supported-boot-mode - The boot mode (legacy-bios | uefi).
 	//
 	//    * supported-root-device-type - The root device type (ebs | instance-store).
 	//
@@ -66875,7 +69356,7 @@ type DescribeInstancesInput struct {
 	//    * network-interface.requester-id - The requester ID for the network interface.
 	//
 	//    * network-interface.requester-managed - Indicates whether the network
-	//    interface is being managed by AWS.
+	//    interface is being managed by Amazon Web Services.
 	//
 	//    * network-interface.status - The status of the network interface (available)
 	//    | in-use).
@@ -66890,7 +69371,9 @@ type DescribeInstancesInput struct {
 	//
 	//    * network-interface.vpc-id - The ID of the VPC for the network interface.
 	//
-	//    * owner-id - The AWS account ID of the instance owner.
+	//    * outpost-arn - The Amazon Resource Name (ARN) of the Outpost.
+	//
+	//    * owner-id - The account ID of the instance owner.
 	//
 	//    * placement-group-name - The name of the placement group for the instance.
 	//
@@ -66915,7 +69398,7 @@ type DescribeInstancesInput struct {
 	//    Similar to the state-reason-code filter.
 	//
 	//    * requester-id - The ID of the entity that launched the instance on your
-	//    behalf (for example, AWS Management Console, Auto Scaling, and so on).
+	//    behalf (for example, Management Console, Auto Scaling, and so on).
 	//
 	//    * reservation-id - The ID of the instance's reservation. A reservation
 	//    ID is created any time you launch an instance. A reservation ID has a
@@ -69321,9 +71804,9 @@ type DescribeNetworkInterfacePermissionsInput struct {
 	//    * network-interface-permission.network-interface-id - The ID of the network
 	//    interface.
 	//
-	//    * network-interface-permission.aws-account-id - The AWS account ID.
+	//    * network-interface-permission.aws-account-id - The account ID.
 	//
-	//    * network-interface-permission.aws-service - The AWS service.
+	//    * network-interface-permission.aws-service - The Amazon Web Service.
 	//
 	//    * network-interface-permission.permission - The type of permission (INSTANCE-ATTACH
 	//    | EIP-ASSOCIATE).
@@ -69496,19 +71979,19 @@ type DescribeNetworkInterfacesInput struct {
 	//
 	//    * network-interface-id - The ID of the network interface.
 	//
-	//    * owner-id - The AWS account ID of the network interface owner.
+	//    * owner-id - The account ID of the network interface owner.
 	//
 	//    * private-ip-address - The private IPv4 address or addresses of the network
 	//    interface.
 	//
 	//    * private-dns-name - The private DNS name of the network interface (IPv4).
 	//
-	//    * requester-id - The ID of the entity that launched the instance on your
-	//    behalf (for example, AWS Management Console, Auto Scaling, and so on).
+	//    * requester-id - The alias or account ID of the principal or service that
+	//    created the network interface.
 	//
 	//    * requester-managed - Indicates whether the network interface is being
-	//    managed by an AWS service (for example, AWS Management Console, Auto Scaling,
-	//    and so on).
+	//    managed by an Amazon Web Service (for example, Management Console, Auto
+	//    Scaling, and so on).
 	//
 	//    * source-dest-check - Indicates whether the network interface performs
 	//    source/destination checking. A value of true means checking is enabled,
@@ -70130,6 +72613,118 @@ func (s *DescribeRegionsOutput) SetRegions(v []*Region) *DescribeRegionsOutput {
 	return s
 }
 
+type DescribeReplaceRootVolumeTasksInput struct {
+	_ struct{} `type:"structure"`
+
+	// Checks whether you have the required permissions for the action, without
+	// actually making the request, and provides an error response. If you have
+	// the required permissions, the error response is DryRunOperation. Otherwise,
+	// it is UnauthorizedOperation.
+	DryRun *bool `type:"boolean"`
+
+	// Filter to use:
+	//
+	//    * instance-id - The ID of the instance for which the root volume replacement
+	//    task was created.
+	Filters []*Filter `locationName:"Filter" locationNameList:"Filter" type:"list"`
+
+	// The maximum number of results to return with a single call. To retrieve the
+	// remaining results, make another call with the returned nextToken value.
+	MaxResults *int64 `min:"1" type:"integer"`
+
+	// The token for the next page of results.
+	NextToken *string `type:"string"`
+
+	// The ID of the root volume replacement task to view.
+	ReplaceRootVolumeTaskIds []*string `locationName:"ReplaceRootVolumeTaskId" locationNameList:"ReplaceRootVolumeTaskId" type:"list"`
+}
+
+// String returns the string representation
+func (s DescribeReplaceRootVolumeTasksInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DescribeReplaceRootVolumeTasksInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *DescribeReplaceRootVolumeTasksInput) Validate() error {
+	invalidParams := request.ErrInvalidParams{Context: "DescribeReplaceRootVolumeTasksInput"}
+	if s.MaxResults != nil && *s.MaxResults < 1 {
+		invalidParams.Add(request.NewErrParamMinValue("MaxResults", 1))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// SetDryRun sets the DryRun field's value.
+func (s *DescribeReplaceRootVolumeTasksInput) SetDryRun(v bool) *DescribeReplaceRootVolumeTasksInput {
+	s.DryRun = &v
+	return s
+}
+
+// SetFilters sets the Filters field's value.
+func (s *DescribeReplaceRootVolumeTasksInput) SetFilters(v []*Filter) *DescribeReplaceRootVolumeTasksInput {
+	s.Filters = v
+	return s
+}
+
+// SetMaxResults sets the MaxResults field's value.
+func (s *DescribeReplaceRootVolumeTasksInput) SetMaxResults(v int64) *DescribeReplaceRootVolumeTasksInput {
+	s.MaxResults = &v
+	return s
+}
+
+// SetNextToken sets the NextToken field's value.
+func (s *DescribeReplaceRootVolumeTasksInput) SetNextToken(v string) *DescribeReplaceRootVolumeTasksInput {
+	s.NextToken = &v
+	return s
+}
+
+// SetReplaceRootVolumeTaskIds sets the ReplaceRootVolumeTaskIds field's value.
+func (s *DescribeReplaceRootVolumeTasksInput) SetReplaceRootVolumeTaskIds(v []*string) *DescribeReplaceRootVolumeTasksInput {
+	s.ReplaceRootVolumeTaskIds = v
+	return s
+}
+
+type DescribeReplaceRootVolumeTasksOutput struct {
+	_ struct{} `type:"structure"`
+
+	// The token to use to retrieve the next page of results. This value is null
+	// when there are no more results to return.
+	NextToken *string `locationName:"nextToken" type:"string"`
+
+	// Information about the root volume replacement task.
+	ReplaceRootVolumeTasks []*ReplaceRootVolumeTask `locationName:"replaceRootVolumeTaskSet" locationNameList:"item" type:"list"`
+}
+
+// String returns the string representation
+func (s DescribeReplaceRootVolumeTasksOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DescribeReplaceRootVolumeTasksOutput) GoString() string {
+	return s.String()
+}
+
+// SetNextToken sets the NextToken field's value.
+func (s *DescribeReplaceRootVolumeTasksOutput) SetNextToken(v string) *DescribeReplaceRootVolumeTasksOutput {
+	s.NextToken = &v
+	return s
+}
+
+// SetReplaceRootVolumeTasks sets the ReplaceRootVolumeTasks field's value.
+func (s *DescribeReplaceRootVolumeTasksOutput) SetReplaceRootVolumeTasks(v []*ReplaceRootVolumeTask) *DescribeReplaceRootVolumeTasksOutput {
+	s.ReplaceRootVolumeTasks = v
+	return s
+}
+
 // Contains the parameters for DescribeReservedInstances.
 type DescribeReservedInstancesInput struct {
 	_ struct{} `type:"structure"`
@@ -70162,10 +72757,11 @@ type DescribeReservedInstancesInput struct {
 	//    will only be displayed to EC2-Classic account holders and are for use
 	//    with Amazon VPC (Linux/UNIX | Linux/UNIX (Amazon VPC) | SUSE Linux | SUSE
 	//    Linux (Amazon VPC) | Red Hat Enterprise Linux | Red Hat Enterprise Linux
-	//    (Amazon VPC) | Windows | Windows (Amazon VPC) | Windows with SQL Server
-	//    Standard | Windows with SQL Server Standard (Amazon VPC) | Windows with
-	//    SQL Server Web | Windows with SQL Server Web (Amazon VPC) | Windows with
-	//    SQL Server Enterprise | Windows with SQL Server Enterprise (Amazon VPC)).
+	//    (Amazon VPC) | Red Hat Enterprise Linux with HA (Amazon VPC) | Windows
+	//    | Windows (Amazon VPC) | Windows with SQL Server Standard | Windows with
+	//    SQL Server Standard (Amazon VPC) | Windows with SQL Server Web | Windows
+	//    with SQL Server Web (Amazon VPC) | Windows with SQL Server Enterprise
+	//    | Windows with SQL Server Enterprise (Amazon VPC)).
 	//
 	//    * reserved-instances-id - The ID of the Reserved Instance.
 	//
@@ -70455,19 +73051,19 @@ type DescribeReservedInstancesOfferingsInput struct {
 	//
 	//    * marketplace - Set to true to show only Reserved Instance Marketplace
 	//    offerings. When this filter is not used, which is the default behavior,
-	//    all offerings from both AWS and the Reserved Instance Marketplace are
-	//    listed.
+	//    all offerings from both Amazon Web Services and the Reserved Instance
+	//    Marketplace are listed.
 	//
 	//    * product-description - The Reserved Instance product platform description.
 	//    Instances that include (Amazon VPC) in the product platform description
 	//    will only be displayed to EC2-Classic account holders and are for use
 	//    with Amazon VPC. (Linux/UNIX | Linux/UNIX (Amazon VPC) | SUSE Linux |
 	//    SUSE Linux (Amazon VPC) | Red Hat Enterprise Linux | Red Hat Enterprise
-	//    Linux (Amazon VPC) | Windows | Windows (Amazon VPC) | Windows with SQL
-	//    Server Standard | Windows with SQL Server Standard (Amazon VPC) | Windows
-	//    with SQL Server Web | Windows with SQL Server Web (Amazon VPC) | Windows
-	//    with SQL Server Enterprise | Windows with SQL Server Enterprise (Amazon
-	//    VPC))
+	//    Linux (Amazon VPC) | Red Hat Enterprise Linux with HA (Amazon VPC) | Windows
+	//    | Windows (Amazon VPC) | Windows with SQL Server Standard | Windows with
+	//    SQL Server Standard (Amazon VPC) | Windows with SQL Server Web | Windows
+	//    with SQL Server Web (Amazon VPC) | Windows with SQL Server Enterprise
+	//    | Windows with SQL Server Enterprise (Amazon VPC))
 	//
 	//    * reserved-instances-offering-id - The Reserved Instances offering ID.
 	//
@@ -71249,7 +73845,7 @@ type DescribeSecurityGroupsInput struct {
 	//    been referenced in an outbound security group rule.
 	//
 	//    * egress.ip-permission.group-name - The name of a security group that
-	//    has been referenced in an outbound security group rule.
+	//    is referenced in an outbound security group rule.
 	//
 	//    * egress.ip-permission.ipv6-cidr - An IPv6 CIDR block for an outbound
 	//    security group rule.
@@ -71258,7 +73854,7 @@ type DescribeSecurityGroupsInput struct {
 	//    a security group rule allows outbound access.
 	//
 	//    * egress.ip-permission.protocol - The IP protocol for an outbound security
-	//    group rule (tcp | udp | icmp or a protocol number).
+	//    group rule (tcp | udp | icmp, a protocol number, or -1 for all protocols).
 	//
 	//    * egress.ip-permission.to-port - For an outbound rule, the end of port
 	//    range for the TCP and UDP protocols, or an ICMP code.
@@ -71279,8 +73875,8 @@ type DescribeSecurityGroupsInput struct {
 	//    * ip-permission.group-id - The ID of a security group that has been referenced
 	//    in an inbound security group rule.
 	//
-	//    * ip-permission.group-name - The name of a security group that has been
-	//    referenced in an inbound security group rule.
+	//    * ip-permission.group-name - The name of a security group that is referenced
+	//    in an inbound security group rule.
 	//
 	//    * ip-permission.ipv6-cidr - An IPv6 CIDR block for an inbound security
 	//    group rule.
@@ -71289,7 +73885,7 @@ type DescribeSecurityGroupsInput struct {
 	//    security group rule allows inbound access.
 	//
 	//    * ip-permission.protocol - The IP protocol for an inbound security group
-	//    rule (tcp | udp | icmp or a protocol number).
+	//    rule (tcp | udp | icmp, a protocol number, or -1 for all protocols).
 	//
 	//    * ip-permission.to-port - For an inbound rule, the end of port range for
 	//    the TCP and UDP protocols, or an ICMP code.
@@ -72587,6 +75183,124 @@ func (s *DescribeStaleSecurityGroupsOutput) SetStaleSecurityGroupSet(v []*StaleS
 	return s
 }
 
+type DescribeStoreImageTasksInput struct {
+	_ struct{} `type:"structure"`
+
+	// Checks whether you have the required permissions for the action, without
+	// actually making the request, and provides an error response. If you have
+	// the required permissions, the error response is DryRunOperation. Otherwise,
+	// it is UnauthorizedOperation.
+	DryRun *bool `type:"boolean"`
+
+	// The filters.
+	//
+	//    * task-state - Returns tasks in a certain state (InProgress | Completed
+	//    | Failed)
+	//
+	//    * bucket - Returns task information for tasks that targeted a specific
+	//    bucket. For the filter value, specify the bucket name.
+	Filters []*Filter `locationName:"Filter" locationNameList:"Filter" type:"list"`
+
+	// The AMI IDs for which to show progress. Up to 20 AMI IDs can be included
+	// in a request.
+	ImageIds []*string `locationName:"ImageId" locationNameList:"item" type:"list"`
+
+	// The maximum number of results to return in a single call. To retrieve the
+	// remaining results, make another call with the returned NextToken value. This
+	// value can be between 1 and 200. You cannot specify this parameter and the
+	// ImageIDs parameter in the same call.
+	MaxResults *int64 `min:"1" type:"integer"`
+
+	// The token for the next page of results.
+	NextToken *string `type:"string"`
+}
+
+// String returns the string representation
+func (s DescribeStoreImageTasksInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DescribeStoreImageTasksInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *DescribeStoreImageTasksInput) Validate() error {
+	invalidParams := request.ErrInvalidParams{Context: "DescribeStoreImageTasksInput"}
+	if s.MaxResults != nil && *s.MaxResults < 1 {
+		invalidParams.Add(request.NewErrParamMinValue("MaxResults", 1))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// SetDryRun sets the DryRun field's value.
+func (s *DescribeStoreImageTasksInput) SetDryRun(v bool) *DescribeStoreImageTasksInput {
+	s.DryRun = &v
+	return s
+}
+
+// SetFilters sets the Filters field's value.
+func (s *DescribeStoreImageTasksInput) SetFilters(v []*Filter) *DescribeStoreImageTasksInput {
+	s.Filters = v
+	return s
+}
+
+// SetImageIds sets the ImageIds field's value.
+func (s *DescribeStoreImageTasksInput) SetImageIds(v []*string) *DescribeStoreImageTasksInput {
+	s.ImageIds = v
+	return s
+}
+
+// SetMaxResults sets the MaxResults field's value.
+func (s *DescribeStoreImageTasksInput) SetMaxResults(v int64) *DescribeStoreImageTasksInput {
+	s.MaxResults = &v
+	return s
+}
+
+// SetNextToken sets the NextToken field's value.
+func (s *DescribeStoreImageTasksInput) SetNextToken(v string) *DescribeStoreImageTasksInput {
+	s.NextToken = &v
+	return s
+}
+
+type DescribeStoreImageTasksOutput struct {
+	_ struct{} `type:"structure"`
+
+	// The token to use to retrieve the next page of results. This value is null
+	// when there are no more results to return.
+	NextToken *string `locationName:"nextToken" type:"string"`
+
+	// The information about the AMI store tasks.
+	StoreImageTaskResults []*StoreImageTaskResult `locationName:"storeImageTaskResultSet" locationNameList:"item" type:"list"`
+}
+
+// String returns the string representation
+func (s DescribeStoreImageTasksOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DescribeStoreImageTasksOutput) GoString() string {
+	return s.String()
+}
+
+// SetNextToken sets the NextToken field's value.
+func (s *DescribeStoreImageTasksOutput) SetNextToken(v string) *DescribeStoreImageTasksOutput {
+	s.NextToken = &v
+	return s
+}
+
+// SetStoreImageTaskResults sets the StoreImageTaskResults field's value.
+func (s *DescribeStoreImageTasksOutput) SetStoreImageTaskResults(v []*StoreImageTaskResult) *DescribeStoreImageTasksOutput {
+	s.StoreImageTaskResults = v
+	return s
+}
+
 type DescribeSubnetsInput struct {
 	_ struct{} `type:"structure"`
 
@@ -72622,6 +75336,8 @@ type DescribeSubnetsInput struct {
 	//
 	//    * ipv6-cidr-block-association.state - The state of an IPv6 CIDR block
 	//    associated with the subnet.
+	//
+	//    * outpost-arn - The Amazon Resource Name (ARN) of the Outpost.
 	//
 	//    * owner-id - The ID of the AWS account that owns the subnet.
 	//
@@ -74214,6 +76930,120 @@ func (s *DescribeTransitGatewaysOutput) SetTransitGateways(v []*TransitGateway) 
 	return s
 }
 
+type DescribeTrunkInterfaceAssociationsInput struct {
+	_ struct{} `type:"structure"`
+
+	// The IDs of the associations.
+	AssociationIds []*string `locationName:"AssociationId" locationNameList:"item" type:"list"`
+
+	// Checks whether you have the required permissions for the action, without
+	// actually making the request, and provides an error response. If you have
+	// the required permissions, the error response is DryRunOperation. Otherwise,
+	// it is UnauthorizedOperation.
+	DryRun *bool `type:"boolean"`
+
+	// One or more filters.
+	//
+	//    * gre-key - The ID of a trunk interface association.
+	//
+	//    * interface-protocol - The interface protocol. Valid values are VLAN and
+	//    GRE.
+	Filters []*Filter `locationName:"Filter" locationNameList:"Filter" type:"list"`
+
+	// The maximum number of results to return with a single call. To retrieve the
+	// remaining results, make another call with the returned nextToken value.
+	MaxResults *int64 `min:"5" type:"integer"`
+
+	// The token for the next page of results.
+	NextToken *string `type:"string"`
+}
+
+// String returns the string representation
+func (s DescribeTrunkInterfaceAssociationsInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DescribeTrunkInterfaceAssociationsInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *DescribeTrunkInterfaceAssociationsInput) Validate() error {
+	invalidParams := request.ErrInvalidParams{Context: "DescribeTrunkInterfaceAssociationsInput"}
+	if s.MaxResults != nil && *s.MaxResults < 5 {
+		invalidParams.Add(request.NewErrParamMinValue("MaxResults", 5))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// SetAssociationIds sets the AssociationIds field's value.
+func (s *DescribeTrunkInterfaceAssociationsInput) SetAssociationIds(v []*string) *DescribeTrunkInterfaceAssociationsInput {
+	s.AssociationIds = v
+	return s
+}
+
+// SetDryRun sets the DryRun field's value.
+func (s *DescribeTrunkInterfaceAssociationsInput) SetDryRun(v bool) *DescribeTrunkInterfaceAssociationsInput {
+	s.DryRun = &v
+	return s
+}
+
+// SetFilters sets the Filters field's value.
+func (s *DescribeTrunkInterfaceAssociationsInput) SetFilters(v []*Filter) *DescribeTrunkInterfaceAssociationsInput {
+	s.Filters = v
+	return s
+}
+
+// SetMaxResults sets the MaxResults field's value.
+func (s *DescribeTrunkInterfaceAssociationsInput) SetMaxResults(v int64) *DescribeTrunkInterfaceAssociationsInput {
+	s.MaxResults = &v
+	return s
+}
+
+// SetNextToken sets the NextToken field's value.
+func (s *DescribeTrunkInterfaceAssociationsInput) SetNextToken(v string) *DescribeTrunkInterfaceAssociationsInput {
+	s.NextToken = &v
+	return s
+}
+
+type DescribeTrunkInterfaceAssociationsOutput struct {
+	_ struct{} `type:"structure"`
+
+	// Information about the trunk associations.
+	InterfaceAssociations []*TrunkInterfaceAssociation `locationName:"interfaceAssociationSet" locationNameList:"item" type:"list"`
+
+	// The token to use to retrieve the next page of results. This value is null
+	// when there are no more results to return.
+	NextToken *string `locationName:"nextToken" type:"string"`
+}
+
+// String returns the string representation
+func (s DescribeTrunkInterfaceAssociationsOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DescribeTrunkInterfaceAssociationsOutput) GoString() string {
+	return s.String()
+}
+
+// SetInterfaceAssociations sets the InterfaceAssociations field's value.
+func (s *DescribeTrunkInterfaceAssociationsOutput) SetInterfaceAssociations(v []*TrunkInterfaceAssociation) *DescribeTrunkInterfaceAssociationsOutput {
+	s.InterfaceAssociations = v
+	return s
+}
+
+// SetNextToken sets the NextToken field's value.
+func (s *DescribeTrunkInterfaceAssociationsOutput) SetNextToken(v string) *DescribeTrunkInterfaceAssociationsOutput {
+	s.NextToken = &v
+	return s
+}
+
 type DescribeVolumeAttributeInput struct {
 	_ struct{} `type:"structure"`
 
@@ -75469,6 +78299,8 @@ type DescribeVpcEndpointServicesInput struct {
 	// One or more filters.
 	//
 	//    * service-name - The name of the service.
+	//
+	//    * service-type - The type of service (Interface | Gateway).
 	//
 	//    * tag:<key> - The key/value combination of a tag assigned to the resource.
 	//    Use the tag key in the filter name and the tag value as the filter value.
@@ -77133,6 +79965,130 @@ func (s *DisableFastSnapshotRestoresOutput) SetUnsuccessful(v []*DisableFastSnap
 	return s
 }
 
+type DisableImageDeprecationInput struct {
+	_ struct{} `type:"structure"`
+
+	// Checks whether you have the required permissions for the action, without
+	// actually making the request, and provides an error response. If you have
+	// the required permissions, the error response is DryRunOperation. Otherwise,
+	// it is UnauthorizedOperation.
+	DryRun *bool `type:"boolean"`
+
+	// The ID of the AMI.
+	//
+	// ImageId is a required field
+	ImageId *string `type:"string" required:"true"`
+}
+
+// String returns the string representation
+func (s DisableImageDeprecationInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DisableImageDeprecationInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *DisableImageDeprecationInput) Validate() error {
+	invalidParams := request.ErrInvalidParams{Context: "DisableImageDeprecationInput"}
+	if s.ImageId == nil {
+		invalidParams.Add(request.NewErrParamRequired("ImageId"))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// SetDryRun sets the DryRun field's value.
+func (s *DisableImageDeprecationInput) SetDryRun(v bool) *DisableImageDeprecationInput {
+	s.DryRun = &v
+	return s
+}
+
+// SetImageId sets the ImageId field's value.
+func (s *DisableImageDeprecationInput) SetImageId(v string) *DisableImageDeprecationInput {
+	s.ImageId = &v
+	return s
+}
+
+type DisableImageDeprecationOutput struct {
+	_ struct{} `type:"structure"`
+
+	// Returns true if the request succeeds; otherwise, it returns an error.
+	Return *bool `locationName:"return" type:"boolean"`
+}
+
+// String returns the string representation
+func (s DisableImageDeprecationOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DisableImageDeprecationOutput) GoString() string {
+	return s.String()
+}
+
+// SetReturn sets the Return field's value.
+func (s *DisableImageDeprecationOutput) SetReturn(v bool) *DisableImageDeprecationOutput {
+	s.Return = &v
+	return s
+}
+
+type DisableSerialConsoleAccessInput struct {
+	_ struct{} `type:"structure"`
+
+	// Checks whether you have the required permissions for the action, without
+	// actually making the request, and provides an error response. If you have
+	// the required permissions, the error response is DryRunOperation. Otherwise,
+	// it is UnauthorizedOperation.
+	DryRun *bool `type:"boolean"`
+}
+
+// String returns the string representation
+func (s DisableSerialConsoleAccessInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DisableSerialConsoleAccessInput) GoString() string {
+	return s.String()
+}
+
+// SetDryRun sets the DryRun field's value.
+func (s *DisableSerialConsoleAccessInput) SetDryRun(v bool) *DisableSerialConsoleAccessInput {
+	s.DryRun = &v
+	return s
+}
+
+type DisableSerialConsoleAccessOutput struct {
+	_ struct{} `type:"structure"`
+
+	// If true, access to the EC2 serial console of all instances is enabled for
+	// your account. If false, access to the EC2 serial console of all instances
+	// is disabled for your account.
+	SerialConsoleAccessEnabled *bool `locationName:"serialConsoleAccessEnabled" type:"boolean"`
+}
+
+// String returns the string representation
+func (s DisableSerialConsoleAccessOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DisableSerialConsoleAccessOutput) GoString() string {
+	return s.String()
+}
+
+// SetSerialConsoleAccessEnabled sets the SerialConsoleAccessEnabled field's value.
+func (s *DisableSerialConsoleAccessOutput) SetSerialConsoleAccessEnabled(v bool) *DisableSerialConsoleAccessOutput {
+	s.SerialConsoleAccessEnabled = &v
+	return s
+}
+
 type DisableTransitGatewayRouteTablePropagationInput struct {
 	_ struct{} `type:"structure"`
 
@@ -78014,6 +80970,99 @@ func (s *DisassociateTransitGatewayRouteTableOutput) SetAssociation(v *TransitGa
 	return s
 }
 
+type DisassociateTrunkInterfaceInput struct {
+	_ struct{} `type:"structure"`
+
+	// The ID ofthe association
+	//
+	// AssociationId is a required field
+	AssociationId *string `type:"string" required:"true"`
+
+	// Unique, case-sensitive identifier that you provide to ensure the idempotency
+	// of the request. For more information, see How to Ensure Idempotency (https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Run_Instance_Idempotency.html).
+	ClientToken *string `type:"string" idempotencyToken:"true"`
+
+	// Checks whether you have the required permissions for the action, without
+	// actually making the request, and provides an error response. If you have
+	// the required permissions, the error response is DryRunOperation. Otherwise,
+	// it is UnauthorizedOperation.
+	DryRun *bool `type:"boolean"`
+}
+
+// String returns the string representation
+func (s DisassociateTrunkInterfaceInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DisassociateTrunkInterfaceInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *DisassociateTrunkInterfaceInput) Validate() error {
+	invalidParams := request.ErrInvalidParams{Context: "DisassociateTrunkInterfaceInput"}
+	if s.AssociationId == nil {
+		invalidParams.Add(request.NewErrParamRequired("AssociationId"))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// SetAssociationId sets the AssociationId field's value.
+func (s *DisassociateTrunkInterfaceInput) SetAssociationId(v string) *DisassociateTrunkInterfaceInput {
+	s.AssociationId = &v
+	return s
+}
+
+// SetClientToken sets the ClientToken field's value.
+func (s *DisassociateTrunkInterfaceInput) SetClientToken(v string) *DisassociateTrunkInterfaceInput {
+	s.ClientToken = &v
+	return s
+}
+
+// SetDryRun sets the DryRun field's value.
+func (s *DisassociateTrunkInterfaceInput) SetDryRun(v bool) *DisassociateTrunkInterfaceInput {
+	s.DryRun = &v
+	return s
+}
+
+type DisassociateTrunkInterfaceOutput struct {
+	_ struct{} `type:"structure"`
+
+	// Unique, case-sensitive identifier that you provide to ensure the idempotency
+	// of the request. For more information, see How to Ensure Idempotency (https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Run_Instance_Idempotency.html).
+	ClientToken *string `locationName:"clientToken" type:"string"`
+
+	// Returns true if the request succeeds; otherwise, it returns an error.
+	Return *bool `locationName:"return" type:"boolean"`
+}
+
+// String returns the string representation
+func (s DisassociateTrunkInterfaceOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DisassociateTrunkInterfaceOutput) GoString() string {
+	return s.String()
+}
+
+// SetClientToken sets the ClientToken field's value.
+func (s *DisassociateTrunkInterfaceOutput) SetClientToken(v string) *DisassociateTrunkInterfaceOutput {
+	s.ClientToken = &v
+	return s
+}
+
+// SetReturn sets the Return field's value.
+func (s *DisassociateTrunkInterfaceOutput) SetReturn(v bool) *DisassociateTrunkInterfaceOutput {
+	s.Return = &v
+	return s
+}
+
 type DisassociateVpcCidrBlockInput struct {
 	_ struct{} `type:"structure"`
 
@@ -78487,6 +81536,9 @@ type EbsBlockDevice struct {
 	// and RequestSpotInstances (https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_RequestSpotInstances.html).
 	KmsKeyId *string `type:"string"`
 
+	// The ARN of the Outpost on which the snapshot is stored.
+	OutpostArn *string `locationName:"outpostArn" type:"string"`
+
 	// The ID of the snapshot.
 	SnapshotId *string `locationName:"snapshotId" type:"string"`
 
@@ -78550,6 +81602,12 @@ func (s *EbsBlockDevice) SetIops(v int64) *EbsBlockDevice {
 // SetKmsKeyId sets the KmsKeyId field's value.
 func (s *EbsBlockDevice) SetKmsKeyId(v string) *EbsBlockDevice {
 	s.KmsKeyId = &v
+	return s
+}
+
+// SetOutpostArn sets the OutpostArn field's value.
+func (s *EbsBlockDevice) SetOutpostArn(v string) *EbsBlockDevice {
+	s.OutpostArn = &v
 	return s
 }
 
@@ -78787,6 +81845,30 @@ func (s *EbsOptimizedInfo) SetMaximumIops(v int64) *EbsOptimizedInfo {
 // SetMaximumThroughputInMBps sets the MaximumThroughputInMBps field's value.
 func (s *EbsOptimizedInfo) SetMaximumThroughputInMBps(v float64) *EbsOptimizedInfo {
 	s.MaximumThroughputInMBps = &v
+	return s
+}
+
+// Describes the Elastic Fabric Adapters for the instance type.
+type EfaInfo struct {
+	_ struct{} `type:"structure"`
+
+	// The maximum number of Elastic Fabric Adapters for the instance type.
+	MaximumEfaInterfaces *int64 `locationName:"maximumEfaInterfaces" type:"integer"`
+}
+
+// String returns the string representation
+func (s EfaInfo) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s EfaInfo) GoString() string {
+	return s.String()
+}
+
+// SetMaximumEfaInterfaces sets the MaximumEfaInterfaces field's value.
+func (s *EfaInfo) SetMaximumEfaInterfaces(v int64) *EfaInfo {
+	s.MaximumEfaInterfaces = &v
 	return s
 }
 
@@ -79528,6 +82610,149 @@ func (s *EnableFastSnapshotRestoresOutput) SetUnsuccessful(v []*EnableFastSnapsh
 	return s
 }
 
+type EnableImageDeprecationInput struct {
+	_ struct{} `type:"structure"`
+
+	// The date and time to deprecate the AMI, in UTC, in the following format:
+	// YYYY-MM-DDTHH:MM:SSZ. If you specify a value for seconds, Amazon EC2 rounds
+	// the seconds to the nearest minute.
+	//
+	// You can’t specify a date in the past. The upper limit for DeprecateAt is
+	// 10 years from now.
+	//
+	// DeprecateAt is a required field
+	DeprecateAt *time.Time `type:"timestamp" required:"true"`
+
+	// Checks whether you have the required permissions for the action, without
+	// actually making the request, and provides an error response. If you have
+	// the required permissions, the error response is DryRunOperation. Otherwise,
+	// it is UnauthorizedOperation.
+	DryRun *bool `type:"boolean"`
+
+	// The ID of the AMI.
+	//
+	// ImageId is a required field
+	ImageId *string `type:"string" required:"true"`
+}
+
+// String returns the string representation
+func (s EnableImageDeprecationInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s EnableImageDeprecationInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *EnableImageDeprecationInput) Validate() error {
+	invalidParams := request.ErrInvalidParams{Context: "EnableImageDeprecationInput"}
+	if s.DeprecateAt == nil {
+		invalidParams.Add(request.NewErrParamRequired("DeprecateAt"))
+	}
+	if s.ImageId == nil {
+		invalidParams.Add(request.NewErrParamRequired("ImageId"))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// SetDeprecateAt sets the DeprecateAt field's value.
+func (s *EnableImageDeprecationInput) SetDeprecateAt(v time.Time) *EnableImageDeprecationInput {
+	s.DeprecateAt = &v
+	return s
+}
+
+// SetDryRun sets the DryRun field's value.
+func (s *EnableImageDeprecationInput) SetDryRun(v bool) *EnableImageDeprecationInput {
+	s.DryRun = &v
+	return s
+}
+
+// SetImageId sets the ImageId field's value.
+func (s *EnableImageDeprecationInput) SetImageId(v string) *EnableImageDeprecationInput {
+	s.ImageId = &v
+	return s
+}
+
+type EnableImageDeprecationOutput struct {
+	_ struct{} `type:"structure"`
+
+	// Returns true if the request succeeds; otherwise, it returns an error.
+	Return *bool `locationName:"return" type:"boolean"`
+}
+
+// String returns the string representation
+func (s EnableImageDeprecationOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s EnableImageDeprecationOutput) GoString() string {
+	return s.String()
+}
+
+// SetReturn sets the Return field's value.
+func (s *EnableImageDeprecationOutput) SetReturn(v bool) *EnableImageDeprecationOutput {
+	s.Return = &v
+	return s
+}
+
+type EnableSerialConsoleAccessInput struct {
+	_ struct{} `type:"structure"`
+
+	// Checks whether you have the required permissions for the action, without
+	// actually making the request, and provides an error response. If you have
+	// the required permissions, the error response is DryRunOperation. Otherwise,
+	// it is UnauthorizedOperation.
+	DryRun *bool `type:"boolean"`
+}
+
+// String returns the string representation
+func (s EnableSerialConsoleAccessInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s EnableSerialConsoleAccessInput) GoString() string {
+	return s.String()
+}
+
+// SetDryRun sets the DryRun field's value.
+func (s *EnableSerialConsoleAccessInput) SetDryRun(v bool) *EnableSerialConsoleAccessInput {
+	s.DryRun = &v
+	return s
+}
+
+type EnableSerialConsoleAccessOutput struct {
+	_ struct{} `type:"structure"`
+
+	// If true, access to the EC2 serial console of all instances is enabled for
+	// your account. If false, access to the EC2 serial console of all instances
+	// is disabled for your account.
+	SerialConsoleAccessEnabled *bool `locationName:"serialConsoleAccessEnabled" type:"boolean"`
+}
+
+// String returns the string representation
+func (s EnableSerialConsoleAccessOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s EnableSerialConsoleAccessOutput) GoString() string {
+	return s.String()
+}
+
+// SetSerialConsoleAccessEnabled sets the SerialConsoleAccessEnabled field's value.
+func (s *EnableSerialConsoleAccessOutput) SetSerialConsoleAccessEnabled(v bool) *EnableSerialConsoleAccessOutput {
+	s.SerialConsoleAccessEnabled = &v
+	return s
+}
+
 type EnableTransitGatewayRouteTablePropagationInput struct {
 	_ struct{} `type:"structure"`
 
@@ -79880,12 +83105,13 @@ func (s *EnableVpcClassicLinkOutput) SetReturn(v bool) *EnableVpcClassicLinkOutp
 	return s
 }
 
-// Indicates whether the instance is enabled for AWS Nitro Enclaves.
+// Indicates whether the instance is enabled for Amazon Web Services Nitro Enclaves.
 type EnclaveOptions struct {
 	_ struct{} `type:"structure"`
 
-	// If this parameter is set to true, the instance is enabled for AWS Nitro Enclaves;
-	// otherwise, it is not enabled for AWS Nitro Enclaves.
+	// If this parameter is set to true, the instance is enabled for Amazon Web
+	// Services Nitro Enclaves; otherwise, it is not enabled for Amazon Web Services
+	// Nitro Enclaves.
 	Enabled *bool `locationName:"enabled" type:"boolean"`
 }
 
@@ -79905,13 +83131,14 @@ func (s *EnclaveOptions) SetEnabled(v bool) *EnclaveOptions {
 	return s
 }
 
-// Indicates whether the instance is enabled for AWS Nitro Enclaves. For more
-// information, see What is AWS Nitro Enclaves? (https://docs.aws.amazon.com/enclaves/latest/user/nitro-enclave.html)
-// in the AWS Nitro Enclaves User Guide.
+// Indicates whether the instance is enabled for Amazon Web Services Nitro Enclaves.
+// For more information, see What is Amazon Web Services Nitro Enclaves? (https://docs.aws.amazon.com/enclaves/latest/user/nitro-enclave.html)
+// in the Amazon Web Services Nitro Enclaves User Guide.
 type EnclaveOptionsRequest struct {
 	_ struct{} `type:"structure"`
 
-	// To enable the instance for AWS Nitro Enclaves, set this parameter to true.
+	// To enable the instance for Amazon Web Services Nitro Enclaves, set this parameter
+	// to true.
 	Enabled *bool `type:"boolean"`
 }
 
@@ -80652,7 +83879,7 @@ type ExportImageInput struct {
 	// S3ExportLocation is a required field
 	S3ExportLocation *ExportTaskS3LocationRequest `type:"structure" required:"true"`
 
-	// The tags to apply to the image being exported.
+	// The tags to apply to the export image task during creation.
 	TagSpecifications []*TagSpecification `locationName:"TagSpecification" locationNameList:"item" type:"list"`
 }
 
@@ -80770,7 +83997,7 @@ type ExportImageOutput struct {
 	// The status message for the export image task.
 	StatusMessage *string `locationName:"statusMessage" type:"string"`
 
-	// Any tags assigned to the image being exported.
+	// Any tags assigned to the export image task.
 	Tags []*Tag `locationName:"tagSet" locationNameList:"item" type:"list"`
 }
 
@@ -80870,7 +84097,7 @@ type ExportImageTask struct {
 	// The status message for the export image task.
 	StatusMessage *string `locationName:"statusMessage" type:"string"`
 
-	// Any tags assigned to the image being exported.
+	// Any tags assigned to the export image task.
 	Tags []*Tag `locationName:"tagSet" locationNameList:"item" type:"list"`
 }
 
@@ -80932,7 +84159,7 @@ func (s *ExportImageTask) SetTags(v []*Tag) *ExportImageTask {
 	return s
 }
 
-// Describes an instance export task.
+// Describes an export instance task.
 type ExportTask struct {
 	_ struct{} `type:"structure"`
 
@@ -81091,7 +84318,7 @@ func (s *ExportTaskS3LocationRequest) SetS3Prefix(v string) *ExportTaskS3Locatio
 	return s
 }
 
-// Describes the format and location for an instance export task.
+// Describes the format and location for the export task.
 type ExportToS3Task struct {
 	_ struct{} `type:"structure"`
 
@@ -81144,7 +84371,7 @@ func (s *ExportToS3Task) SetS3Key(v string) *ExportToS3Task {
 	return s
 }
 
-// Describes an instance export task.
+// Describes an export instance task.
 type ExportToS3TaskSpecification struct {
 	_ struct{} `type:"structure"`
 
@@ -81421,29 +84648,7 @@ func (s *FederatedAuthenticationRequest) SetSelfServiceSAMLProviderArn(v string)
 
 // A filter name and value pair that is used to return a more specific list
 // of results from a describe operation. Filters can be used to match a set
-// of resources by specific criteria, such as tags, attributes, or IDs. The
-// filters supported by a describe operation are documented with the describe
-// operation. For example:
-//
-//    * DescribeAvailabilityZones
-//
-//    * DescribeImages
-//
-//    * DescribeInstances
-//
-//    * DescribeKeyPairs
-//
-//    * DescribeSecurityGroups
-//
-//    * DescribeSnapshots
-//
-//    * DescribeSubnets
-//
-//    * DescribeTags
-//
-//    * DescribeVolumes
-//
-//    * DescribeVpcs
+// of resources by specific criteria, such as tags, attributes, or IDs.
 type Filter struct {
 	_ struct{} `type:"structure"`
 
@@ -81493,6 +84698,9 @@ type FleetData struct {
 	// Constraints: Maximum 64 ASCII characters
 	ClientToken *string `locationName:"clientToken" type:"string"`
 
+	// Reserved.
+	Context *string `locationName:"context" type:"string"`
+
 	// The creation date and time of the EC2 Fleet.
 	CreateTime *time.Time `locationName:"createTime" type:"timestamp"`
 
@@ -81528,7 +84736,10 @@ type FleetData struct {
 	// The allocation strategy of On-Demand Instances in an EC2 Fleet.
 	OnDemandOptions *OnDemandOptions `locationName:"onDemandOptions" type:"structure"`
 
-	// Indicates whether EC2 Fleet should replace unhealthy instances.
+	// Indicates whether EC2 Fleet should replace unhealthy Spot Instances. Supported
+	// only for fleets of type maintain. For more information, see EC2 Fleet health
+	// checks (https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/manage-ec2-fleet.html#ec2-fleet-health-checks)
+	// in the Amazon EC2 User Guide.
 	ReplaceUnhealthyInstances *bool `locationName:"replaceUnhealthyInstances" type:"boolean"`
 
 	// The configuration of Spot Instances in an EC2 Fleet.
@@ -81587,6 +84798,12 @@ func (s *FleetData) SetActivityStatus(v string) *FleetData {
 // SetClientToken sets the ClientToken field's value.
 func (s *FleetData) SetClientToken(v string) *FleetData {
 	s.ClientToken = &v
+	return s
+}
+
+// SetContext sets the Context field's value.
+func (s *FleetData) SetContext(v string) *FleetData {
+	s.Context = &v
 	return s
 }
 
@@ -81742,6 +84959,9 @@ type FleetLaunchTemplateConfigRequest struct {
 
 	// Any parameters that you specify override the same parameters in the launch
 	// template.
+	//
+	// For fleets of type request and maintain, a maximum of 300 items is allowed
+	// across all launch templates.
 	Overrides []*FleetLaunchTemplateOverridesRequest `locationNameList:"item" type:"list"`
 }
 
@@ -81798,12 +85018,21 @@ type FleetLaunchTemplateOverrides struct {
 	// The location where the instance launched, if applicable.
 	Placement *PlacementResponse `locationName:"placement" type:"structure"`
 
-	// The priority for the launch template override. If AllocationStrategy is set
-	// to prioritized, EC2 Fleet uses priority to determine which launch template
-	// override to use first in fulfilling On-Demand capacity. The highest priority
-	// is launched first. Valid values are whole numbers starting at 0. The lower
-	// the number, the higher the priority. If no number is set, the override has
-	// the lowest priority.
+	// The priority for the launch template override. The highest priority is launched
+	// first.
+	//
+	// If the On-Demand AllocationStrategy is set to prioritized, EC2 Fleet uses
+	// priority to determine which launch template override to use first in fulfilling
+	// On-Demand capacity.
+	//
+	// If the Spot AllocationStrategy is set to capacity-optimized-prioritized,
+	// EC2 Fleet uses priority on a best-effort basis to determine which launch
+	// template override to use in fulfilling Spot capacity, but optimizes for capacity
+	// first.
+	//
+	// Valid values are whole numbers starting at 0. The lower the number, the higher
+	// the priority. If no number is set, the override has the lowest priority.
+	// You can set the same priority for different launch template overrides.
 	Priority *float64 `locationName:"priority" type:"double"`
 
 	// The ID of the subnet in which to launch the instances.
@@ -81881,12 +85110,21 @@ type FleetLaunchTemplateOverridesRequest struct {
 	// The location where the instance launched, if applicable.
 	Placement *Placement `type:"structure"`
 
-	// The priority for the launch template override. If AllocationStrategy is set
-	// to prioritized, EC2 Fleet uses priority to determine which launch template
-	// override to use first in fulfilling On-Demand capacity. The highest priority
-	// is launched first. Valid values are whole numbers starting at 0. The lower
-	// the number, the higher the priority. If no number is set, the launch template
-	// override has the lowest priority.
+	// The priority for the launch template override. The highest priority is launched
+	// first.
+	//
+	// If the On-Demand AllocationStrategy is set to prioritized, EC2 Fleet uses
+	// priority to determine which launch template override to use first in fulfilling
+	// On-Demand capacity.
+	//
+	// If the Spot AllocationStrategy is set to capacity-optimized-prioritized,
+	// EC2 Fleet uses priority on a best-effort basis to determine which launch
+	// template override to use in fulfilling Spot capacity, but optimizes for capacity
+	// first.
+	//
+	// Valid values are whole numbers starting at 0. The lower the number, the higher
+	// the priority. If no number is set, the launch template override has the lowest
+	// priority. You can set the same priority for different launch template overrides.
 	Priority *float64 `type:"double"`
 
 	// The IDs of the subnets in which to launch the instances. Separate multiple
@@ -83569,6 +86807,113 @@ func (s *GetEbsEncryptionByDefaultOutput) SetEbsEncryptionByDefault(v bool) *Get
 	return s
 }
 
+type GetFlowLogsIntegrationTemplateInput struct {
+	_ struct{} `type:"structure"`
+
+	// To store the CloudFormation template in Amazon S3, specify the location in
+	// Amazon S3.
+	//
+	// ConfigDeliveryS3DestinationArn is a required field
+	ConfigDeliveryS3DestinationArn *string `type:"string" required:"true"`
+
+	// Checks whether you have the required permissions for the action, without
+	// actually making the request, and provides an error response. If you have
+	// the required permissions, the error response is DryRunOperation. Otherwise,
+	// it is UnauthorizedOperation.
+	DryRun *bool `type:"boolean"`
+
+	// The ID of the flow log.
+	//
+	// FlowLogId is a required field
+	FlowLogId *string `type:"string" required:"true"`
+
+	// Information about the service integration.
+	//
+	// IntegrateServices is a required field
+	IntegrateServices *IntegrateServices `locationName:"IntegrateService" type:"structure" required:"true"`
+}
+
+// String returns the string representation
+func (s GetFlowLogsIntegrationTemplateInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s GetFlowLogsIntegrationTemplateInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *GetFlowLogsIntegrationTemplateInput) Validate() error {
+	invalidParams := request.ErrInvalidParams{Context: "GetFlowLogsIntegrationTemplateInput"}
+	if s.ConfigDeliveryS3DestinationArn == nil {
+		invalidParams.Add(request.NewErrParamRequired("ConfigDeliveryS3DestinationArn"))
+	}
+	if s.FlowLogId == nil {
+		invalidParams.Add(request.NewErrParamRequired("FlowLogId"))
+	}
+	if s.IntegrateServices == nil {
+		invalidParams.Add(request.NewErrParamRequired("IntegrateServices"))
+	}
+	if s.IntegrateServices != nil {
+		if err := s.IntegrateServices.Validate(); err != nil {
+			invalidParams.AddNested("IntegrateServices", err.(request.ErrInvalidParams))
+		}
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// SetConfigDeliveryS3DestinationArn sets the ConfigDeliveryS3DestinationArn field's value.
+func (s *GetFlowLogsIntegrationTemplateInput) SetConfigDeliveryS3DestinationArn(v string) *GetFlowLogsIntegrationTemplateInput {
+	s.ConfigDeliveryS3DestinationArn = &v
+	return s
+}
+
+// SetDryRun sets the DryRun field's value.
+func (s *GetFlowLogsIntegrationTemplateInput) SetDryRun(v bool) *GetFlowLogsIntegrationTemplateInput {
+	s.DryRun = &v
+	return s
+}
+
+// SetFlowLogId sets the FlowLogId field's value.
+func (s *GetFlowLogsIntegrationTemplateInput) SetFlowLogId(v string) *GetFlowLogsIntegrationTemplateInput {
+	s.FlowLogId = &v
+	return s
+}
+
+// SetIntegrateServices sets the IntegrateServices field's value.
+func (s *GetFlowLogsIntegrationTemplateInput) SetIntegrateServices(v *IntegrateServices) *GetFlowLogsIntegrationTemplateInput {
+	s.IntegrateServices = v
+	return s
+}
+
+type GetFlowLogsIntegrationTemplateOutput struct {
+	_ struct{} `type:"structure"`
+
+	// The generated CloudFormation template.
+	Result *string `locationName:"result" type:"string"`
+}
+
+// String returns the string representation
+func (s GetFlowLogsIntegrationTemplateOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s GetFlowLogsIntegrationTemplateOutput) GoString() string {
+	return s.String()
+}
+
+// SetResult sets the Result field's value.
+func (s *GetFlowLogsIntegrationTemplateOutput) SetResult(v string) *GetFlowLogsIntegrationTemplateOutput {
+	s.Result = &v
+	return s
+}
+
 type GetGroupsForCapacityReservationInput struct {
 	_ struct{} `type:"structure"`
 
@@ -84330,6 +87675,57 @@ func (s *GetReservedInstancesExchangeQuoteOutput) SetTargetConfigurationValueSet
 // SetValidationFailureReason sets the ValidationFailureReason field's value.
 func (s *GetReservedInstancesExchangeQuoteOutput) SetValidationFailureReason(v string) *GetReservedInstancesExchangeQuoteOutput {
 	s.ValidationFailureReason = &v
+	return s
+}
+
+type GetSerialConsoleAccessStatusInput struct {
+	_ struct{} `type:"structure"`
+
+	// Checks whether you have the required permissions for the action, without
+	// actually making the request, and provides an error response. If you have
+	// the required permissions, the error response is DryRunOperation. Otherwise,
+	// it is UnauthorizedOperation.
+	DryRun *bool `type:"boolean"`
+}
+
+// String returns the string representation
+func (s GetSerialConsoleAccessStatusInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s GetSerialConsoleAccessStatusInput) GoString() string {
+	return s.String()
+}
+
+// SetDryRun sets the DryRun field's value.
+func (s *GetSerialConsoleAccessStatusInput) SetDryRun(v bool) *GetSerialConsoleAccessStatusInput {
+	s.DryRun = &v
+	return s
+}
+
+type GetSerialConsoleAccessStatusOutput struct {
+	_ struct{} `type:"structure"`
+
+	// If true, access to the EC2 serial console of all instances is enabled for
+	// your account. If false, access to the EC2 serial console of all instances
+	// is disabled for your account.
+	SerialConsoleAccessEnabled *bool `locationName:"serialConsoleAccessEnabled" type:"boolean"`
+}
+
+// String returns the string representation
+func (s GetSerialConsoleAccessStatusOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s GetSerialConsoleAccessStatusOutput) GoString() string {
+	return s.String()
+}
+
+// SetSerialConsoleAccessEnabled sets the SerialConsoleAccessEnabled field's value.
+func (s *GetSerialConsoleAccessStatusOutput) SetSerialConsoleAccessEnabled(v bool) *GetSerialConsoleAccessStatusOutput {
+	s.SerialConsoleAccessEnabled = &v
 	return s
 }
 
@@ -85285,7 +88681,7 @@ type Host struct {
 	// is true, the host is in a host resource group; otherwise, it is not.
 	MemberOfServiceLinkedResourceGroup *bool `locationName:"memberOfServiceLinkedResourceGroup" type:"boolean"`
 
-	// The ID of the AWS account that owns the Dedicated Host.
+	// The ID of the account that owns the Dedicated Host.
 	OwnerId *string `locationName:"ownerId" type:"string"`
 
 	// The time that the Dedicated Host was released.
@@ -85420,7 +88816,7 @@ type HostInstance struct {
 	// The instance type (for example, m3.medium) of the running instance.
 	InstanceType *string `locationName:"instanceType" type:"string"`
 
-	// The ID of the AWS account that owns the instance.
+	// The ID of the account that owns the instance.
 	OwnerId *string `locationName:"ownerId" type:"string"`
 }
 
@@ -85998,8 +89394,17 @@ type Image struct {
 	// Any block device mapping entries.
 	BlockDeviceMappings []*BlockDeviceMapping `locationName:"blockDeviceMapping" locationNameList:"item" type:"list"`
 
+	// The boot mode of the image. For more information, see Boot modes (https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ami-boot.html)
+	// in the Amazon Elastic Compute Cloud User Guide.
+	BootMode *string `locationName:"bootMode" type:"string" enum:"BootModeValues"`
+
 	// The date and time the image was created.
 	CreationDate *string `locationName:"creationDate" type:"string"`
+
+	// The date and time to deprecate the AMI, in UTC, in the following format:
+	// YYYY-MM-DDTHH:MM:SSZ. If you specified a value for seconds, Amazon EC2 rounds
+	// the seconds to the nearest minute.
+	DeprecationTime *string `locationName:"deprecationTime" type:"string"`
 
 	// The description of the AMI that was provided during image creation.
 	Description *string `locationName:"description" type:"string"`
@@ -86108,9 +89513,21 @@ func (s *Image) SetBlockDeviceMappings(v []*BlockDeviceMapping) *Image {
 	return s
 }
 
+// SetBootMode sets the BootMode field's value.
+func (s *Image) SetBootMode(v string) *Image {
+	s.BootMode = &v
+	return s
+}
+
 // SetCreationDate sets the CreationDate field's value.
 func (s *Image) SetCreationDate(v string) *Image {
 	s.CreationDate = &v
+	return s
+}
+
+// SetDeprecationTime sets the DeprecationTime field's value.
+func (s *Image) SetDeprecationTime(v string) *Image {
+	s.DeprecationTime = &v
 	return s
 }
 
@@ -86264,7 +89681,7 @@ type ImageDiskContainer struct {
 
 	// The format of the disk image being imported.
 	//
-	// Valid values: OVA | VHD | VHDX |VMDK
+	// Valid values: OVA | VHD | VHDX | VMDK | RAW
 	Format *string `type:"string"`
 
 	// The ID of the EBS snapshot to be used for importing the snapshot.
@@ -86507,7 +89924,7 @@ type ImportImageInput struct {
 	// The name of the role to use when not using the default role, 'vmimport'.
 	RoleName *string `type:"string"`
 
-	// The tags to apply to the image being imported.
+	// The tags to apply to the import image task during creation.
 	TagSpecifications []*TagSpecification `locationName:"TagSpecification" locationNameList:"item" type:"list"`
 }
 
@@ -86699,7 +90116,7 @@ type ImportImageOutput struct {
 	// A detailed status message of the import task.
 	StatusMessage *string `locationName:"statusMessage" type:"string"`
 
-	// Any tags assigned to the image being imported.
+	// Any tags assigned to the import image task.
 	Tags []*Tag `locationName:"tagSet" locationNameList:"item" type:"list"`
 }
 
@@ -87504,7 +90921,7 @@ type ImportSnapshotInput struct {
 	// The name of the role to use when not using the default role, 'vmimport'.
 	RoleName *string `type:"string"`
 
-	// The tags to apply to the snapshot being imported.
+	// The tags to apply to the import snapshot task during creation.
 	TagSpecifications []*TagSpecification `locationName:"TagSpecification" locationNameList:"item" type:"list"`
 }
 
@@ -87584,7 +91001,7 @@ type ImportSnapshotOutput struct {
 	// Information about the import snapshot task.
 	SnapshotTaskDetail *SnapshotTaskDetail `locationName:"snapshotTaskDetail" type:"structure"`
 
-	// Any tags assigned to the snapshot being imported.
+	// Any tags assigned to the import snapshot task.
 	Tags []*Tag `locationName:"tagSet" locationNameList:"item" type:"list"`
 }
 
@@ -87933,6 +91350,10 @@ type Instance struct {
 	// Any block device mapping entries for the instance.
 	BlockDeviceMappings []*InstanceBlockDeviceMapping `locationName:"blockDeviceMapping" locationNameList:"item" type:"list"`
 
+	// The boot mode of the instance. For more information, see Boot modes (https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ami-boot.html)
+	// in the Amazon EC2 User Guide.
+	BootMode *string `locationName:"bootMode" type:"string" enum:"BootModeValues"`
+
 	// The ID of the Capacity Reservation.
 	CapacityReservationId *string `locationName:"capacityReservationId" type:"string"`
 
@@ -87961,7 +91382,7 @@ type Instance struct {
 	// Specifies whether enhanced networking with ENA is enabled.
 	EnaSupport *bool `locationName:"enaSupport" type:"boolean"`
 
-	// Indicates whether the instance is enabled for AWS Nitro Enclaves.
+	// Indicates whether the instance is enabled for Amazon Web Services Nitro Enclaves.
 	EnclaveOptions *EnclaveOptions `locationName:"enclaveOptions" type:"structure"`
 
 	// Indicates whether the instance is enabled for hibernation.
@@ -88058,12 +91479,7 @@ type Instance struct {
 	// The security groups for the instance.
 	SecurityGroups []*GroupIdentifier `locationName:"groupSet" locationNameList:"item" type:"list"`
 
-	// Specifies whether to enable an instance launched in a VPC to perform NAT.
-	// This controls whether source/destination checking is enabled on the instance.
-	// A value of true means that checking is enabled, and false means that checking
-	// is disabled. The value must be false for the instance to perform NAT. For
-	// more information, see NAT instances (https://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_NAT_Instance.html)
-	// in the Amazon VPC User Guide.
+	// Indicates whether source/destination checking is enabled.
 	SourceDestCheck *bool `locationName:"sourceDestCheck" type:"boolean"`
 
 	// If the request is a Spot Instance request, the ID of the request.
@@ -88120,6 +91536,12 @@ func (s *Instance) SetArchitecture(v string) *Instance {
 // SetBlockDeviceMappings sets the BlockDeviceMappings field's value.
 func (s *Instance) SetBlockDeviceMappings(v []*InstanceBlockDeviceMapping) *Instance {
 	s.BlockDeviceMappings = v
+	return s
+}
+
+// SetBootMode sets the BootMode field's value.
+func (s *Instance) SetBootMode(v string) *Instance {
+	s.BootMode = &v
 	return s
 }
 
@@ -88966,7 +92388,7 @@ type InstanceNetworkInterface struct {
 
 	// Describes the type of network interface.
 	//
-	// Valid values: interface | efa
+	// Valid values: interface | efa | trunk
 	InterfaceType *string `locationName:"interfaceType" type:"string"`
 
 	// One or more IPv6 addresses associated with the network interface.
@@ -88978,7 +92400,7 @@ type InstanceNetworkInterface struct {
 	// The ID of the network interface.
 	NetworkInterfaceId *string `locationName:"networkInterfaceId" type:"string"`
 
-	// The ID of the AWS account that created the network interface.
+	// The ID of the account that created the network interface.
 	OwnerId *string `locationName:"ownerId" type:"string"`
 
 	// The private DNS name.
@@ -88990,7 +92412,7 @@ type InstanceNetworkInterface struct {
 	// One or more private IPv4 addresses associated with the network interface.
 	PrivateIpAddresses []*InstancePrivateIpAddress `locationName:"privateIpAddressesSet" locationNameList:"item" type:"list"`
 
-	// Indicates whether to validate network traffic to or from this network interface.
+	// Indicates whether source/destination checking is enabled.
 	SourceDestCheck *bool `locationName:"sourceDestCheck" type:"boolean"`
 
 	// The status of the network interface.
@@ -89237,7 +92659,8 @@ type InstanceNetworkInterfaceSpecification struct {
 	//
 	// You can only assign a carrier IP address to a network interface that is in
 	// a subnet in a Wavelength Zone. For more information about carrier IP addresses,
-	// see Carrier IP addresses in the AWS Wavelength Developer Guide.
+	// see Carrier IP addresses in the Amazon Web Services Wavelength Developer
+	// Guide.
 	AssociateCarrierIpAddress *bool `type:"boolean"`
 
 	// Indicates whether to assign a public IPv4 address to an instance you launch
@@ -89272,8 +92695,6 @@ type InstanceNetworkInterfaceSpecification struct {
 	// To create an Elastic Fabric Adapter (EFA), specify efa. For more information,
 	// see Elastic Fabric Adapter (https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/efa.html)
 	// in the Amazon Elastic Compute Cloud User Guide.
-	//
-	// If you are not creating an EFA, specify interface or omit this parameter.
 	//
 	// Valid values: interface | efa
 	InterfaceType *string `type:"string"`
@@ -89983,6 +93404,10 @@ type InstanceTypeInfo struct {
 	// Describes the processor.
 	ProcessorInfo *ProcessorInfo `locationName:"processorInfo" type:"structure"`
 
+	// The supported boot modes. For more information, see Boot modes (https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ami-boot.html)
+	// in the Amazon EC2 User Guide.
+	SupportedBootModes []*string `locationName:"supportedBootModes" locationNameList:"item" type:"list"`
+
 	// The supported root device types.
 	SupportedRootDeviceTypes []*string `locationName:"supportedRootDeviceTypes" locationNameList:"item" type:"list"`
 
@@ -90120,6 +93545,12 @@ func (s *InstanceTypeInfo) SetProcessorInfo(v *ProcessorInfo) *InstanceTypeInfo 
 	return s
 }
 
+// SetSupportedBootModes sets the SupportedBootModes field's value.
+func (s *InstanceTypeInfo) SetSupportedBootModes(v []*string) *InstanceTypeInfo {
+	s.SupportedBootModes = v
+	return s
+}
+
 // SetSupportedRootDeviceTypes sets the SupportedRootDeviceTypes field's value.
 func (s *InstanceTypeInfo) SetSupportedRootDeviceTypes(v []*string) *InstanceTypeInfo {
 	s.SupportedRootDeviceTypes = v
@@ -90193,10 +93624,10 @@ func (s *InstanceTypeOffering) SetLocationType(v string) *InstanceTypeOffering {
 type InstanceUsage struct {
 	_ struct{} `type:"structure"`
 
-	// The ID of the AWS account that is making use of the Capacity Reservation.
+	// The ID of the account that is making use of the Capacity Reservation.
 	AccountId *string `locationName:"accountId" type:"string"`
 
-	// The number of instances the AWS account currently has in the Capacity Reservation.
+	// The number of instances the account currently has in the Capacity Reservation.
 	UsedInstanceCount *int64 `locationName:"usedInstanceCount" type:"integer"`
 }
 
@@ -90219,6 +93650,53 @@ func (s *InstanceUsage) SetAccountId(v string) *InstanceUsage {
 // SetUsedInstanceCount sets the UsedInstanceCount field's value.
 func (s *InstanceUsage) SetUsedInstanceCount(v int64) *InstanceUsage {
 	s.UsedInstanceCount = &v
+	return s
+}
+
+// Describes service integrations with VPC Flow logs.
+type IntegrateServices struct {
+	_ struct{} `type:"structure"`
+
+	// Information about the integration with Amazon Athena.
+	AthenaIntegrations []*AthenaIntegration `locationName:"AthenaIntegration" locationNameList:"item" min:"1" type:"list"`
+}
+
+// String returns the string representation
+func (s IntegrateServices) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s IntegrateServices) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *IntegrateServices) Validate() error {
+	invalidParams := request.ErrInvalidParams{Context: "IntegrateServices"}
+	if s.AthenaIntegrations != nil && len(s.AthenaIntegrations) < 1 {
+		invalidParams.Add(request.NewErrParamMinLen("AthenaIntegrations", 1))
+	}
+	if s.AthenaIntegrations != nil {
+		for i, v := range s.AthenaIntegrations {
+			if v == nil {
+				continue
+			}
+			if err := v.Validate(); err != nil {
+				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "AthenaIntegrations", i), err.(request.ErrInvalidParams))
+			}
+		}
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// SetAthenaIntegrations sets the AthenaIntegrations field's value.
+func (s *IntegrateServices) SetAthenaIntegrations(v []*AthenaIntegration) *IntegrateServices {
+	s.AthenaIntegrations = v
 	return s
 }
 
@@ -90677,6 +94155,8 @@ type LaunchPermission struct {
 	Group *string `locationName:"group" type:"string" enum:"PermissionGroup"`
 
 	// The AWS account ID.
+	//
+	// Constraints: Up to 10 000 account IDs can be specified in a single request.
 	UserId *string `locationName:"userId" type:"string"`
 }
 
@@ -91017,8 +94497,7 @@ type LaunchTemplateBlockDeviceMapping struct {
 	// Information about the block device for an EBS volume.
 	Ebs *LaunchTemplateEbsBlockDevice `locationName:"ebs" type:"structure"`
 
-	// Suppresses the specified device included in the block device mapping of the
-	// AMI.
+	// To omit the device from the block device mapping, specify an empty string.
 	NoDevice *string `locationName:"noDevice" type:"string"`
 
 	// The virtual device name (ephemeralN).
@@ -91070,8 +94549,7 @@ type LaunchTemplateBlockDeviceMappingRequest struct {
 	// launched.
 	Ebs *LaunchTemplateEbsBlockDeviceRequest `type:"structure"`
 
-	// Suppresses the specified device included in the block device mapping of the
-	// AMI.
+	// To omit the device from the block device mapping, specify an empty string.
 	NoDevice *string `type:"string"`
 
 	// The virtual device name (ephemeralN). Instance store volumes are numbered
@@ -91436,9 +94914,8 @@ type LaunchTemplateEbsBlockDeviceRequest struct {
 	// on the Nitro System (https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html#ec2-nitro-instances).
 	// Other instance families guarantee performance up to 32,000 IOPS.
 	//
-	// This parameter is required for io1 and io2 volumes. The default for gp3 volumes
-	// is 3,000 IOPS. This parameter is not supported for gp2, st1, sc1, or standard
-	// volumes.
+	// This parameter is supported for io1, io2, and gp3 volumes only. This parameter
+	// is not supported for gp2, st1, sc1, or standard volumes.
 	Iops *int64 `type:"integer"`
 
 	// The ARN of the symmetric AWS Key Management Service (AWS KMS) CMK used for
@@ -91454,11 +94931,8 @@ type LaunchTemplateEbsBlockDeviceRequest struct {
 	Throughput *int64 `type:"integer"`
 
 	// The size of the volume, in GiBs. You must specify either a snapshot ID or
-	// a volume size. If you specify a snapshot, the default is the snapshot size.
-	// You can specify a volume size that is equal to or larger than the snapshot
-	// size.
-	//
-	// The following are the supported volumes sizes for each volume type:
+	// a volume size. The following are the supported volumes sizes for each volume
+	// type:
 	//
 	//    * gp2 and gp3: 1-16,384
 	//
@@ -91469,8 +94943,7 @@ type LaunchTemplateEbsBlockDeviceRequest struct {
 	//    * standard: 1-1,024
 	VolumeSize *int64 `type:"integer"`
 
-	// The volume type. The default is gp2. For more information, see Amazon EBS
-	// volume types (https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSVolumeTypes.html)
+	// The volume type. For more information, see Amazon EBS volume types (https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSVolumeTypes.html)
 	// in the Amazon Elastic Compute Cloud User Guide.
 	VolumeType *string `type:"string" enum:"VolumeType"`
 }
@@ -92383,12 +95856,20 @@ type LaunchTemplateOverrides struct {
 	// The instance type.
 	InstanceType *string `locationName:"instanceType" type:"string" enum:"InstanceType"`
 
-	// The priority for the launch template override. If OnDemandAllocationStrategy
-	// is set to prioritized, Spot Fleet uses priority to determine which launch
-	// template override to use first in fulfilling On-Demand capacity. The highest
-	// priority is launched first. Valid values are whole numbers starting at 0.
-	// The lower the number, the higher the priority. If no number is set, the launch
-	// template override has the lowest priority.
+	// The priority for the launch template override. The highest priority is launched
+	// first.
+	//
+	// If OnDemandAllocationStrategy is set to prioritized, Spot Fleet uses priority
+	// to determine which launch template override to use first in fulfilling On-Demand
+	// capacity.
+	//
+	// If the Spot AllocationStrategy is set to capacityOptimizedPrioritized, Spot
+	// Fleet uses priority on a best-effort basis to determine which launch template
+	// override to use in fulfilling Spot capacity, but optimizes for capacity first.
+	//
+	// Valid values are whole numbers starting at 0. The lower the number, the higher
+	// the priority. If no number is set, the launch template override has the lowest
+	// priority. You can set the same priority for different launch template overrides.
 	Priority *float64 `locationName:"priority" type:"double"`
 
 	// The maximum price per unit hour that you are willing to pay for a Spot Instance.
@@ -93887,6 +97368,88 @@ func (s *MemoryInfo) SetSizeInMiB(v int64) *MemoryInfo {
 	return s
 }
 
+type ModifyAddressAttributeInput struct {
+	_ struct{} `type:"structure"`
+
+	// [EC2-VPC] The allocation ID.
+	//
+	// AllocationId is a required field
+	AllocationId *string `type:"string" required:"true"`
+
+	// The domain name to modify for the IP address.
+	DomainName *string `type:"string"`
+
+	// Checks whether you have the required permissions for the action, without
+	// actually making the request, and provides an error response. If you have
+	// the required permissions, the error response is DryRunOperation. Otherwise,
+	// it is UnauthorizedOperation.
+	DryRun *bool `type:"boolean"`
+}
+
+// String returns the string representation
+func (s ModifyAddressAttributeInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s ModifyAddressAttributeInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *ModifyAddressAttributeInput) Validate() error {
+	invalidParams := request.ErrInvalidParams{Context: "ModifyAddressAttributeInput"}
+	if s.AllocationId == nil {
+		invalidParams.Add(request.NewErrParamRequired("AllocationId"))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// SetAllocationId sets the AllocationId field's value.
+func (s *ModifyAddressAttributeInput) SetAllocationId(v string) *ModifyAddressAttributeInput {
+	s.AllocationId = &v
+	return s
+}
+
+// SetDomainName sets the DomainName field's value.
+func (s *ModifyAddressAttributeInput) SetDomainName(v string) *ModifyAddressAttributeInput {
+	s.DomainName = &v
+	return s
+}
+
+// SetDryRun sets the DryRun field's value.
+func (s *ModifyAddressAttributeInput) SetDryRun(v bool) *ModifyAddressAttributeInput {
+	s.DryRun = &v
+	return s
+}
+
+type ModifyAddressAttributeOutput struct {
+	_ struct{} `type:"structure"`
+
+	// Information about the Elastic IP address.
+	Address *AddressAttribute `locationName:"address" type:"structure"`
+}
+
+// String returns the string representation
+func (s ModifyAddressAttributeOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s ModifyAddressAttributeOutput) GoString() string {
+	return s.String()
+}
+
+// SetAddress sets the Address field's value.
+func (s *ModifyAddressAttributeOutput) SetAddress(v *AddressAttribute) *ModifyAddressAttributeOutput {
+	s.Address = v
+	return s
+}
+
 type ModifyAvailabilityZoneGroupInput struct {
 	_ struct{} `type:"structure"`
 
@@ -94472,6 +98035,9 @@ func (s *ModifyEbsDefaultKmsKeyIdOutput) SetKmsKeyId(v string) *ModifyEbsDefault
 type ModifyFleetInput struct {
 	_ struct{} `type:"structure"`
 
+	// Reserved.
+	Context *string `type:"string"`
+
 	// Checks whether you have the required permissions for the action, without
 	// actually making the request, and provides an error response. If you have
 	// the required permissions, the error response is DryRunOperation. Otherwise,
@@ -94531,6 +98097,12 @@ func (s *ModifyFleetInput) Validate() error {
 		return invalidParams
 	}
 	return nil
+}
+
+// SetContext sets the Context field's value.
+func (s *ModifyFleetInput) SetContext(v string) *ModifyFleetInput {
+	s.Context = &v
+	return s
 }
 
 // SetDryRun sets the DryRun field's value.
@@ -95205,9 +98777,10 @@ type ModifyInstanceAttributeInput struct {
 	// a PV instance can make it unreachable.
 	EnaSupport *AttributeBooleanValue `locationName:"enaSupport" type:"structure"`
 
-	// [EC2-VPC] Changes the security groups of the instance. You must specify at
-	// least one security group, even if it's just the default security group for
-	// the VPC. You must specify the security group ID, not the security group name.
+	// [EC2-VPC] Replaces the security groups of the instance with the specified
+	// security groups. You must specify at least one security group, even if it's
+	// just the default security group for the VPC. You must specify the security
+	// group ID, not the security group name.
 	Groups []*string `locationName:"GroupId" locationNameList:"groupId" type:"list"`
 
 	// The ID of the instance.
@@ -95235,9 +98808,12 @@ type ModifyInstanceAttributeInput struct {
 	// PV-GRUB (https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/UserProvidedKernels.html).
 	Ramdisk *AttributeValue `locationName:"ramdisk" type:"structure"`
 
-	// Specifies whether source/destination checking is enabled. A value of true
-	// means that checking is enabled, and false means that checking is disabled.
-	// This value must be false for a NAT instance to perform NAT.
+	// Enable or disable source/destination checks, which ensure that the instance
+	// is either the source or the destination of any traffic that it receives.
+	// If the value is true, source/destination checks are enabled; otherwise, they
+	// are disabled. The default value is true. You must disable source/destination
+	// checks if the instance runs services such as network address translation,
+	// routing, or firewalls.
 	SourceDestCheck *AttributeBooleanValue `type:"structure"`
 
 	// Set to simple to enable enhanced networking with the Intel 82599 Virtual
@@ -95251,9 +98827,9 @@ type ModifyInstanceAttributeInput struct {
 	SriovNetSupport *AttributeValue `locationName:"sriovNetSupport" type:"structure"`
 
 	// Changes the instance's user data to the specified value. If you are using
-	// an AWS SDK or command line tool, base64-encoding is performed for you, and
-	// you can load the text from a file. Otherwise, you must provide base64-encoded
-	// text.
+	// an Amazon Web Services SDK or command line tool, base64-encoding is performed
+	// for you, and you can load the text from a file. Otherwise, you must provide
+	// base64-encoded text.
 	UserData *BlobAttributeValue `locationName:"userData" type:"structure"`
 
 	// A new value for the attribute. Use only with the kernel, ramdisk, userData,
@@ -96186,11 +99762,12 @@ type ModifyNetworkInterfaceAttributeInput struct {
 	// NetworkInterfaceId is a required field
 	NetworkInterfaceId *string `locationName:"networkInterfaceId" type:"string" required:"true"`
 
-	// Indicates whether source/destination checking is enabled. A value of true
-	// means checking is enabled, and false means checking is disabled. This value
-	// must be false for a NAT instance to perform NAT. For more information, see
-	// NAT Instances (https://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_NAT_Instance.html)
-	// in the Amazon Virtual Private Cloud User Guide.
+	// Enable or disable source/destination checks, which ensure that the instance
+	// is either the source or the destination of any traffic that it receives.
+	// If the value is true, source/destination checks are enabled; otherwise, they
+	// are disabled. The default value is true. You must disable source/destination
+	// checks if the instance runs services such as network address translation,
+	// routing, or firewalls.
 	SourceDestCheck *AttributeBooleanValue `locationName:"sourceDestCheck" type:"structure"`
 }
 
@@ -96468,6 +100045,9 @@ func (s ModifySnapshotAttributeOutput) GoString() string {
 type ModifySpotFleetRequestInput struct {
 	_ struct{} `type:"structure"`
 
+	// Reserved.
+	Context *string `type:"string"`
+
 	// Indicates whether running Spot Instances should be terminated if the target
 	// capacity of the Spot Fleet request is decreased below the current size of
 	// the Spot Fleet.
@@ -96522,6 +100102,12 @@ func (s *ModifySpotFleetRequestInput) Validate() error {
 		return invalidParams
 	}
 	return nil
+}
+
+// SetContext sets the Context field's value.
+func (s *ModifySpotFleetRequestInput) SetContext(v string) *ModifySpotFleetRequestInput {
+	s.Context = &v
+	return s
 }
 
 // SetExcessCapacityTerminationPolicy sets the ExcessCapacityTerminationPolicy field's value.
@@ -97622,7 +101208,8 @@ type ModifyVolumeInput struct {
 	//
 	//    * io2: 100-64,000 IOPS
 	//
-	// Default: If no IOPS value is specified, the existing value is retained.
+	// Default: If no IOPS value is specified, the existing value is retained, unless
+	// a volume type is modified that supports different values.
 	Iops *int64 `type:"integer"`
 
 	// Specifies whether to enable Amazon EBS Multi-Attach. If you enable Multi-Attach,
@@ -99403,6 +102990,9 @@ func (s *MovingAddressStatus) SetPublicIp(v string) *MovingAddressStatus {
 type NatGateway struct {
 	_ struct{} `type:"structure"`
 
+	// Indicates whether the NAT gateway supports public or private connectivity.
+	ConnectivityType *string `locationName:"connectivityType" type:"string" enum:"ConnectivityType"`
+
 	// The date and time the NAT gateway was created.
 	CreateTime *time.Time `locationName:"createTime" type:"timestamp"`
 
@@ -99487,6 +103077,12 @@ func (s NatGateway) GoString() string {
 	return s.String()
 }
 
+// SetConnectivityType sets the ConnectivityType field's value.
+func (s *NatGateway) SetConnectivityType(v string) *NatGateway {
+	s.ConnectivityType = &v
+	return s
+}
+
 // SetCreateTime sets the CreateTime field's value.
 func (s *NatGateway) SetCreateTime(v time.Time) *NatGateway {
 	s.CreateTime = &v
@@ -99557,17 +103153,18 @@ func (s *NatGateway) SetVpcId(v string) *NatGateway {
 type NatGatewayAddress struct {
 	_ struct{} `type:"structure"`
 
-	// The allocation ID of the Elastic IP address that's associated with the NAT
-	// gateway.
+	// [Public NAT gateway only] The allocation ID of the Elastic IP address that's
+	// associated with the NAT gateway.
 	AllocationId *string `locationName:"allocationId" type:"string"`
 
 	// The ID of the network interface associated with the NAT gateway.
 	NetworkInterfaceId *string `locationName:"networkInterfaceId" type:"string"`
 
-	// The private IP address associated with the Elastic IP address.
+	// The private IP address associated with the NAT gateway.
 	PrivateIp *string `locationName:"privateIp" type:"string"`
 
-	// The Elastic IP address associated with the NAT gateway.
+	// [Public NAT gateway only] The Elastic IP address associated with the NAT
+	// gateway.
 	PublicIp *string `locationName:"publicIp" type:"string"`
 }
 
@@ -99863,6 +103460,9 @@ type NetworkInfo struct {
 	// The index of the default network card, starting at 0.
 	DefaultNetworkCardIndex *int64 `locationName:"defaultNetworkCardIndex" type:"integer"`
 
+	// Describes the Elastic Fabric Adapters for the instance type.
+	EfaInfo *EfaInfo `locationName:"efaInfo" type:"structure"`
+
 	// Indicates whether Elastic Fabric Adapter (EFA) is supported.
 	EfaSupported *bool `locationName:"efaSupported" type:"boolean"`
 
@@ -99905,6 +103505,12 @@ func (s NetworkInfo) GoString() string {
 // SetDefaultNetworkCardIndex sets the DefaultNetworkCardIndex field's value.
 func (s *NetworkInfo) SetDefaultNetworkCardIndex(v int64) *NetworkInfo {
 	s.DefaultNetworkCardIndex = &v
+	return s
+}
+
+// SetEfaInfo sets the EfaInfo field's value.
+func (s *NetworkInfo) SetEfaInfo(v *EfaInfo) *NetworkInfo {
+	s.EfaInfo = v
 	return s
 }
 
@@ -100235,7 +103841,7 @@ type NetworkInterface struct {
 	// The Amazon Resource Name (ARN) of the Outpost.
 	OutpostArn *string `locationName:"outpostArn" type:"string"`
 
-	// The AWS account ID of the owner of the network interface.
+	// The account ID of the owner of the network interface.
 	OwnerId *string `locationName:"ownerId" type:"string"`
 
 	// The private DNS name.
@@ -100247,14 +103853,14 @@ type NetworkInterface struct {
 	// The private IPv4 addresses associated with the network interface.
 	PrivateIpAddresses []*NetworkInterfacePrivateIpAddress `locationName:"privateIpAddressesSet" locationNameList:"item" type:"list"`
 
-	// The ID of the entity that launched the instance on your behalf (for example,
-	// AWS Management Console or Auto Scaling).
+	// The alias or account ID of the principal or service that created the network
+	// interface.
 	RequesterId *string `locationName:"requesterId" type:"string"`
 
-	// Indicates whether the network interface is being managed by AWS.
+	// Indicates whether the network interface is being managed by Amazon Web Services.
 	RequesterManaged *bool `locationName:"requesterManaged" type:"boolean"`
 
-	// Indicates whether traffic to or from the instance is validated.
+	// Indicates whether source/destination checking is enabled.
 	SourceDestCheck *bool `locationName:"sourceDestCheck" type:"boolean"`
 
 	// The status of the network interface.
@@ -100508,7 +104114,7 @@ type NetworkInterfaceAttachment struct {
 	// The ID of the instance.
 	InstanceId *string `locationName:"instanceId" type:"string"`
 
-	// The AWS account ID of the owner of the instance.
+	// The account ID of the owner of the instance.
 	InstanceOwnerId *string `locationName:"instanceOwnerId" type:"string"`
 
 	// The index of the network card.
@@ -100637,10 +104243,10 @@ func (s *NetworkInterfaceIpv6Address) SetIpv6Address(v string) *NetworkInterface
 type NetworkInterfacePermission struct {
 	_ struct{} `type:"structure"`
 
-	// The AWS account ID.
+	// The account ID.
 	AwsAccountId *string `locationName:"awsAccountId" type:"string"`
 
-	// The AWS service.
+	// The Amazon Web Service.
 	AwsService *string `locationName:"awsService" type:"string"`
 
 	// The ID of the network interface.
@@ -101885,11 +105491,11 @@ func (s *PortRange) SetTo(v int64) *PortRange {
 	return s
 }
 
-// Describes prefixes for AWS services.
+// Describes prefixes for Amazon Web Services services.
 type PrefixList struct {
 	_ struct{} `type:"structure"`
 
-	// The IP address range of the AWS service.
+	// The IP address range of the Amazon Web Service.
 	Cidrs []*string `locationName:"cidrSet" locationNameList:"item" type:"list"`
 
 	// The ID of the prefix.
@@ -102433,6 +106039,9 @@ type ProvisionByoipCidrInput struct {
 	// it is UnauthorizedOperation.
 	DryRun *bool `type:"boolean"`
 
+	// Reserved.
+	MultiRegion *bool `type:"boolean"`
+
 	// The tags to apply to the address pool.
 	PoolTagSpecifications []*TagSpecification `locationName:"PoolTagSpecification" locationNameList:"item" type:"list"`
 
@@ -102492,6 +106101,12 @@ func (s *ProvisionByoipCidrInput) SetDescription(v string) *ProvisionByoipCidrIn
 // SetDryRun sets the DryRun field's value.
 func (s *ProvisionByoipCidrInput) SetDryRun(v bool) *ProvisionByoipCidrInput {
 	s.DryRun = &v
+	return s
+}
+
+// SetMultiRegion sets the MultiRegion field's value.
+func (s *ProvisionByoipCidrInput) SetMultiRegion(v bool) *ProvisionByoipCidrInput {
+	s.MultiRegion = &v
 	return s
 }
 
@@ -102602,6 +106217,48 @@ func (s *ProvisionedBandwidth) SetStatus(v string) *ProvisionedBandwidth {
 	return s
 }
 
+// The status of an updated pointer (PTR) record for an Elastic IP address.
+type PtrUpdateStatus struct {
+	_ struct{} `type:"structure"`
+
+	// The reason for the PTR record update.
+	Reason *string `locationName:"reason" type:"string"`
+
+	// The status of the PTR record update.
+	Status *string `locationName:"status" type:"string"`
+
+	// The value for the PTR record update.
+	Value *string `locationName:"value" type:"string"`
+}
+
+// String returns the string representation
+func (s PtrUpdateStatus) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s PtrUpdateStatus) GoString() string {
+	return s.String()
+}
+
+// SetReason sets the Reason field's value.
+func (s *PtrUpdateStatus) SetReason(v string) *PtrUpdateStatus {
+	s.Reason = &v
+	return s
+}
+
+// SetStatus sets the Status field's value.
+func (s *PtrUpdateStatus) SetStatus(v string) *PtrUpdateStatus {
+	s.Status = &v
+	return s
+}
+
+// SetValue sets the Value field's value.
+func (s *PtrUpdateStatus) SetValue(v string) *PtrUpdateStatus {
+	s.Value = &v
+	return s
+}
+
 // Describes an IPv4 address pool.
 type PublicIpv4Pool struct {
 	_ struct{} `type:"structure"`
@@ -102611,7 +106268,7 @@ type PublicIpv4Pool struct {
 
 	// The name of the location from which the address pool is advertised. A network
 	// border group is a unique set of Availability Zones or Local Zones from where
-	// AWS advertises public IP addresses.
+	// Amazon Web Services advertises public IP addresses.
 	NetworkBorderGroup *string `locationName:"networkBorderGroup" type:"string"`
 
 	// The address ranges.
@@ -103121,7 +106778,10 @@ func (s *PurchaseReservedInstancesOfferingInput) SetReservedInstancesOfferingId(
 type PurchaseReservedInstancesOfferingOutput struct {
 	_ struct{} `type:"structure"`
 
-	// The IDs of the purchased Reserved Instances.
+	// The IDs of the purchased Reserved Instances. If your purchase crosses into
+	// a discounted pricing tier, the final Reserved Instances IDs might change.
+	// For more information, see Crossing pricing tiers (https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/concepts-reserved-instances-application.html#crossing-pricing-tiers)
+	// in the Amazon Elastic Compute Cloud User Guide.
 	ReservedInstancesId *string `locationName:"reservedInstancesId" type:"string"`
 }
 
@@ -103395,7 +107055,20 @@ type RegisterImageInput struct {
 	BillingProducts []*string `locationName:"BillingProduct" locationNameList:"item" type:"list"`
 
 	// The block device mapping entries.
+	//
+	// If you specify an EBS volume using the ID of an EBS snapshot, you can't specify
+	// the encryption state of the volume.
+	//
+	// If you create an AMI on an Outpost, then all backing snapshots must be on
+	// the same Outpost or in the Region of that Outpost. AMIs on an Outpost that
+	// include local snapshots can be used to launch instances on the same Outpost
+	// only. For more information, Amazon EBS local snapshots on Outposts (https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/snapshots-outposts.html#ami)
+	// in the Amazon Elastic Compute Cloud User Guide.
 	BlockDeviceMappings []*BlockDeviceMapping `locationName:"BlockDeviceMapping" locationNameList:"BlockDeviceMapping" type:"list"`
+
+	// The boot mode of the AMI. For more information, see Boot modes (https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ami-boot.html)
+	// in the Amazon Elastic Compute Cloud User Guide.
+	BootMode *string `type:"string" enum:"BootModeValues"`
 
 	// A description for your AMI.
 	Description *string `locationName:"description" type:"string"`
@@ -103491,6 +107164,12 @@ func (s *RegisterImageInput) SetBillingProducts(v []*string) *RegisterImageInput
 // SetBlockDeviceMappings sets the BlockDeviceMappings field's value.
 func (s *RegisterImageInput) SetBlockDeviceMappings(v []*BlockDeviceMapping) *RegisterImageInput {
 	s.BlockDeviceMappings = v
+	return s
+}
+
+// SetBootMode sets the BootMode field's value.
+func (s *RegisterImageInput) SetBootMode(v string) *RegisterImageInput {
+	s.BootMode = &v
 	return s
 }
 
@@ -104723,6 +108402,94 @@ func (s ReplaceNetworkAclEntryOutput) GoString() string {
 	return s.String()
 }
 
+// Information about a root volume replacement task.
+type ReplaceRootVolumeTask struct {
+	_ struct{} `type:"structure"`
+
+	// The time the task completed.
+	CompleteTime *string `locationName:"completeTime" type:"string"`
+
+	// The ID of the instance for which the root volume replacement task was created.
+	InstanceId *string `locationName:"instanceId" type:"string"`
+
+	// The ID of the root volume replacement task.
+	ReplaceRootVolumeTaskId *string `locationName:"replaceRootVolumeTaskId" type:"string"`
+
+	// The time the task was started.
+	StartTime *string `locationName:"startTime" type:"string"`
+
+	// The tags assigned to the task.
+	Tags []*Tag `locationName:"tagSet" locationNameList:"item" type:"list"`
+
+	// The state of the task. The task can be in one of the following states:
+	//
+	//    * pending - the replacement volume is being created.
+	//
+	//    * in-progress - the original volume is being detached and the replacement
+	//    volume is being attached.
+	//
+	//    * succeeded - the replacement volume has been successfully attached to
+	//    the instance and the instance is available.
+	//
+	//    * failing - the replacement task is in the process of failing.
+	//
+	//    * failed - the replacement task has failed but the original root volume
+	//    is still attached.
+	//
+	//    * failing-detached - the replacement task is in the process of failing.
+	//    The instance might have no root volume attached.
+	//
+	//    * failed-detached - the replacement task has failed and the instance has
+	//    no root volume attached.
+	TaskState *string `locationName:"taskState" type:"string" enum:"ReplaceRootVolumeTaskState"`
+}
+
+// String returns the string representation
+func (s ReplaceRootVolumeTask) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s ReplaceRootVolumeTask) GoString() string {
+	return s.String()
+}
+
+// SetCompleteTime sets the CompleteTime field's value.
+func (s *ReplaceRootVolumeTask) SetCompleteTime(v string) *ReplaceRootVolumeTask {
+	s.CompleteTime = &v
+	return s
+}
+
+// SetInstanceId sets the InstanceId field's value.
+func (s *ReplaceRootVolumeTask) SetInstanceId(v string) *ReplaceRootVolumeTask {
+	s.InstanceId = &v
+	return s
+}
+
+// SetReplaceRootVolumeTaskId sets the ReplaceRootVolumeTaskId field's value.
+func (s *ReplaceRootVolumeTask) SetReplaceRootVolumeTaskId(v string) *ReplaceRootVolumeTask {
+	s.ReplaceRootVolumeTaskId = &v
+	return s
+}
+
+// SetStartTime sets the StartTime field's value.
+func (s *ReplaceRootVolumeTask) SetStartTime(v string) *ReplaceRootVolumeTask {
+	s.StartTime = &v
+	return s
+}
+
+// SetTags sets the Tags field's value.
+func (s *ReplaceRootVolumeTask) SetTags(v []*Tag) *ReplaceRootVolumeTask {
+	s.Tags = v
+	return s
+}
+
+// SetTaskState sets the TaskState field's value.
+func (s *ReplaceRootVolumeTask) SetTaskState(v string) *ReplaceRootVolumeTask {
+	s.TaskState = &v
+	return s
+}
+
 type ReplaceRouteInput struct {
 	_ struct{} `type:"structure"`
 
@@ -105312,7 +109079,7 @@ type RequestLaunchTemplateData struct {
 	// in the Amazon Elastic Compute Cloud User Guide.
 	HibernationOptions *LaunchTemplateHibernationOptionsRequest `type:"structure"`
 
-	// The IAM instance profile.
+	// The name or Amazon Resource Name (ARN) of an IAM instance profile.
 	IamInstanceProfile *LaunchTemplateIamInstanceProfileSpecificationRequest `type:"structure"`
 
 	// The ID of the AMI.
@@ -105706,20 +109473,7 @@ type RequestSpotInstancesInput struct {
 	// Default: Instances are launched in any available Availability Zone.
 	AvailabilityZoneGroup *string `locationName:"availabilityZoneGroup" type:"string"`
 
-	// The required duration for the Spot Instances (also known as Spot blocks),
-	// in minutes. This value must be a multiple of 60 (60, 120, 180, 240, 300,
-	// or 360).
-	//
-	// The duration period starts as soon as your Spot Instance receives its instance
-	// ID. At the end of the duration period, Amazon EC2 marks the Spot Instance
-	// for termination and provides a Spot Instance termination notice, which gives
-	// the instance a two-minute warning before it terminates.
-	//
-	// You can't specify an Availability Zone group or a launch group if you specify
-	// a duration.
-	//
-	// New accounts or accounts with no previous billing history with AWS are not
-	// eligible for Spot Instances with a defined duration (also known as Spot blocks).
+	// Deprecated.
 	BlockDurationMinutes *int64 `locationName:"blockDurationMinutes" type:"integer"`
 
 	// Unique, case-sensitive identifier that you provide to ensure the idempotency
@@ -105976,9 +109730,7 @@ type RequestSpotLaunchSpecification struct {
 	// you can specify the names or the IDs of the security groups.
 	SecurityGroups []*string `locationName:"SecurityGroup" locationNameList:"item" type:"list"`
 
-	// The IDs of the subnets in which to launch the instance. To specify multiple
-	// subnets, separate them using commas; for example, "subnet-1234abcdeexample1,
-	// subnet-0987cdef6example2".
+	// The ID of the subnet in which to launch the instance.
 	SubnetId *string `locationName:"subnetId" type:"string"`
 
 	// The Base64-encoded user data for the instance. User data is limited to 16
@@ -106119,11 +109871,11 @@ type Reservation struct {
 	// The instances.
 	Instances []*Instance `locationName:"instancesSet" locationNameList:"item" type:"list"`
 
-	// The ID of the AWS account that owns the reservation.
+	// The ID of the account that owns the reservation.
 	OwnerId *string `locationName:"ownerId" type:"string"`
 
 	// The ID of the requester that launched the instances on your behalf (for example,
-	// AWS Management Console or Auto Scaling).
+	// Management Console or Auto Scaling).
 	RequesterId *string `locationName:"requesterId" type:"string"`
 
 	// The ID of the reservation.
@@ -106812,8 +110564,8 @@ type ReservedInstancesOffering struct {
 	InstanceType *string `locationName:"instanceType" type:"string" enum:"InstanceType"`
 
 	// Indicates whether the offering is available through the Reserved Instance
-	// Marketplace (resale) or AWS. If it's a Reserved Instance Marketplace offering,
-	// this is true.
+	// Marketplace (resale) or Amazon Web Services. If it's a Reserved Instance
+	// Marketplace offering, this is true.
 	Marketplace *bool `locationName:"marketplace" type:"boolean"`
 
 	// If convertible it can be exchanged for Reserved Instances of the same or
@@ -106942,6 +110694,93 @@ func (s *ReservedInstancesOffering) SetScope(v string) *ReservedInstancesOfferin
 // SetUsagePrice sets the UsagePrice field's value.
 func (s *ReservedInstancesOffering) SetUsagePrice(v float64) *ReservedInstancesOffering {
 	s.UsagePrice = &v
+	return s
+}
+
+type ResetAddressAttributeInput struct {
+	_ struct{} `type:"structure"`
+
+	// [EC2-VPC] The allocation ID.
+	//
+	// AllocationId is a required field
+	AllocationId *string `type:"string" required:"true"`
+
+	// The attribute of the IP address.
+	//
+	// Attribute is a required field
+	Attribute *string `type:"string" required:"true" enum:"AddressAttributeName"`
+
+	// Checks whether you have the required permissions for the action, without
+	// actually making the request, and provides an error response. If you have
+	// the required permissions, the error response is DryRunOperation. Otherwise,
+	// it is UnauthorizedOperation.
+	DryRun *bool `type:"boolean"`
+}
+
+// String returns the string representation
+func (s ResetAddressAttributeInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s ResetAddressAttributeInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *ResetAddressAttributeInput) Validate() error {
+	invalidParams := request.ErrInvalidParams{Context: "ResetAddressAttributeInput"}
+	if s.AllocationId == nil {
+		invalidParams.Add(request.NewErrParamRequired("AllocationId"))
+	}
+	if s.Attribute == nil {
+		invalidParams.Add(request.NewErrParamRequired("Attribute"))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// SetAllocationId sets the AllocationId field's value.
+func (s *ResetAddressAttributeInput) SetAllocationId(v string) *ResetAddressAttributeInput {
+	s.AllocationId = &v
+	return s
+}
+
+// SetAttribute sets the Attribute field's value.
+func (s *ResetAddressAttributeInput) SetAttribute(v string) *ResetAddressAttributeInput {
+	s.Attribute = &v
+	return s
+}
+
+// SetDryRun sets the DryRun field's value.
+func (s *ResetAddressAttributeInput) SetDryRun(v bool) *ResetAddressAttributeInput {
+	s.DryRun = &v
+	return s
+}
+
+type ResetAddressAttributeOutput struct {
+	_ struct{} `type:"structure"`
+
+	// Information about the IP address.
+	Address *AddressAttribute `locationName:"address" type:"structure"`
+}
+
+// String returns the string representation
+func (s ResetAddressAttributeOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s ResetAddressAttributeOutput) GoString() string {
+	return s.String()
+}
+
+// SetAddress sets the Address field's value.
+func (s *ResetAddressAttributeOutput) SetAddress(v *AddressAttribute) *ResetAddressAttributeOutput {
+	s.Address = v
 	return s
 }
 
@@ -108702,21 +112541,23 @@ type RunInstancesInput struct {
 	// You cannot specify accelerators from different generations in the same request.
 	ElasticInferenceAccelerators []*ElasticInferenceAccelerator `locationName:"ElasticInferenceAccelerator" locationNameList:"item" type:"list"`
 
-	// Indicates whether the instance is enabled for AWS Nitro Enclaves. For more
-	// information, see What is AWS Nitro Enclaves? (https://docs.aws.amazon.com/enclaves/latest/user/nitro-enclave.html)
-	// in the AWS Nitro Enclaves User Guide.
+	// Indicates whether the instance is enabled for Amazon Web Services Nitro Enclaves.
+	// For more information, see What is Amazon Web Services Nitro Enclaves? (https://docs.aws.amazon.com/enclaves/latest/user/nitro-enclave.html)
+	// in the Amazon Web Services Nitro Enclaves User Guide.
 	//
-	// You can't enable AWS Nitro Enclaves and hibernation on the same instance.
+	// You can't enable Amazon Web Services Nitro Enclaves and hibernation on the
+	// same instance.
 	EnclaveOptions *EnclaveOptionsRequest `type:"structure"`
 
 	// Indicates whether an instance is enabled for hibernation. For more information,
 	// see Hibernate your instance (https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Hibernate.html)
 	// in the Amazon EC2 User Guide.
 	//
-	// You can't enable hibernation and AWS Nitro Enclaves on the same instance.
+	// You can't enable hibernation and Amazon Web Services Nitro Enclaves on the
+	// same instance.
 	HibernationOptions *HibernationOptionsRequest `type:"structure"`
 
-	// The IAM instance profile.
+	// The name or Amazon Resource Name (ARN) of an IAM instance profile.
 	IamInstanceProfile *IamInstanceProfileSpecification `locationName:"iamInstanceProfile" type:"structure"`
 
 	// The ID of the AMI. An AMI ID is required to launch an instance and must be
@@ -108835,8 +112676,8 @@ type RunInstancesInput struct {
 
 	// The ID of the RAM disk to select. Some kernels require additional drivers
 	// at launch. Check the kernel requirements for information about whether you
-	// need to specify a RAM disk. To find kernel requirements, go to the AWS Resource
-	// Center and search for the kernel ID.
+	// need to specify a RAM disk. To find kernel requirements, go to the Amazon
+	// Web Services Resource Center and search for the kernel ID.
 	//
 	// We recommend that you use PV-GRUB instead of kernels and RAM disks. For more
 	// information, see PV-GRUB (https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/UserProvidedkernels.html)
@@ -109311,6 +113152,47 @@ func (s RunScheduledInstancesOutput) GoString() string {
 // SetInstanceIdSet sets the InstanceIdSet field's value.
 func (s *RunScheduledInstancesOutput) SetInstanceIdSet(v []*string) *RunScheduledInstancesOutput {
 	s.InstanceIdSet = v
+	return s
+}
+
+// The tags to apply to the AMI object that will be stored in the S3 bucket.
+// For more information, see Categorizing your storage using tags (https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-tagging.html)
+// in the Amazon Simple Storage Service User Guide.
+type S3ObjectTag struct {
+	_ struct{} `type:"structure"`
+
+	// The key of the tag.
+	//
+	// Constraints: Tag keys are case-sensitive and can be up to 128 Unicode characters
+	// in length. May not begin with aws:.
+	Key *string `type:"string"`
+
+	// The value of the tag.
+	//
+	// Constraints: Tag values are case-sensitive and can be up to 256 Unicode characters
+	// in length.
+	Value *string `type:"string"`
+}
+
+// String returns the string representation
+func (s S3ObjectTag) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s S3ObjectTag) GoString() string {
+	return s.String()
+}
+
+// SetKey sets the Key field's value.
+func (s *S3ObjectTag) SetKey(v string) *S3ObjectTag {
+	s.Key = &v
+	return s
+}
+
+// SetValue sets the Value field's value.
+func (s *S3ObjectTag) SetValue(v string) *S3ObjectTag {
+	s.Value = &v
 	return s
 }
 
@@ -111402,6 +115284,11 @@ type Snapshot struct {
 	// key for the parent volume.
 	KmsKeyId *string `locationName:"kmsKeyId" type:"string"`
 
+	// The ARN of the AWS Outpost on which the snapshot is stored. For more information,
+	// see EBS Local Snapshot on Outposts (https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/snapshots-outposts.html)
+	// in the Amazon Elastic Compute Cloud User Guide.
+	OutpostArn *string `locationName:"outpostArn" type:"string"`
+
 	// The AWS owner alias, from an Amazon-maintained list (amazon). This is not
 	// the user-configured AWS account alias set using the IAM console.
 	OwnerAlias *string `locationName:"ownerAlias" type:"string"`
@@ -111472,6 +115359,12 @@ func (s *Snapshot) SetEncrypted(v bool) *Snapshot {
 // SetKmsKeyId sets the KmsKeyId field's value.
 func (s *Snapshot) SetKmsKeyId(v string) *Snapshot {
 	s.KmsKeyId = &v
+	return s
+}
+
+// SetOutpostArn sets the OutpostArn field's value.
+func (s *Snapshot) SetOutpostArn(v string) *Snapshot {
+	s.OutpostArn = &v
 	return s
 }
 
@@ -111649,7 +115542,7 @@ type SnapshotDiskContainer struct {
 
 	// The format of the disk image being imported.
 	//
-	// Valid values: VHD | VMDK
+	// Valid values: VHD | VMDK | RAW
 	Format *string `type:"string"`
 
 	// The URL to the Amazon S3-based disk image being imported. It can either be
@@ -111705,6 +115598,11 @@ type SnapshotInfo struct {
 	// Indicates whether the snapshot is encrypted.
 	Encrypted *bool `locationName:"encrypted" type:"boolean"`
 
+	// The ARN of the AWS Outpost on which the snapshot is stored. For more information,
+	// see EBS Local Snapshot on Outposts (https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/snapshots-outposts.html)
+	// in the Amazon Elastic Compute Cloud User Guide.
+	OutpostArn *string `locationName:"outpostArn" type:"string"`
+
 	// Account id used when creating this snapshot.
 	OwnerId *string `locationName:"ownerId" type:"string"`
 
@@ -111750,6 +115648,12 @@ func (s *SnapshotInfo) SetDescription(v string) *SnapshotInfo {
 // SetEncrypted sets the Encrypted field's value.
 func (s *SnapshotInfo) SetEncrypted(v bool) *SnapshotInfo {
 	s.Encrypted = &v
+	return s
+}
+
+// SetOutpostArn sets the OutpostArn field's value.
+func (s *SnapshotInfo) SetOutpostArn(v string) *SnapshotInfo {
+	s.OutpostArn = &v
 	return s
 }
 
@@ -111962,7 +115866,7 @@ type SpotDatafeedSubscription struct {
 	// The fault codes for the Spot Instance request, if any.
 	Fault *SpotInstanceStateFault `locationName:"fault" type:"structure"`
 
-	// The AWS account ID of the account.
+	// The account ID of the account.
 	OwnerId *string `locationName:"ownerId" type:"string"`
 
 	// The prefix for the data feed files.
@@ -112068,8 +115972,8 @@ type SpotFleetLaunchSpecification struct {
 
 	// The ID of the RAM disk. Some kernels require additional drivers at launch.
 	// Check the kernel requirements for information about whether you need to specify
-	// a RAM disk. To find kernel requirements, refer to the AWS Resource Center
-	// and search for the kernel ID.
+	// a RAM disk. To find kernel requirements, refer to the Amazon Web Services
+	// Resource Center and search for the kernel ID.
 	RamdiskId *string `locationName:"ramdiskId" type:"string"`
 
 	// One or more security groups. When requesting instances in a VPC, you must
@@ -112335,15 +116239,25 @@ type SpotFleetRequestConfigData struct {
 	// If the allocation strategy is diversified, Spot Fleet launches instances
 	// from all the Spot Instance pools that you specify.
 	//
-	// If the allocation strategy is capacityOptimized, Spot Fleet launches instances
-	// from Spot Instance pools with optimal capacity for the number of instances
-	// that are launching.
+	// If the allocation strategy is capacityOptimized (recommended), Spot Fleet
+	// launches instances from Spot Instance pools with optimal capacity for the
+	// number of instances that are launching. To give certain instance types a
+	// higher chance of launching first, use capacityOptimizedPrioritized. Set a
+	// priority for each instance type by using the Priority parameter for LaunchTemplateOverrides.
+	// You can assign the same priority to different LaunchTemplateOverrides. EC2
+	// implements the priorities on a best-effort basis, but optimizes for capacity
+	// first. capacityOptimizedPrioritized is supported only if your Spot Fleet
+	// uses a launch template. Note that if the OnDemandAllocationStrategy is set
+	// to prioritized, the same priority is applied when fulfilling On-Demand capacity.
 	AllocationStrategy *string `locationName:"allocationStrategy" type:"string" enum:"AllocationStrategy"`
 
 	// A unique, case-sensitive identifier that you provide to ensure the idempotency
 	// of your listings. This helps to avoid duplicate listings. For more information,
 	// see Ensuring Idempotency (https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
 	ClientToken *string `locationName:"clientToken" type:"string"`
+
+	// Reserved.
+	Context *string `locationName:"context" type:"string"`
 
 	// Indicates whether running Spot Instances should be terminated if you decrease
 	// the target capacity of the Spot Fleet request below the current size of the
@@ -112354,7 +116268,7 @@ type SpotFleetRequestConfigData struct {
 	// capacity. You cannot set this value.
 	FulfilledCapacity *float64 `locationName:"fulfilledCapacity" type:"double"`
 
-	// The Amazon Resource Name (ARN) of an AWS Identity and Access Management (IAM)
+	// The Amazon Resource Name (ARN) of an Identity and Access Management (IAM)
 	// role that grants the Spot Fleet the permission to request, launch, terminate,
 	// and tag instances on your behalf. For more information, see Spot Fleet prerequisites
 	// (https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-fleet-requests.html#spot-fleet-prerequisites)
@@ -112373,6 +116287,15 @@ type SpotFleetRequestConfigData struct {
 	// Valid only when Spot AllocationStrategy is set to lowest-price. Spot Fleet
 	// selects the cheapest Spot pools and evenly allocates your target Spot capacity
 	// across the number of Spot pools that you specify.
+	//
+	// Note that Spot Fleet attempts to draw Spot Instances from the number of pools
+	// that you specify on a best effort basis. If a pool runs out of Spot capacity
+	// before fulfilling your target capacity, Spot Fleet will continue to fulfill
+	// your request by drawing from the next cheapest pool. To ensure that your
+	// target capacity is met, you might receive Spot Instances from more than the
+	// number of pools that you specified. Similarly, if most of the pools have
+	// no Spot capacity, you might receive your full target capacity from fewer
+	// than the number of pools that you specified.
 	InstancePoolsToUseCount *int64 `locationName:"instancePoolsToUseCount" type:"integer"`
 
 	// The launch specifications for the Spot Fleet request. If you specify LaunchSpecifications,
@@ -112538,6 +116461,12 @@ func (s *SpotFleetRequestConfigData) SetAllocationStrategy(v string) *SpotFleetR
 // SetClientToken sets the ClientToken field's value.
 func (s *SpotFleetRequestConfigData) SetClientToken(v string) *SpotFleetRequestConfigData {
 	s.ClientToken = &v
+	return s
+}
+
+// SetContext sets the Context field's value.
+func (s *SpotFleetRequestConfigData) SetContext(v string) *SpotFleetRequestConfigData {
+	s.Context = &v
 	return s
 }
 
@@ -112712,8 +116641,7 @@ func (s *SpotFleetTagSpecification) SetTags(v []*Tag) *SpotFleetTagSpecification
 type SpotInstanceRequest struct {
 	_ struct{} `type:"structure"`
 
-	// If you specified a duration and your Spot Instance request was fulfilled,
-	// this is the fixed hourly price in effect for the Spot Instance while it runs.
+	// Deprecated.
 	ActualBlockHourlyPrice *string `locationName:"actualBlockHourlyPrice" type:"string"`
 
 	// The Availability Zone group. If you specify the same Availability Zone group
@@ -112721,7 +116649,7 @@ type SpotInstanceRequest struct {
 	// Availability Zone.
 	AvailabilityZoneGroup *string `locationName:"availabilityZoneGroup" type:"string"`
 
-	// The duration for the Spot Instance, in minutes.
+	// Deprecated.
 	BlockDurationMinutes *int64 `locationName:"blockDurationMinutes" type:"integer"`
 
 	// The date and time when the Spot Instance request was created, in UTC format
@@ -113031,8 +116959,9 @@ type SpotMarketOptions struct {
 	// You can't specify an Availability Zone group or a launch group if you specify
 	// a duration.
 	//
-	// New accounts or accounts with no previous billing history with AWS are not
-	// eligible for Spot Instances with a defined duration (also known as Spot blocks).
+	// New accounts or accounts with no previous billing history with Amazon Web
+	// Services are not eligible for Spot Instances with a defined duration (also
+	// known as Spot blocks).
 	BlockDurationMinutes *int64 `type:"integer"`
 
 	// The behavior when a Spot Instance is interrupted. The default is terminate.
@@ -113113,9 +117042,16 @@ type SpotOptions struct {
 	// If the allocation strategy is diversified, EC2 Fleet launches instances from
 	// all of the Spot Instance pools that you specify.
 	//
-	// If the allocation strategy is capacity-optimized, EC2 Fleet launches instances
-	// from Spot Instance pools with optimal capacity for the number of instances
-	// that are launching.
+	// If the allocation strategy is capacity-optimized (recommended), EC2 Fleet
+	// launches instances from Spot Instance pools with optimal capacity for the
+	// number of instances that are launching. To give certain instance types a
+	// higher chance of launching first, use capacity-optimized-prioritized. Set
+	// a priority for each instance type by using the Priority parameter for LaunchTemplateOverrides.
+	// You can assign the same priority to different LaunchTemplateOverrides. EC2
+	// implements the priorities on a best-effort basis, but optimizes for capacity
+	// first. capacity-optimized-prioritized is supported only if your fleet uses
+	// a launch template. Note that if the On-Demand AllocationStrategy is set to
+	// prioritized, the same priority is applied when fulfilling On-Demand capacity.
 	AllocationStrategy *string `locationName:"allocationStrategy" type:"string" enum:"SpotAllocationStrategy"`
 
 	// The behavior when a Spot Instance is interrupted. The default is terminate.
@@ -113125,6 +117061,15 @@ type SpotOptions struct {
 	// Valid only when AllocationStrategy is set to lowest-price. EC2 Fleet selects
 	// the cheapest Spot pools and evenly allocates your target Spot capacity across
 	// the number of Spot pools that you specify.
+	//
+	// Note that EC2 Fleet attempts to draw Spot Instances from the number of pools
+	// that you specify on a best effort basis. If a pool runs out of Spot capacity
+	// before fulfilling your target capacity, EC2 Fleet will continue to fulfill
+	// your request by drawing from the next cheapest pool. To ensure that your
+	// target capacity is met, you might receive Spot Instances from more than the
+	// number of pools that you specified. Similarly, if most of the pools have
+	// no Spot capacity, you might receive your full target capacity from fewer
+	// than the number of pools that you specified.
 	InstancePoolsToUseCount *int64 `locationName:"instancePoolsToUseCount" type:"integer"`
 
 	// The strategies for managing your workloads on your Spot Instances that will
@@ -113219,9 +117164,16 @@ type SpotOptionsRequest struct {
 	// If the allocation strategy is diversified, EC2 Fleet launches instances from
 	// all of the Spot Instance pools that you specify.
 	//
-	// If the allocation strategy is capacity-optimized, EC2 Fleet launches instances
-	// from Spot Instance pools with optimal capacity for the number of instances
-	// that are launching.
+	// If the allocation strategy is capacity-optimized (recommended), EC2 Fleet
+	// launches instances from Spot Instance pools with optimal capacity for the
+	// number of instances that are launching. To give certain instance types a
+	// higher chance of launching first, use capacity-optimized-prioritized. Set
+	// a priority for each instance type by using the Priority parameter for LaunchTemplateOverrides.
+	// You can assign the same priority to different LaunchTemplateOverrides. EC2
+	// implements the priorities on a best-effort basis, but optimizes for capacity
+	// first. capacity-optimized-prioritized is supported only if your fleet uses
+	// a launch template. Note that if the On-Demand AllocationStrategy is set to
+	// prioritized, the same priority is applied when fulfilling On-Demand capacity.
 	AllocationStrategy *string `type:"string" enum:"SpotAllocationStrategy"`
 
 	// The behavior when a Spot Instance is interrupted. The default is terminate.
@@ -113231,6 +117183,15 @@ type SpotOptionsRequest struct {
 	// Valid only when Spot AllocationStrategy is set to lowest-price. EC2 Fleet
 	// selects the cheapest Spot pools and evenly allocates your target Spot capacity
 	// across the number of Spot pools that you specify.
+	//
+	// Note that EC2 Fleet attempts to draw Spot Instances from the number of pools
+	// that you specify on a best effort basis. If a pool runs out of Spot capacity
+	// before fulfilling your target capacity, EC2 Fleet will continue to fulfill
+	// your request by drawing from the next cheapest pool. To ensure that your
+	// target capacity is met, you might receive Spot Instances from more than the
+	// number of pools that you specified. Similarly, if most of the pools have
+	// no Spot capacity, you might receive your full target capacity from fewer
+	// than the number of pools that you specified.
 	InstancePoolsToUseCount *int64 `type:"integer"`
 
 	// The strategies for managing your Spot Instances that are at an elevated risk
@@ -114043,6 +118004,85 @@ func (s *StorageLocation) SetBucket(v string) *StorageLocation {
 // SetKey sets the Key field's value.
 func (s *StorageLocation) SetKey(v string) *StorageLocation {
 	s.Key = &v
+	return s
+}
+
+// The information about the AMI store task, including the progress of the task.
+type StoreImageTaskResult struct {
+	_ struct{} `type:"structure"`
+
+	// The ID of the AMI that is being stored.
+	AmiId *string `locationName:"amiId" type:"string"`
+
+	// The name of the S3 bucket that contains the stored AMI object.
+	Bucket *string `locationName:"bucket" type:"string"`
+
+	// The progress of the task as a percentage.
+	ProgressPercentage *int64 `locationName:"progressPercentage" type:"integer"`
+
+	// The name of the stored AMI object in the bucket.
+	S3objectKey *string `locationName:"s3objectKey" type:"string"`
+
+	// If the tasks fails, the reason for the failure is returned. If the task succeeds,
+	// null is returned.
+	StoreTaskFailureReason *string `locationName:"storeTaskFailureReason" type:"string"`
+
+	// The state of the store task (InProgress, Completed, or Failed).
+	StoreTaskState *string `locationName:"storeTaskState" type:"string"`
+
+	// The time the task started.
+	TaskStartTime *time.Time `locationName:"taskStartTime" type:"timestamp"`
+}
+
+// String returns the string representation
+func (s StoreImageTaskResult) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s StoreImageTaskResult) GoString() string {
+	return s.String()
+}
+
+// SetAmiId sets the AmiId field's value.
+func (s *StoreImageTaskResult) SetAmiId(v string) *StoreImageTaskResult {
+	s.AmiId = &v
+	return s
+}
+
+// SetBucket sets the Bucket field's value.
+func (s *StoreImageTaskResult) SetBucket(v string) *StoreImageTaskResult {
+	s.Bucket = &v
+	return s
+}
+
+// SetProgressPercentage sets the ProgressPercentage field's value.
+func (s *StoreImageTaskResult) SetProgressPercentage(v int64) *StoreImageTaskResult {
+	s.ProgressPercentage = &v
+	return s
+}
+
+// SetS3objectKey sets the S3objectKey field's value.
+func (s *StoreImageTaskResult) SetS3objectKey(v string) *StoreImageTaskResult {
+	s.S3objectKey = &v
+	return s
+}
+
+// SetStoreTaskFailureReason sets the StoreTaskFailureReason field's value.
+func (s *StoreImageTaskResult) SetStoreTaskFailureReason(v string) *StoreImageTaskResult {
+	s.StoreTaskFailureReason = &v
+	return s
+}
+
+// SetStoreTaskState sets the StoreTaskState field's value.
+func (s *StoreImageTaskResult) SetStoreTaskState(v string) *StoreImageTaskResult {
+	s.StoreTaskState = &v
+	return s
+}
+
+// SetTaskStartTime sets the TaskStartTime field's value.
+func (s *StoreImageTaskResult) SetTaskStartTime(v time.Time) *StoreImageTaskResult {
+	s.TaskStartTime = &v
 	return s
 }
 
@@ -117642,6 +121682,85 @@ func (s *TransitGatewayVpcAttachmentOptions) SetIpv6Support(v string) *TransitGa
 	return s
 }
 
+// Information about an association between a branch network interface with
+// a trunk network interface.
+type TrunkInterfaceAssociation struct {
+	_ struct{} `type:"structure"`
+
+	// The ID of the association.
+	AssociationId *string `locationName:"associationId" type:"string"`
+
+	// The ID of the branch network interface.
+	BranchInterfaceId *string `locationName:"branchInterfaceId" type:"string"`
+
+	// The application key when you use the GRE protocol.
+	GreKey *int64 `locationName:"greKey" type:"integer"`
+
+	// The interface protocol. Valid values are VLAN and GRE.
+	InterfaceProtocol *string `locationName:"interfaceProtocol" type:"string" enum:"InterfaceProtocolType"`
+
+	// The tags.
+	Tags []*Tag `locationName:"tagSet" locationNameList:"item" type:"list"`
+
+	// The ID of the trunk network interface.
+	TrunkInterfaceId *string `locationName:"trunkInterfaceId" type:"string"`
+
+	// The ID of the VLAN when you use the VLAN protocol.
+	VlanId *int64 `locationName:"vlanId" type:"integer"`
+}
+
+// String returns the string representation
+func (s TrunkInterfaceAssociation) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s TrunkInterfaceAssociation) GoString() string {
+	return s.String()
+}
+
+// SetAssociationId sets the AssociationId field's value.
+func (s *TrunkInterfaceAssociation) SetAssociationId(v string) *TrunkInterfaceAssociation {
+	s.AssociationId = &v
+	return s
+}
+
+// SetBranchInterfaceId sets the BranchInterfaceId field's value.
+func (s *TrunkInterfaceAssociation) SetBranchInterfaceId(v string) *TrunkInterfaceAssociation {
+	s.BranchInterfaceId = &v
+	return s
+}
+
+// SetGreKey sets the GreKey field's value.
+func (s *TrunkInterfaceAssociation) SetGreKey(v int64) *TrunkInterfaceAssociation {
+	s.GreKey = &v
+	return s
+}
+
+// SetInterfaceProtocol sets the InterfaceProtocol field's value.
+func (s *TrunkInterfaceAssociation) SetInterfaceProtocol(v string) *TrunkInterfaceAssociation {
+	s.InterfaceProtocol = &v
+	return s
+}
+
+// SetTags sets the Tags field's value.
+func (s *TrunkInterfaceAssociation) SetTags(v []*Tag) *TrunkInterfaceAssociation {
+	s.Tags = v
+	return s
+}
+
+// SetTrunkInterfaceId sets the TrunkInterfaceId field's value.
+func (s *TrunkInterfaceAssociation) SetTrunkInterfaceId(v string) *TrunkInterfaceAssociation {
+	s.TrunkInterfaceId = &v
+	return s
+}
+
+// SetVlanId sets the VlanId field's value.
+func (s *TrunkInterfaceAssociation) SetVlanId(v int64) *TrunkInterfaceAssociation {
+	s.VlanId = &v
+	return s
+}
+
 // The VPN tunnel options.
 type TunnelOption struct {
 	_ struct{} `type:"structure"`
@@ -121111,6 +125230,18 @@ func ActivityStatus_Values() []string {
 }
 
 const (
+	// AddressAttributeNameDomainName is a AddressAttributeName enum value
+	AddressAttributeNameDomainName = "domain-name"
+)
+
+// AddressAttributeName_Values returns all elements of the AddressAttributeName enum
+func AddressAttributeName_Values() []string {
+	return []string{
+		AddressAttributeNameDomainName,
+	}
+}
+
+const (
 	// AffinityDefault is a Affinity enum value
 	AffinityDefault = "default"
 
@@ -121167,6 +125298,9 @@ const (
 
 	// AllocationStrategyCapacityOptimized is a AllocationStrategy enum value
 	AllocationStrategyCapacityOptimized = "capacityOptimized"
+
+	// AllocationStrategyCapacityOptimizedPrioritized is a AllocationStrategy enum value
+	AllocationStrategyCapacityOptimizedPrioritized = "capacityOptimizedPrioritized"
 )
 
 // AllocationStrategy_Values returns all elements of the AllocationStrategy enum
@@ -121175,6 +125309,7 @@ func AllocationStrategy_Values() []string {
 		AllocationStrategyLowestPrice,
 		AllocationStrategyDiversified,
 		AllocationStrategyCapacityOptimized,
+		AllocationStrategyCapacityOptimizedPrioritized,
 	}
 }
 
@@ -121475,6 +125610,38 @@ func BgpStatus_Values() []string {
 	return []string{
 		BgpStatusUp,
 		BgpStatusDown,
+	}
+}
+
+const (
+	// BootModeTypeLegacyBios is a BootModeType enum value
+	BootModeTypeLegacyBios = "legacy-bios"
+
+	// BootModeTypeUefi is a BootModeType enum value
+	BootModeTypeUefi = "uefi"
+)
+
+// BootModeType_Values returns all elements of the BootModeType enum
+func BootModeType_Values() []string {
+	return []string{
+		BootModeTypeLegacyBios,
+		BootModeTypeUefi,
+	}
+}
+
+const (
+	// BootModeValuesLegacyBios is a BootModeValues enum value
+	BootModeValuesLegacyBios = "legacy-bios"
+
+	// BootModeValuesUefi is a BootModeValues enum value
+	BootModeValuesUefi = "uefi"
+)
+
+// BootModeValues_Values returns all elements of the BootModeValues enum
+func BootModeValues_Values() []string {
+	return []string{
+		BootModeValuesLegacyBios,
+		BootModeValuesUefi,
 	}
 }
 
@@ -121915,6 +126082,22 @@ const (
 func ConnectionNotificationType_Values() []string {
 	return []string{
 		ConnectionNotificationTypeTopic,
+	}
+}
+
+const (
+	// ConnectivityTypePrivate is a ConnectivityType enum value
+	ConnectivityTypePrivate = "private"
+
+	// ConnectivityTypePublic is a ConnectivityType enum value
+	ConnectivityTypePublic = "public"
+)
+
+// ConnectivityType_Values returns all elements of the ConnectivityType enum
+func ConnectivityType_Values() []string {
+	return []string{
+		ConnectivityTypePrivate,
+		ConnectivityTypePublic,
 	}
 }
 
@@ -122831,6 +127014,9 @@ const (
 
 	// ImageAttributeNameSriovNetSupport is a ImageAttributeName enum value
 	ImageAttributeNameSriovNetSupport = "sriovNetSupport"
+
+	// ImageAttributeNameBootMode is a ImageAttributeName enum value
+	ImageAttributeNameBootMode = "bootMode"
 )
 
 // ImageAttributeName_Values returns all elements of the ImageAttributeName enum
@@ -122843,6 +127029,7 @@ func ImageAttributeName_Values() []string {
 		ImageAttributeNameProductCodes,
 		ImageAttributeNameBlockDeviceMapping,
 		ImageAttributeNameSriovNetSupport,
+		ImageAttributeNameBootMode,
 	}
 }
 
@@ -124088,6 +128275,18 @@ const (
 	// InstanceTypeZ1dMetal is a InstanceType enum value
 	InstanceTypeZ1dMetal = "z1d.metal"
 
+	// InstanceTypeU6tb156xlarge is a InstanceType enum value
+	InstanceTypeU6tb156xlarge = "u-6tb1.56xlarge"
+
+	// InstanceTypeU6tb1112xlarge is a InstanceType enum value
+	InstanceTypeU6tb1112xlarge = "u-6tb1.112xlarge"
+
+	// InstanceTypeU9tb1112xlarge is a InstanceType enum value
+	InstanceTypeU9tb1112xlarge = "u-9tb1.112xlarge"
+
+	// InstanceTypeU12tb1112xlarge is a InstanceType enum value
+	InstanceTypeU12tb1112xlarge = "u-12tb1.112xlarge"
+
 	// InstanceTypeU6tb1Metal is a InstanceType enum value
 	InstanceTypeU6tb1Metal = "u-6tb1.metal"
 
@@ -124145,6 +128344,9 @@ const (
 	// InstanceTypeM5dn24xlarge is a InstanceType enum value
 	InstanceTypeM5dn24xlarge = "m5dn.24xlarge"
 
+	// InstanceTypeM5dnMetal is a InstanceType enum value
+	InstanceTypeM5dnMetal = "m5dn.metal"
+
 	// InstanceTypeM5nLarge is a InstanceType enum value
 	InstanceTypeM5nLarge = "m5n.large"
 
@@ -124168,6 +128370,9 @@ const (
 
 	// InstanceTypeM5n24xlarge is a InstanceType enum value
 	InstanceTypeM5n24xlarge = "m5n.24xlarge"
+
+	// InstanceTypeM5nMetal is a InstanceType enum value
+	InstanceTypeM5nMetal = "m5n.metal"
 
 	// InstanceTypeR5dnLarge is a InstanceType enum value
 	InstanceTypeR5dnLarge = "r5dn.large"
@@ -124193,6 +128398,9 @@ const (
 	// InstanceTypeR5dn24xlarge is a InstanceType enum value
 	InstanceTypeR5dn24xlarge = "r5dn.24xlarge"
 
+	// InstanceTypeR5dnMetal is a InstanceType enum value
+	InstanceTypeR5dnMetal = "r5dn.metal"
+
 	// InstanceTypeR5nLarge is a InstanceType enum value
 	InstanceTypeR5nLarge = "r5n.large"
 
@@ -124216,6 +128424,9 @@ const (
 
 	// InstanceTypeR5n24xlarge is a InstanceType enum value
 	InstanceTypeR5n24xlarge = "r5n.24xlarge"
+
+	// InstanceTypeR5nMetal is a InstanceType enum value
+	InstanceTypeR5nMetal = "r5n.metal"
 
 	// InstanceTypeInf1Xlarge is a InstanceType enum value
 	InstanceTypeInf1Xlarge = "inf1.xlarge"
@@ -124285,6 +128496,33 @@ const (
 
 	// InstanceTypeMac1Metal is a InstanceType enum value
 	InstanceTypeMac1Metal = "mac1.metal"
+
+	// InstanceTypeX2gdMedium is a InstanceType enum value
+	InstanceTypeX2gdMedium = "x2gd.medium"
+
+	// InstanceTypeX2gdLarge is a InstanceType enum value
+	InstanceTypeX2gdLarge = "x2gd.large"
+
+	// InstanceTypeX2gdXlarge is a InstanceType enum value
+	InstanceTypeX2gdXlarge = "x2gd.xlarge"
+
+	// InstanceTypeX2gd2xlarge is a InstanceType enum value
+	InstanceTypeX2gd2xlarge = "x2gd.2xlarge"
+
+	// InstanceTypeX2gd4xlarge is a InstanceType enum value
+	InstanceTypeX2gd4xlarge = "x2gd.4xlarge"
+
+	// InstanceTypeX2gd8xlarge is a InstanceType enum value
+	InstanceTypeX2gd8xlarge = "x2gd.8xlarge"
+
+	// InstanceTypeX2gd12xlarge is a InstanceType enum value
+	InstanceTypeX2gd12xlarge = "x2gd.12xlarge"
+
+	// InstanceTypeX2gd16xlarge is a InstanceType enum value
+	InstanceTypeX2gd16xlarge = "x2gd.16xlarge"
+
+	// InstanceTypeX2gdMetal is a InstanceType enum value
+	InstanceTypeX2gdMetal = "x2gd.metal"
 )
 
 // InstanceType_Values returns all elements of the InstanceType enum
@@ -124613,6 +128851,10 @@ func InstanceType_Values() []string {
 		InstanceTypeZ1d6xlarge,
 		InstanceTypeZ1d12xlarge,
 		InstanceTypeZ1dMetal,
+		InstanceTypeU6tb156xlarge,
+		InstanceTypeU6tb1112xlarge,
+		InstanceTypeU9tb1112xlarge,
+		InstanceTypeU12tb1112xlarge,
 		InstanceTypeU6tb1Metal,
 		InstanceTypeU9tb1Metal,
 		InstanceTypeU12tb1Metal,
@@ -124632,6 +128874,7 @@ func InstanceType_Values() []string {
 		InstanceTypeM5dn12xlarge,
 		InstanceTypeM5dn16xlarge,
 		InstanceTypeM5dn24xlarge,
+		InstanceTypeM5dnMetal,
 		InstanceTypeM5nLarge,
 		InstanceTypeM5nXlarge,
 		InstanceTypeM5n2xlarge,
@@ -124640,6 +128883,7 @@ func InstanceType_Values() []string {
 		InstanceTypeM5n12xlarge,
 		InstanceTypeM5n16xlarge,
 		InstanceTypeM5n24xlarge,
+		InstanceTypeM5nMetal,
 		InstanceTypeR5dnLarge,
 		InstanceTypeR5dnXlarge,
 		InstanceTypeR5dn2xlarge,
@@ -124648,6 +128892,7 @@ func InstanceType_Values() []string {
 		InstanceTypeR5dn12xlarge,
 		InstanceTypeR5dn16xlarge,
 		InstanceTypeR5dn24xlarge,
+		InstanceTypeR5dnMetal,
 		InstanceTypeR5nLarge,
 		InstanceTypeR5nXlarge,
 		InstanceTypeR5n2xlarge,
@@ -124656,6 +128901,7 @@ func InstanceType_Values() []string {
 		InstanceTypeR5n12xlarge,
 		InstanceTypeR5n16xlarge,
 		InstanceTypeR5n24xlarge,
+		InstanceTypeR5nMetal,
 		InstanceTypeInf1Xlarge,
 		InstanceTypeInf12xlarge,
 		InstanceTypeInf16xlarge,
@@ -124679,6 +128925,15 @@ func InstanceType_Values() []string {
 		InstanceTypeM6gd12xlarge,
 		InstanceTypeM6gd16xlarge,
 		InstanceTypeMac1Metal,
+		InstanceTypeX2gdMedium,
+		InstanceTypeX2gdLarge,
+		InstanceTypeX2gdXlarge,
+		InstanceTypeX2gd2xlarge,
+		InstanceTypeX2gd4xlarge,
+		InstanceTypeX2gd8xlarge,
+		InstanceTypeX2gd12xlarge,
+		InstanceTypeX2gd16xlarge,
+		InstanceTypeX2gdMetal,
 	}
 }
 
@@ -124711,6 +128966,22 @@ func InterfacePermissionType_Values() []string {
 	return []string{
 		InterfacePermissionTypeInstanceAttach,
 		InterfacePermissionTypeEipAssociate,
+	}
+}
+
+const (
+	// InterfaceProtocolTypeVlan is a InterfaceProtocolType enum value
+	InterfaceProtocolTypeVlan = "VLAN"
+
+	// InterfaceProtocolTypeGre is a InterfaceProtocolType enum value
+	InterfaceProtocolTypeGre = "GRE"
+)
+
+// InterfaceProtocolType_Values returns all elements of the InterfaceProtocolType enum
+func InterfaceProtocolType_Values() []string {
+	return []string{
+		InterfaceProtocolTypeVlan,
+		InterfaceProtocolTypeGre,
 	}
 }
 
@@ -125093,12 +129364,20 @@ func NetworkInterfaceAttribute_Values() []string {
 const (
 	// NetworkInterfaceCreationTypeEfa is a NetworkInterfaceCreationType enum value
 	NetworkInterfaceCreationTypeEfa = "efa"
+
+	// NetworkInterfaceCreationTypeBranch is a NetworkInterfaceCreationType enum value
+	NetworkInterfaceCreationTypeBranch = "branch"
+
+	// NetworkInterfaceCreationTypeTrunk is a NetworkInterfaceCreationType enum value
+	NetworkInterfaceCreationTypeTrunk = "trunk"
 )
 
 // NetworkInterfaceCreationType_Values returns all elements of the NetworkInterfaceCreationType enum
 func NetworkInterfaceCreationType_Values() []string {
 	return []string{
 		NetworkInterfaceCreationTypeEfa,
+		NetworkInterfaceCreationTypeBranch,
+		NetworkInterfaceCreationTypeTrunk,
 	}
 }
 
@@ -125163,6 +129442,9 @@ const (
 
 	// NetworkInterfaceTypeEfa is a NetworkInterfaceType enum value
 	NetworkInterfaceTypeEfa = "efa"
+
+	// NetworkInterfaceTypeTrunk is a NetworkInterfaceType enum value
+	NetworkInterfaceTypeTrunk = "trunk"
 )
 
 // NetworkInterfaceType_Values returns all elements of the NetworkInterfaceType enum
@@ -125171,6 +129453,7 @@ func NetworkInterfaceType_Values() []string {
 		NetworkInterfaceTypeInterface,
 		NetworkInterfaceTypeNatGateway,
 		NetworkInterfaceTypeEfa,
+		NetworkInterfaceTypeTrunk,
 	}
 }
 
@@ -125251,6 +129534,30 @@ func OperationType_Values() []string {
 	return []string{
 		OperationTypeAdd,
 		OperationTypeRemove,
+	}
+}
+
+const (
+	// PartitionLoadFrequencyNone is a PartitionLoadFrequency enum value
+	PartitionLoadFrequencyNone = "none"
+
+	// PartitionLoadFrequencyDaily is a PartitionLoadFrequency enum value
+	PartitionLoadFrequencyDaily = "daily"
+
+	// PartitionLoadFrequencyWeekly is a PartitionLoadFrequency enum value
+	PartitionLoadFrequencyWeekly = "weekly"
+
+	// PartitionLoadFrequencyMonthly is a PartitionLoadFrequency enum value
+	PartitionLoadFrequencyMonthly = "monthly"
+)
+
+// PartitionLoadFrequency_Values returns all elements of the PartitionLoadFrequency enum
+func PartitionLoadFrequency_Values() []string {
+	return []string{
+		PartitionLoadFrequencyNone,
+		PartitionLoadFrequencyDaily,
+		PartitionLoadFrequencyWeekly,
+		PartitionLoadFrequencyMonthly,
 	}
 }
 
@@ -125527,6 +129834,38 @@ const (
 func RecurringChargeFrequency_Values() []string {
 	return []string{
 		RecurringChargeFrequencyHourly,
+	}
+}
+
+const (
+	// ReplaceRootVolumeTaskStatePending is a ReplaceRootVolumeTaskState enum value
+	ReplaceRootVolumeTaskStatePending = "pending"
+
+	// ReplaceRootVolumeTaskStateInProgress is a ReplaceRootVolumeTaskState enum value
+	ReplaceRootVolumeTaskStateInProgress = "in-progress"
+
+	// ReplaceRootVolumeTaskStateFailing is a ReplaceRootVolumeTaskState enum value
+	ReplaceRootVolumeTaskStateFailing = "failing"
+
+	// ReplaceRootVolumeTaskStateSucceeded is a ReplaceRootVolumeTaskState enum value
+	ReplaceRootVolumeTaskStateSucceeded = "succeeded"
+
+	// ReplaceRootVolumeTaskStateFailed is a ReplaceRootVolumeTaskState enum value
+	ReplaceRootVolumeTaskStateFailed = "failed"
+
+	// ReplaceRootVolumeTaskStateFailedDetached is a ReplaceRootVolumeTaskState enum value
+	ReplaceRootVolumeTaskStateFailedDetached = "failed-detached"
+)
+
+// ReplaceRootVolumeTaskState_Values returns all elements of the ReplaceRootVolumeTaskState enum
+func ReplaceRootVolumeTaskState_Values() []string {
+	return []string{
+		ReplaceRootVolumeTaskStatePending,
+		ReplaceRootVolumeTaskStateInProgress,
+		ReplaceRootVolumeTaskStateFailing,
+		ReplaceRootVolumeTaskStateSucceeded,
+		ReplaceRootVolumeTaskStateFailed,
+		ReplaceRootVolumeTaskStateFailedDetached,
 	}
 }
 
@@ -126115,6 +130454,9 @@ const (
 
 	// SpotAllocationStrategyCapacityOptimized is a SpotAllocationStrategy enum value
 	SpotAllocationStrategyCapacityOptimized = "capacity-optimized"
+
+	// SpotAllocationStrategyCapacityOptimizedPrioritized is a SpotAllocationStrategy enum value
+	SpotAllocationStrategyCapacityOptimizedPrioritized = "capacity-optimized-prioritized"
 )
 
 // SpotAllocationStrategy_Values returns all elements of the SpotAllocationStrategy enum
@@ -126123,6 +130465,7 @@ func SpotAllocationStrategy_Values() []string {
 		SpotAllocationStrategyLowestPrice,
 		SpotAllocationStrategyDiversified,
 		SpotAllocationStrategyCapacityOptimized,
+		SpotAllocationStrategyCapacityOptimizedPrioritized,
 	}
 }
 
