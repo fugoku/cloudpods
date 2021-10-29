@@ -21,9 +21,12 @@ import (
 
 func init() {
 	type VpcListOptions struct {
+		Type      string `json:"type"`
+		CrmBizId  string `json:"crm_biz_id"`
+		AccountId string `json:"account_id"`
 	}
 	shellutils.R(&VpcListOptions{}, "vpc-list", "List vpcs", func(cli *ctyun.SRegion, args *VpcListOptions) error {
-		vpcs, e := cli.GetVpcs()
+		vpcs, e := cli.GetVpcs(args.Type, args.CrmBizId, args.AccountId)
 		if e != nil {
 			return e
 		}
