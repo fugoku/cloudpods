@@ -16,6 +16,7 @@ package identity
 
 import (
 	"yunion.io/x/jsonutils"
+	"yunion.io/x/pkg/errors"
 
 	"yunion.io/x/onecloud/pkg/mcclient/options"
 )
@@ -31,4 +32,64 @@ type PolicyListOptions struct {
 
 func (opts *PolicyListOptions) Params() (jsonutils.JSONObject, error) {
 	return options.ListStructToParams(opts)
+}
+
+type PolicyGetPropertyTagValuePairOptions struct {
+	PolicyListOptions
+	options.TagValuePairsOptions
+}
+
+func (opts *PolicyGetPropertyTagValuePairOptions) Params() (jsonutils.JSONObject, error) {
+	params, err := opts.PolicyListOptions.Params()
+	if err != nil {
+		return nil, errors.Wrap(err, "PolicyListOptions.Params")
+	}
+	tagParams, _ := opts.TagValuePairsOptions.Params()
+	params.(*jsonutils.JSONDict).Update(tagParams)
+	return params, nil
+}
+
+type PolicyGetPropertyTagValueTreeOptions struct {
+	PolicyListOptions
+	options.TagValueTreeOptions
+}
+
+func (opts *PolicyGetPropertyTagValueTreeOptions) Params() (jsonutils.JSONObject, error) {
+	params, err := opts.PolicyListOptions.Params()
+	if err != nil {
+		return nil, errors.Wrap(err, "PolicyListOptions.Params")
+	}
+	tagParams, _ := opts.TagValueTreeOptions.Params()
+	params.(*jsonutils.JSONDict).Update(tagParams)
+	return params, nil
+}
+
+type PolicyGetPropertyDomainTagValuePairOptions struct {
+	PolicyListOptions
+	options.DomainTagValuePairsOptions
+}
+
+func (opts *PolicyGetPropertyDomainTagValuePairOptions) Params() (jsonutils.JSONObject, error) {
+	params, err := opts.PolicyListOptions.Params()
+	if err != nil {
+		return nil, errors.Wrap(err, "PolicyListOptions.Params")
+	}
+	tagParams, _ := opts.DomainTagValuePairsOptions.Params()
+	params.(*jsonutils.JSONDict).Update(tagParams)
+	return params, nil
+}
+
+type PolicyGetPropertyDomainTagValueTreeOptions struct {
+	PolicyListOptions
+	options.DomainTagValueTreeOptions
+}
+
+func (opts *PolicyGetPropertyDomainTagValueTreeOptions) Params() (jsonutils.JSONObject, error) {
+	params, err := opts.PolicyListOptions.Params()
+	if err != nil {
+		return nil, errors.Wrap(err, "PolicyListOptions.Params")
+	}
+	tagParams, _ := opts.DomainTagValueTreeOptions.Params()
+	params.(*jsonutils.JSONDict).Update(tagParams)
+	return params, nil
 }
