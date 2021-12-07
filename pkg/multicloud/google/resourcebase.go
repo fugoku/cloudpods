@@ -22,13 +22,20 @@ import (
 type SResourceBase struct {
 	Name     string
 	SelfLink string
+	Id       string
 }
 
 func (r *SResourceBase) GetId() string {
+	if len(r.Id) > 0 {
+		return r.Id
+	}
 	return r.SelfLink
 }
 
 func (r *SResourceBase) GetGlobalId() string {
+	if len(r.Id) > 0 {
+		return r.Id
+	}
 	return strings.TrimPrefix(r.SelfLink, fmt.Sprintf("%s/%s/", GOOGLE_COMPUTE_DOMAIN, GOOGLE_API_VERSION))
 }
 
