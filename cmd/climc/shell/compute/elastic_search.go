@@ -27,4 +27,5 @@ func init() {
 	cmd.Show(&compute.ElasticSearchIdOption{})
 	cmd.Delete(&compute.ElasticSearchIdOption{})
 	cmd.Perform("syncstatus", &compute.ElasticSearchIdOption{})
+	cmd.Get("access-info", &compute.ElasticSearchIdOption{})
 }
