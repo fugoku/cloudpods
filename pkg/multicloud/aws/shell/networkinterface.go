@@ -21,9 +21,10 @@ import (
 
 func init() {
 	type NetworkInterfaceListOptions struct {
+		Id string
 	}
 	shellutils.R(&NetworkInterfaceListOptions{}, "network-interface-list", "List network interfaces", func(cli *aws.SRegion, args *NetworkInterfaceListOptions) error {
-		interfaces, err := cli.GetNetworkInterfaces()
+		interfaces, err := cli.GetNetworkInterfaces(args.Id)
 		if err != nil {
 			return err
 		}
