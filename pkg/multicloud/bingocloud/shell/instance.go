@@ -22,12 +22,12 @@ import (
 func init() {
 	type InstanceListOptions struct {
 		Id        string
-		ZoneId    string
+		NodeId    string
 		MaxResult int
 		NextToken string
 	}
 	shellutils.R(&InstanceListOptions{}, "instance-list", "list instances", func(cli *bingocloud.SRegion, args *InstanceListOptions) error {
-		vms, _, err := cli.GetInstances(args.Id, args.ZoneId, args.MaxResult, args.NextToken)
+		vms, _, err := cli.GetInstances(args.Id, args.NodeId, args.MaxResult, args.NextToken)
 		if err != nil {
 			return err
 		}
