@@ -15,21 +15,24 @@
 package shell
 
 import (
+	"yunion.io/x/log"
 	"yunion.io/x/pkg/util/timeutils"
 
+	"yunion.io/x/onecloud/pkg/cloudprovider"
 	"yunion.io/x/onecloud/pkg/multicloud/huawei"
 	"yunion.io/x/onecloud/pkg/util/shellutils"
 )
 
 func init() {
-	type MetricListOptions struct {
-	}
-	shellutils.R(&MetricListOptions{}, "metrics-list", "List metrics", func(cli *huawei.SRegion, args *MetricListOptions) error {
-		metrics, err := cli.GetMetrics()
+	shellutils.R(&cloudprovider.MetricListOptions{}, "metric-list", "List metrics", func(cli *huawei.SRegion, args *cloudprovider.MetricListOptions) error {
+		metrics, err := cli.GetClient().GetMetrics(args)
 		if err != nil {
 			return err
 		}
-		printList(metrics, 0, 0, 0, nil)
+		for i := range metrics {
+			log.Infof("metric: %s %s %s", metrics[i].Id, metrics[i].MetricType, metrics[i].Unit)
+			printList(metrics[i].Values, len(metrics[i].Values), 0, 0, []string{})
+		}
 		return nil
 	})
 
