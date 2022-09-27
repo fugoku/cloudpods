@@ -41,6 +41,7 @@ func (self *GuestInsertIsoTask) OnInit(ctx context.Context, obj db.IStandaloneMo
 func (self *GuestInsertIsoTask) prepareIsoImage(ctx context.Context, obj db.IStandaloneModel) {
 	guest := obj.(*models.SGuest)
 	imageId, _ := self.Params.GetString("image_id")
+	cdromOrdinal, _ := self.Params.Int("cdrom_ordinal")
 	db.OpsLog.LogEvent(obj, db.ACT_ISO_PREPARING, imageId, self.UserCred)
 
 	disks, _ := guest.GetGuestDisks()
@@ -57,7 +58,7 @@ func (self *GuestInsertIsoTask) prepareIsoImage(ctx context.Context, obj db.ISta
 		}
 		storageCache.StartImageCacheTask(ctx, self.UserCred, input)
 	} else {
-		guest.EjectIso(self.UserCred)
+		guest.EjectIso(cdromOrdinal, self.UserCred)
 		db.OpsLog.LogEvent(obj, db.ACT_ISO_PREPARE_FAIL, imageId, self.UserCred)
 		self.SetStageFailed(ctx, jsonutils.NewString("host no local storage cache"))
 	}
@@ -65,14 +66,16 @@ func (self *GuestInsertIsoTask) prepareIsoImage(ctx context.Context, obj db.ISta
 
 func (self *GuestInsertIsoTask) OnIsoPrepareCompleteFailed(ctx context.Context, obj db.IStandaloneModel, data jsonutils.JSONObject) {
 	imageId, _ := self.Params.GetString("image_id")
+	cdromOrdinal, _ := self.Params.Int("cdrom_ordinal")
 	db.OpsLog.LogEvent(obj, db.ACT_ISO_PREPARE_FAIL, imageId, self.UserCred)
 	guest := obj.(*models.SGuest)
-	guest.EjectIso(self.UserCred)
+	guest.EjectIso(cdromOrdinal, self.UserCred)
 	self.SetStageFailed(ctx, data)
 }
 
 func (self *GuestInsertIsoTask) OnIsoPrepareComplete(ctx context.Context, obj db.IStandaloneModel, data jsonutils.JSONObject) {
 	imageId, _ := data.GetString("image_id")
+	cdromOrdinal, _ := self.Params.Int("cdrom_ordinal")
 	size, err := data.Int("size")
 	if err != nil {
 		self.SetStageFailed(ctx, jsonutils.NewString(err.Error()))
@@ -81,8 +84,8 @@ func (self *GuestInsertIsoTask) OnIsoPrepareComplete(ctx context.Context, obj db
 	name, _ := data.GetString("name")
 	path, _ := data.GetString("path")
 	guest := obj.(*models.SGuest)
-	if guest.InsertIsoSucc(imageId, path, size, name) {
-		db.OpsLog.LogEvent(guest, db.ACT_ISO_ATTACH, guest.GetDetailsIso(self.UserCred), self.UserCred)
+	if guest.InsertIsoSucc(cdromOrdinal, imageId, path, size, name) {
+		db.OpsLog.LogEvent(guest, db.ACT_ISO_ATTACH, guest.GetDetailsIso(cdromOrdinal, self.UserCred), self.UserCred)
 		if guest.GetDriver().NeedRequestGuestHotAddIso(ctx, guest) {
 			self.SetStage("OnConfigSyncComplete", nil)
 			boot := jsonutils.QueryBoolean(self.Params, "boot", false)
@@ -110,6 +113,7 @@ func (self *HaGuestInsertIsoTask) OnInit(ctx context.Context, obj db.IStandalone
 func (self *HaGuestInsertIsoTask) prepareIsoImage(ctx context.Context, obj db.IStandaloneModel) {
 	guest := obj.(*models.SGuest)
 	imageId, _ := self.Params.GetString("image_id")
+	cdromOrdinal, _ := self.Params.Int("cdrom_ordinal")
 	db.OpsLog.LogEvent(obj, db.ACT_ISO_PREPARING, imageId, self.UserCred)
 	disks, _ := guest.GetGuestDisks()
 	disk := disks[0].GetDisk()
@@ -124,7 +128,7 @@ func (self *HaGuestInsertIsoTask) prepareIsoImage(ctx context.Context, obj db.IS
 		}
 		storageCache.StartImageCacheTask(ctx, self.UserCred, input)
 	} else {
-		guest.EjectIso(self.UserCred)
+		guest.EjectIso(cdromOrdinal, self.UserCred)
 		db.OpsLog.LogEvent(obj, db.ACT_ISO_PREPARE_FAIL, imageId, self.UserCred)
 		self.SetStageFailed(ctx, jsonutils.NewString("host no local storage cache"))
 	}

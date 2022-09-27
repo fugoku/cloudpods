@@ -39,7 +39,8 @@ func (self *GuestEjectISOTask) OnInit(ctx context.Context, obj db.IStandaloneMod
 
 func (self *GuestEjectISOTask) startEjectIso(ctx context.Context, obj db.IStandaloneModel) {
 	guest := obj.(*models.SGuest)
-	if guest.EjectIso(self.UserCred) && guest.Status == api.VM_RUNNING {
+	cdromOrdinal, _ := self.Params.Int("cdrom_ordinal")
+	if guest.EjectIso(cdromOrdinal, self.UserCred) && guest.Status == api.VM_RUNNING {
 		self.SetStage("OnConfigSyncComplete", nil)
 		guest.GetDriver().RequestGuestHotRemoveIso(ctx, guest, self)
 	} else {
