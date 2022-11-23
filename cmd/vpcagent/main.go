@@ -16,63 +16,17 @@ package main
 
 import (
 	"context"
-	"os"
-	"os/signal"
-	"sync"
-	"syscall"
 
-	"yunion.io/x/log"
-
-	"yunion.io/x/onecloud/pkg/appctx"
-	app_common "yunion.io/x/onecloud/pkg/cloudcommon/app"
-	common_options "yunion.io/x/onecloud/pkg/cloudcommon/options"
 	"yunion.io/x/onecloud/pkg/util/atexit"
 	"yunion.io/x/onecloud/pkg/util/procutils"
-	"yunion.io/x/onecloud/pkg/vpcagent/options"
 	_ "yunion.io/x/onecloud/pkg/vpcagent/ovn"
-	"yunion.io/x/onecloud/pkg/vpcagent/worker"
+	"yunion.io/x/onecloud/pkg/vpcagent/service"
 )
 
 func main() {
 	defer atexit.Handle()
 
-	opts := &options.Options{}
-	commonOpts := &opts.CommonOptions
-	{
-		common_options.ParseOptions(opts, os.Args, "vpcagent.conf", "vpcagent")
-		app_common.InitAuth(commonOpts, func() {
-			log.Infof("auth finished ok")
-		})
-	}
-	if err := opts.ValidateThenInit(); err != nil {
-		log.Fatalf("opts validate: %s", err)
-	}
+	go procutils.WaitZombieLoop(context.TODO())
 
-	w := worker.NewWorker(opts)
-	if w == nil {
-		log.Fatalf("new worker failed")
-	}
-
-	{
-
-		ctx := context.Background()
-		ctx, cancelFunc := context.WithCancel(ctx)
-		go procutils.WaitZombieLoop(ctx)
-
-		wg := &sync.WaitGroup{}
-		ctx = context.WithValue(ctx, "wg", wg)
-		ctx = context.WithValue(ctx, appctx.APP_CONTEXT_KEY_APPNAME, "vpcagent")
-		wg.Add(1)
-		go w.Start(ctx)
-
-		go func() {
-			sigChan := make(chan os.Signal)
-			signal.Notify(sigChan, syscall.SIGINT)
-			signal.Notify(sigChan, syscall.SIGTERM)
-			sig := <-sigChan
-			log.Infof("signal received: %s", sig)
-			cancelFunc()
-		}()
-		wg.Wait()
-	}
+	service.StartService()
 }
