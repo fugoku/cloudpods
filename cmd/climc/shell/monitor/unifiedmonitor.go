@@ -21,6 +21,8 @@ import (
 )
 
 func init() {
-	cmd := shell.NewResourceCmd(monitor.UnifiedMonitorManager).WithKeyword("monitor")
+	cmd := shell.NewResourceCmd(monitor.UnifiedMonitorManager).SetPrefix("monitor")
 	cmd.Show(&options.SimpleQueryOptions{})
+	cmd.GetProperty(&options.MeasurementsQueryOptions{})
+	cmd.GetProperty(&options.DatabasesQueryOptions{})
 }
