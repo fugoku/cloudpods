@@ -23,7 +23,6 @@ import (
 
 	api "yunion.io/x/onecloud/pkg/apis/compute"
 	"yunion.io/x/onecloud/pkg/hostman/guestman/desc"
-	"yunion.io/x/onecloud/pkg/util/procutils"
 )
 
 type sNVMEDevice struct {
@@ -115,38 +114,7 @@ func getPassthroughNVMEDisks(nvmePciDisks []string) ([]*sNVMEDevice, error) {
 		if err != nil {
 			return nil, errors.Wrap(err, "detectPCIDevByAddrWithoutIOMMUGroup")
 		}
-		driver, err := dev.getKernelDriver()
-		if err != nil {
-			return nil, err
-		}
-		if driver != VFIO_PCI_KERNEL_DRIVER {
-			if driver != "" {
-				if err = dev.unbindDriver(); err != nil {
-					return nil, err
-				}
-			}
-			if err = dev.bindDriver(); err != nil {
-				return nil, err
-			}
-		}
 		devs = append(devs, newNVMEDevice(dev, api.NVME_PT_TYPE, sizeMb))
 	}
 	return devs, nil
-}
-
-func (dev *sNVMEDevice) CustomProbe(idx int) error {
-	// check environments on first probe
-	if idx == 0 {
-		for _, driver := range []string{"vfio", "vfio_iommu_type1", "vfio-pci"} {
-			if err := procutils.NewRemoteCommandAsFarAsPossible("modprobe", driver).Run(); err != nil {
-				return fmt.Errorf("modprobe %s: %v", driver, err)
-			}
-		}
-	}
-
-	driver, err := dev.GetKernelDriver()
-	if err != nil {
-		return fmt.Errorf("Nic %s is occupied by another driver: %s", dev.GetAddr(), driver)
-	}
-	return nil
 }
