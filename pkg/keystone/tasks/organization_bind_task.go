@@ -36,10 +36,9 @@ func init() {
 }
 
 func (task *OrganizationBindTask) OnInit(ctx context.Context, obj db.IStandaloneModel, data jsonutils.JSONObject) {
-	org := obj.(*models.SOrganization)
-	log.Debugf("start bind objs to org %s", jsonutils.Marshal(org.Info.Tags))
+	orgNode := obj.(*models.SOrganizationNode)
 
-	input := api.OrganizationPerformBindInput{}
+	input := api.OrganizationNodePerformBindInput{}
 	err := task.Params.Unmarshal(&input, "input")
 	if err != nil {
 		log.Errorf("Unmarshal input %s fail %s", task.Params, err)
@@ -47,7 +46,9 @@ func (task *OrganizationBindTask) OnInit(ctx context.Context, obj db.IStandalone
 		return
 	}
 
-	err = org.BindTargetIds(ctx, task.UserCred, input)
+	log.Debugf("start bind objs to organization %s label %s", orgNode.OrgId, orgNode.FullLabel)
+
+	err = orgNode.BindTargetIds(ctx, task.UserCred, input)
 	if err != nil {
 		log.Errorf("BindTargetIds fail %s", err)
 		task.SetStageFailed(ctx, jsonutils.Marshal(err))
@@ -56,9 +57,9 @@ func (task *OrganizationBindTask) OnInit(ctx context.Context, obj db.IStandalone
 
 	notes := jsonutils.NewDict()
 	notes.Set("input", jsonutils.Marshal(input))
-	notes.Set("organization", org.GetShortDesc(ctx))
-	logclient.AddActionLogWithStartable(task, org, logclient.ACT_BIND_DISK, notes, task.UserCred, true)
-	db.OpsLog.LogEvent(org, db.ACT_BIND, notes, task.UserCred)
+	notes.Set("organization", orgNode.GetShortDesc(ctx))
+	logclient.AddActionLogWithStartable(task, orgNode, logclient.ACT_BIND, notes, task.UserCred, true)
+	db.OpsLog.LogEvent(orgNode, db.ACT_BIND, notes, task.UserCred)
 
 	task.SetStageComplete(ctx, notes)
 }
