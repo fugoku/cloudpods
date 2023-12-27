@@ -31699,6 +31699,9 @@ definitions:
       reset_password:
         type: boolean
         x-go-name: ResetPassword
+      user_data:
+        type: string
+        x-go-name: UserData
     required:
     - image_id
     type: object
