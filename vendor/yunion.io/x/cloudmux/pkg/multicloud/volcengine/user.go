@@ -17,9 +17,11 @@ package volcengine
 import (
 	"fmt"
 
+	api "yunion.io/x/cloudmux/pkg/apis/cloudid"
 	"yunion.io/x/cloudmux/pkg/cloudprovider"
 	"yunion.io/x/cloudmux/pkg/multicloud"
 	"yunion.io/x/pkg/errors"
+	"yunion.io/x/pkg/utils"
 )
 
 type SUser struct {
@@ -75,7 +77,7 @@ func (user *SUser) GetICloudgroups() ([]cloudprovider.ICloudgroup, error) {
 	return ret, nil
 }
 
-func (user *SUser) GetISystemCloudpolicies() ([]cloudprovider.ICloudpolicy, error) {
+func (user *SUser) GetICloudpolicies() ([]cloudprovider.ICloudpolicy, error) {
 	policies, err := user.client.ListAttachedUserPolicies(user.UserName)
 	if err != nil {
 		return nil, err
@@ -83,24 +85,7 @@ func (user *SUser) GetISystemCloudpolicies() ([]cloudprovider.ICloudpolicy, erro
 	ret := []cloudprovider.ICloudpolicy{}
 	for i := range policies {
 		policies[i].client = user.client
-		if policies[i].PolicyType == "System" {
-			ret = append(ret, &policies[i])
-		}
-	}
-	return ret, nil
-}
-
-func (user *SUser) GetICustomCloudpolicies() ([]cloudprovider.ICloudpolicy, error) {
-	policies, err := user.client.ListAttachedUserPolicies(user.UserName)
-	if err != nil {
-		return nil, err
-	}
-	ret := []cloudprovider.ICloudpolicy{}
-	for i := range policies {
-		policies[i].client = user.client
-		if policies[i].PolicyType == "Custom" {
-			ret = append(ret, &policies[i])
-		}
+		ret = append(ret, &policies[i])
 	}
 	return ret, nil
 }
@@ -117,20 +102,12 @@ func (user *SUser) ResetPassword(password string) error {
 	return user.client.UpdateLoginProfile(user.UserName, password, nil)
 }
 
-func (user *SUser) AttachSystemPolicy(policyName string) error {
-	return user.client.AttachUserPolicy(user.UserName, policyName, "System")
+func (user *SUser) AttachPolicy(policyName string, policyType api.TPolicyType) error {
+	return user.client.AttachUserPolicy(user.UserName, policyName, utils.Capitalize(string(policyType)))
 }
 
-func (user *SUser) AttachCustomPolicy(policyName string) error {
-	return user.client.AttachUserPolicy(user.UserName, policyName, "Custom")
-}
-
-func (user *SUser) DetachSystemPolicy(policyName string) error {
-	return user.client.DetachUserPolicy(user.UserName, policyName, "System")
-}
-
-func (user *SUser) DetachCustomPolicy(policyName string) error {
-	return user.client.DetachUserPolicy(user.UserName, policyName, "Custom")
+func (user *SUser) DetachPolicy(policyName string, policyType api.TPolicyType) error {
+	return user.client.DetachUserPolicy(user.UserName, policyName, utils.Capitalize(string(policyType)))
 }
 
 func (client *SVolcEngineClient) GetUsers() ([]SUser, error) {

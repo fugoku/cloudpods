@@ -20,6 +20,7 @@ import (
 	"yunion.io/x/jsonutils"
 	"yunion.io/x/pkg/errors"
 
+	api "yunion.io/x/cloudmux/pkg/apis/cloudid"
 	"yunion.io/x/cloudmux/pkg/cloudprovider"
 )
 
@@ -55,6 +56,13 @@ func (policy *SPolicy) GetGlobalId() string {
 	return policy.PolicyName
 }
 
+func (policy *SPolicy) GetPolicyType() api.TPolicyType {
+	if policy.PolicyType == "System" {
+		return api.PolicyTypeSystem
+	}
+	return api.PolicyTypeCustom
+}
+
 func (policy *SPolicy) UpdateDocument(document *jsonutils.JSONDict) error {
 	return cloudprovider.ErrNotImplemented
 }
@@ -75,21 +83,8 @@ func (policy *SPolicy) GetDocument() (*jsonutils.JSONDict, error) {
 	return ret, nil
 }
 
-func (self *SVolcEngineClient) GetISystemCloudpolicies() ([]cloudprovider.ICloudpolicy, error) {
-	policies, err := self.ListPolicies("System")
-	if err != nil {
-		return nil, err
-	}
-	ret := []cloudprovider.ICloudpolicy{}
-	for i := range policies {
-		policies[i].client = self
-		ret = append(ret, &policies[i])
-	}
-	return ret, nil
-}
-
-func (self *SVolcEngineClient) GetICustomCloudpolicies() ([]cloudprovider.ICloudpolicy, error) {
-	policies, err := self.ListPolicies("Custom")
+func (self *SVolcEngineClient) GetICloudpolicies() ([]cloudprovider.ICloudpolicy, error) {
+	policies, err := self.ListPolicies("")
 	if err != nil {
 		return nil, err
 	}
