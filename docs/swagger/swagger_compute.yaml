@@ -2141,78 +2141,15 @@ definitions:
         x-go-package: yunion.io/x/onecloud/pkg/apis/compute
     CacheImageInput:
         properties:
-            checksum:
-                description: 'swagger: ignore'
-                type: string
-                x-go-name: Checksum
             format:
                 type: string
                 x-go-name: Format
-            image:
-                type: string
-                x-go-name: Image
             image_id:
                 type: string
                 x-go-name: ImageId
-            image_name:
-                description: 'swagger: ignore'
-                type: string
-                x-go-name: ImageName
             is_force:
                 type: boolean
                 x-go-name: IsForce
-            os_arch:
-                description: 'swagger: ignore'
-                type: string
-                x-go-name: OsArch
-            os_distribution:
-                description: 'swagger: ignore'
-                type: string
-                x-go-name: OsDistribution
-            os_full_version:
-                description: 'swagger: ignore'
-                type: string
-                x-go-name: OsFullVersion
-            os_type:
-                description: 'swagger: ignore'
-                type: string
-                x-go-name: OsType
-            os_version:
-                description: 'swagger: ignore'
-                type: string
-                x-go-name: OsVersion
-            parent_task_id:
-                description: 'swagger: ignore'
-                type: string
-                x-go-name: ParentTaskId
-            pre_cache:
-                description: 'swagger: ignore'
-                type: boolean
-                x-go-name: PreCache
-            server_id:
-                description: 'swagger: ignore'
-                type: string
-                x-go-name: ServerId
-            skip_checksum_if_exists:
-                description: 'swagger: ignore'
-                type: boolean
-                x-go-name: SkipChecksumIfExists
-            source_host_id:
-                description: 'swagger: ignore'
-                type: string
-                x-go-name: SourceHostId
-            src_url:
-                description: 'swagger: ignore'
-                type: string
-                x-go-name: SrcUrl
-            storagecache_id:
-                description: 'swagger: ignore'
-                type: string
-                x-go-name: StoragecacheId
-            zone:
-                description: 'swagger: ignore'
-                type: string
-                x-go-name: Zone
         type: object
         x-go-package: yunion.io/x/onecloud/pkg/apis/compute
     CachedImageManagerCacheImageInput:
@@ -7631,20 +7568,12 @@ definitions:
                     user:rd: op
                 type: object
                 x-go-name: Metadata
-            back_storage_id:
-                description: 'swagger: ignore'
-                type: string
-                x-go-name: BackStorageId
             backup_as_tar:
                 $ref: '#/definitions/DiskBackupAsTarInput'
             backup_storage_id:
                 description: 'description: backup storage id'
                 type: string
                 x-go-name: BackupStorageId
-            cloudregion_id:
-                description: 'swagger: ignore'
-                type: string
-                x-go-name: CloudregionId
             description:
                 description: 资源描述
                 example: test create network
@@ -9047,9 +8976,6 @@ definitions:
     DiskSaveInput:
         properties:
             Format:
-                type: string
-            ImageId:
-                description: 'swagger: ignore'
                 type: string
             Name:
                 type: string
@@ -10928,11 +10854,6 @@ definitions:
                     - "18:00:00"
                 type: string
                 x-go-name: MaintainStartTime
-            memory_size_mb:
-                description: 'swagger: ignore'
-                format: int64
-                type: integer
-                x-go-name: MemorySizeMb
             name:
                 description: |-
                     资源名称，如果generate_name为空，则为必填项
@@ -10941,10 +10862,6 @@ definitions:
                 type: string
                 uniqueItems: true
                 x-go-name: Name
-            network:
-                description: 'swagger: ignore'
-                type: string
-                x-go-name: Network
             network_id:
                 description: Ip子网名称或Id,建议使用Id
                 type: string
@@ -10998,10 +10915,6 @@ definitions:
                 description: 用来存储资源的状态
                 type: string
                 x-go-name: Status
-            zone:
-                description: 'swagger: ignore'
-                type: string
-                x-go-name: Zone
             zone_id:
                 description: 主可用区名称或Id
                 type: string
@@ -12494,12 +12407,6 @@ definitions:
                 example: public
                 type: string
                 x-go-name: CloudEnv
-            cloudaccount_id:
-                description: |-
-                    swagger: ignore
-                    将在3.12之后版本移除
-                type: string
-                x-go-name: CloudaccountId
             created_at:
                 description: 资源创建时间
                 format: date-time
@@ -13555,10 +13462,6 @@ definitions:
                 format: int64
                 type: integer
                 x-go-name: MaxBandwidthMb
-            prefer_host:
-                description: 'swagger: ignore'
-                type: string
-                x-go-name: PreferHost
             prefer_host_id:
                 description: 指定期望的迁移目标宿主机
                 type: string
@@ -13607,10 +13510,6 @@ definitions:
             auto_start:
                 type: boolean
                 x-go-name: AutoStart
-            prefer_host:
-                description: 'swagger: ignore'
-                type: string
-                x-go-name: PreferHost
             prefer_host_id:
                 type: string
                 x-go-name: PreferHostId
@@ -15633,10 +15532,6 @@ definitions:
                 x-go-name: Mac
             net_type:
                 $ref: '#/definitions/TNetworkType'
-            network:
-                description: Deprecated
-                type: string
-                x-go-name: Network
             network_id:
                 type: string
                 x-go-name: NetworkId
@@ -19420,10 +19315,6 @@ definitions:
                 x-go-name: Name
             network_ids:
                 $ref: '#/definitions/SKubeNetworkIds'
-            public_key:
-                description: 'swagger: ignore'
-                type: string
-                x-go-name: PublicKey
             root_disk_size_gb:
                 format: int64
                 type: integer
@@ -20159,14 +20050,6 @@ definitions:
             address:
                 type: string
                 x-go-name: Address
-            backend:
-                description: 'swagger: ignore'
-                type: string
-                x-go-name: Backend
-            backend_group:
-                description: 'swagger: ignore'
-                type: string
-                x-go-name: BackendGroup
             backend_group_id:
                 type: string
                 x-go-name: BackendGroupId
@@ -20552,10 +20435,6 @@ definitions:
                     description: the resource is an emulated resource
                 type: boolean
                 x-go-name: IsEmulated
-            loadbalancer:
-                description: 'swagger: ignore'
-                type: string
-                x-go-name: Loadbalancer
             loadbalancer_id:
                 description: 负载均衡ID
                 type: string
@@ -20865,10 +20744,6 @@ definitions:
                 description: 区域名称或ID
                 type: string
                 x-go-name: CloudregionId
-            common_name:
-                description: 'swagger: ignore'
-                type: string
-                x-go-name: CommonName
             description:
                 description: 资源描述
                 example: test create network
@@ -20879,10 +20754,6 @@ definitions:
                 description: 预检验参数,若为true则仅检查参数,并不真正创建变更
                 type: boolean
                 x-go-name: DryRun
-            fingerprint:
-                description: 'swagger: ignore'
-                type: string
-                x-go-name: Fingerprint
             generate_name:
                 description: |-
                     生成资源名称的模板，如果name为空，则为必填项
@@ -20912,16 +20783,6 @@ definitions:
                 type: string
                 uniqueItems: true
                 x-go-name: Name
-            not_after:
-                description: 'swagger: ignore'
-                format: date-time
-                type: string
-                x-go-name: NotAfter
-            not_before:
-                description: 'swagger: ignore'
-                format: date-time
-                type: string
-                x-go-name: NotBefore
             private_key:
                 type: string
                 x-go-name: PrivateKey
@@ -20933,31 +20794,14 @@ definitions:
                 description: 指定项目的名称或ID
                 type: string
                 x-go-name: ProjectId
-            public_key_algorithm:
-                description: 'swagger: ignore'
-                type: string
-                x-go-name: PublicKeyAlgorithm
-            public_key_bit_len:
-                description: 'swagger: ignore'
-                format: int64
-                type: integer
-                x-go-name: PublicKeyBitLen
             public_scope:
                 description: 共享范围
                 type: string
                 x-go-name: PublicScope
-            signature_algorithm:
-                description: 'swagger: ignore'
-                type: string
-                x-go-name: SignatureAlgorithm
             status:
                 description: 用来存储资源的状态
                 type: string
                 x-go-name: Status
-            subject_alternative_names:
-                description: 'swagger: ignore'
-                type: string
-                x-go-name: SubjectAlternativeNames
         required:
             - name
         type: object
@@ -21435,13 +21279,6 @@ definitions:
                     user:rd: op
                 type: object
                 x-go-name: Metadata
-            Networks:
-                description: |-
-                    多子网
-                    swagger: ignore
-                items:
-                    type: string
-                type: array
             address:
                 description: IP地址
                 type: string
@@ -21485,10 +21322,6 @@ definitions:
                 format: int64
                 type: integer
                 x-go-name: EgressMbps
-            eip:
-                description: 'swagger: ignore'
-                type: string
-                x-go-name: Eip
             eip_auto_dellocate:
                 description: 是否跟随主机删除而自动释放
                 type: boolean
@@ -21987,10 +21820,6 @@ definitions:
                     user:rd: op
                 type: object
                 x-go-name: Metadata
-            acl:
-                description: 'swagger: ignore'
-                type: string
-                x-go-name: Acl
             acl_id:
                 type: string
                 x-go-name: AclId
@@ -22006,10 +21835,6 @@ definitions:
                 format: int64
                 type: integer
                 x-go-name: BackendConnectTimeout
-            backend_group:
-                description: 'swagger: ignore'
-                type: string
-                x-go-name: BackendGroup
             backend_group_id:
                 type: string
                 x-go-name: BackendGroupId
@@ -22019,10 +21844,6 @@ definitions:
                 format: int64
                 type: integer
                 x-go-name: BackendIdleTimeout
-            certificate:
-                description: 'swagger: ignore'
-                type: string
-                x-go-name: Certificate
             certificate_id:
                 type: string
                 x-go-name: CertificateId
@@ -22132,10 +21953,6 @@ definitions:
             listener_type:
                 type: string
                 x-go-name: ListenerType
-            loadbalancer:
-                description: 'swagger: ignore'
-                type: string
-                x-go-name: Loadbalancer
             loadbalancer_id:
                 description: 负载均衡ID
                 type: string
@@ -22662,10 +22479,6 @@ definitions:
                     description: the resource is an emulated resource
                 type: boolean
                 x-go-name: IsEmulated
-            listener:
-                description: 'swagger: ignore'
-                type: string
-                x-go-name: Listener
             listener_id:
                 type: string
                 x-go-name: ListenerId
@@ -23050,10 +22863,6 @@ definitions:
                 format: int64
                 type: integer
                 x-go-name: HttpRequstRatePerSec
-            listener:
-                description: 'swagger: ignore'
-                type: string
-                x-go-name: Listener
             listener_id:
                 type: string
                 x-go-name: ListenerId
@@ -23072,10 +22881,6 @@ definitions:
         x-go-package: yunion.io/x/onecloud/pkg/apis/compute
     LoadbalancerListenerUpdateInput:
         properties:
-            acl:
-                description: 'swagger: ignore'
-                type: string
-                x-go-name: Acl
             acl_id:
                 type: string
                 x-go-name: AclId
@@ -23097,10 +22902,6 @@ definitions:
                 format: int64
                 type: integer
                 x-go-name: BackendIdleTimeout
-            certificate:
-                description: 'swagger: ignore'
-                type: string
-                x-go-name: Certificate
             certificate_id:
                 type: string
                 x-go-name: CertificateId
@@ -26350,11 +26151,6 @@ definitions:
                 description: 用来存储资源的状态
                 type: string
                 x-go-name: Status
-            vlan:
-                description: deprecated
-                format: int64
-                type: integer
-                x-go-name: Vlan
             vlan_id:
                 description: VlanId
                 format: int64
@@ -30811,16 +30607,10 @@ definitions:
             eip:
                 type: string
                 x-go-name: Eip
-            external_ip_id:
-                type: string
-                x-go-name: ExternalIpId
         type: object
         x-go-package: yunion.io/x/onecloud/pkg/apis/compute
     SNatSCreateInput:
         properties:
-            Ip:
-                description: 'swagger: ignore'
-                type: string
             Name:
                 type: string
             NatgatewayId:
@@ -31496,14 +31286,6 @@ definitions:
                     user:rd: op
                 type: object
                 x-go-name: Metadata
-            cloudprovider_id:
-                description: 列出关联指定云订阅(ID或Name)的资源
-                type: string
-                x-go-name: CloudproviderId
-            cloudregion_id:
-                description: 区域名称或ID
-                type: string
-                x-go-name: CloudregionId
             description:
                 description: 资源描述
                 example: test create network
@@ -31525,10 +31307,6 @@ definitions:
                 example: test###
                 type: string
                 x-go-name: GenerateName
-            globalvpc_id:
-                description: 'swagger: ignore'
-                type: string
-                x-go-name: GlobalvpcId
             is_emulated:
                 description: |-
                     资源是否为模拟资源
@@ -31645,10 +31423,6 @@ definitions:
                 description: 安全组ID
                 type: string
                 x-go-name: SecgroupId
-            status:
-                description: 'swagger: ignore'
-                type: string
-                x-go-name: Status
         required:
             - priority
             - protocol
@@ -32360,19 +32134,11 @@ definitions:
                     user:rd: op
                 type: object
                 x-go-name: Metadata
-            backend_group_id:
-                description: 'swagger: ignore'
-                type: string
-                x-go-name: BackendGroupId
             cloudregion:
                 description: 'description: cloud region id or name'
                 example: cr-test-one
                 type: string
                 x-go-name: Cloudregion
-            cloudregion_id:
-                description: 'swagger: ignore'
-                type: string
-                x-go-name: CloudregionId
             description:
                 description: 资源描述
                 example: test create network
@@ -32420,10 +32186,6 @@ definitions:
                 example: gt-test-one
                 type: string
                 x-go-name: GuestTemplate
-            guest_template_id:
-                description: 'swagger: ignore'
-                type: string
-                x-go-name: GuestTemplateId
             health_check_cycle:
                 description: 'description: 健康检查周期'
                 example: 300
@@ -33000,10 +32762,6 @@ definitions:
                 example: sg-test-one
                 type: string
                 x-go-name: ScalingGroup
-            scaling_group_id:
-                description: 'swagger: ignore'
-                type: string
-                x-go-name: ScalingGroupId
             status:
                 description: 用来存储资源的状态
                 type: string
@@ -33294,10 +33052,6 @@ definitions:
         x-go-package: yunion.io/x/onecloud/pkg/apis/compute
     SchedtagConfig:
         properties:
-            id:
-                description: 'swagger: ignore'
-                type: string
-                x-go-name: Id
             resource_type:
                 description: |-
                     资源类型
@@ -33317,11 +33071,6 @@ definitions:
                     enmu: required, prefer, avoid, exclude
                 type: string
                 x-go-name: Strategy
-            weight:
-                description: 'swagger: ignore'
-                format: int64
-                type: integer
-                x-go-name: Weight
         type: object
         x-go-package: yunion.io/x/onecloud/pkg/apis/compute
     SchedtagCreateInput:
@@ -34247,20 +33996,12 @@ definitions:
                 format: int64
                 type: integer
                 x-go-name: ExtraCpuCount
-            flavor:
-                description: 'swagger: ignore'
-                type: string
-                x-go-name: Flavor
             instance_type:
                 description: |-
                     关机且停机不收费情况下不允许调整配置
                     实例类型, 优先级高于vcpu_count和vmem_size
                 type: string
                 x-go-name: InstanceType
-            sku:
-                description: 'swagger: ignore'
-                type: string
-                x-go-name: Sku
             vcpu_count:
                 description: cpu大小
                 format: int64
@@ -34526,12 +34267,6 @@ definitions:
                 format: int64
                 type: integer
                 x-go-name: ExtraCpuCount
-            fake_create:
-                description: |-
-                    swagger: ignore
-                    创建测试数据，不实际创建资源
-                type: boolean
-                x-go-name: FakeCreate
             generate_name:
                 description: |-
                     生成资源名称的模板，如果name为空，则为必填项
@@ -34694,10 +34429,6 @@ definitions:
                 description: 指定项目的名称或ID
                 type: string
                 x-go-name: ProjectId
-            provider:
-                description: 'swagger: ignore'
-                type: string
-                x-go-name: Provider
             public_ip_bw:
                 description: |-
                     公网IP带宽(单位MB)
@@ -34849,28 +34580,10 @@ definitions:
                     若指定的秘钥Id和虚拟机的秘钥Id不相同, 则清理旧的公钥
                 type: string
                 x-go-name: DeletePublicKey
-            deploy_configs:
-                description: 'swagger: ignore'
-                items:
-                    $ref: '#/definitions/DeployConfig'
-                type: array
-                x-go-name: DeployConfigs
-            deploy_telegraf:
-                description: 'swagger: ignore'
-                type: boolean
-                x-go-name: DeployTelegraf
-            keypair:
-                description: 'swagger: ignore'
-                type: string
-                x-go-name: Keypair
             keypair_id:
                 description: 秘钥Id
                 type: string
                 x-go-name: KeypairId
-            login_account:
-                description: 'swagger: ignore'
-                type: string
-                x-go-name: LoginAccount
             password:
                 description: 重置指定密码
                 type: string
@@ -34879,10 +34592,6 @@ definitions:
                 description: 生成随机密码, 优先级低于password
                 type: boolean
                 x-go-name: ResetPassword
-            restart:
-                description: 'swagger: ignore'
-                type: boolean
-                x-go-name: Restart
             user_data:
                 description: |-
                     用户自定义启动脚本
@@ -35821,10 +35530,6 @@ definitions:
             live_migrate:
                 type: boolean
                 x-go-name: LiveMigrate
-            prefer_host:
-                description: Deprecated
-                type: string
-                x-go-name: PreferHost
             prefer_host_id:
                 type: string
                 x-go-name: PreferHostId
@@ -35934,38 +35639,16 @@ definitions:
                     若指定的秘钥Id和虚拟机的秘钥Id不相同, 则清理旧的公钥
                 type: string
                 x-go-name: DeletePublicKey
-            deploy_configs:
-                description: 'swagger: ignore'
-                items:
-                    $ref: '#/definitions/DeployConfig'
-                type: array
-                x-go-name: DeployConfigs
-            deploy_telegraf:
-                description: 'swagger: ignore'
-                type: boolean
-                x-go-name: DeployTelegraf
-            image:
-                description: 'swagger: ignore'
-                type: string
-                x-go-name: Image
             image_id:
                 description: |-
                     关机且停机不收费情况下不允许重装系统
                     镜像 id
                 type: string
                 x-go-name: ImageId
-            keypair:
-                description: 'swagger: ignore'
-                type: string
-                x-go-name: Keypair
             keypair_id:
                 description: 秘钥Id
                 type: string
                 x-go-name: KeypairId
-            login_account:
-                description: 'swagger: ignore'
-                type: string
-                x-go-name: LoginAccount
             password:
                 description: 重置指定密码
                 type: string
@@ -35974,10 +35657,6 @@ definitions:
                 description: 生成随机密码, 优先级低于password
                 type: boolean
                 x-go-name: ResetPassword
-            restart:
-                description: 'swagger: ignore'
-                type: boolean
-                x-go-name: Restart
             user_data:
                 description: |-
                     用户自定义启动脚本
@@ -36014,10 +35693,6 @@ definitions:
         x-go-package: yunion.io/x/onecloud/pkg/apis/compute
     ServerResizeDiskInput:
         properties:
-            disk:
-                description: 'swagger: ignore'
-                type: string
-                x-go-name: Disk
             disk_id:
                 description: 磁盘Id
                 type: string
@@ -36146,9 +35821,6 @@ definitions:
                 type: string
             GenerateName:
                 type: string
-            ImageId:
-                description: 'swagger: ignore'
-                type: string
             IsPublic:
                 type: boolean
             Name:
@@ -36156,15 +35828,6 @@ definitions:
                 type: string
             Notes:
                 type: string
-            OsArch:
-                description: 'swagger: ignore'
-                type: string
-            OsType:
-                description: 'swagger: ignore'
-                type: string
-            Restart:
-                description: 'swagger: ignore'
-                type: boolean
         type: object
         x-go-package: yunion.io/x/onecloud/pkg/apis/compute
     ServerSetBootIndexInput:
@@ -36779,11 +36442,6 @@ definitions:
                 format: float
                 type: number
                 x-go-name: Progress
-            progress_mbps:
-                description: 'swagger: ignore'
-                format: float
-                type: number
-                x-go-name: ProgressMbps
             shutdown_behavior:
                 description: 关机执行操作
                 type: string
@@ -40103,12 +39761,6 @@ definitions:
                     type: string
                 type: array
                 x-go-name: Resources
-            skip_sync_resources:
-                description: 'swagger: ignore'
-                items:
-                    type: string
-                type: array
-                x-go-name: SkipSyncResources
             xor:
                 description: 极速模式(差量更新)
                 type: boolean
@@ -42205,12 +41857,6 @@ definitions:
                 description: WAF实例Id
                 type: string
                 x-go-name: WafInstanceId
-            waf_rule_group_id:
-                description: |-
-                    swagger: ignore
-                    WAF规则组Id
-                type: string
-                x-go-name: WafRuleGroupId
         required:
             - name
         type: object
@@ -42597,11 +42243,6 @@ definitions:
                 format: int64
                 type: integer
                 x-go-name: Bandwidth
-            bw:
-                description: Deprecated
-                format: int64
-                type: integer
-                x-go-name: Bw
             description:
                 description: 资源描述
                 example: test create network
@@ -120694,18 +120335,18 @@ paths:
                   name: refresh
                   type: boolean
                   x-go-name: Refresh
-                - description: 指定项目或者域的ID
-                  in: path
-                  name: scopeId
-                  required: true
-                  type: string
-                  x-go-name: ScopeId
                 - description: 配额所属范围，可能值为projects和domains，分别代表项目的配额和域的配额
                   in: path
                   name: scope
                   required: true
                   type: string
                   x-go-name: Scope
+                - description: 指定项目或者域的ID
+                  in: path
+                  name: scopeId
+                  required: true
+                  type: string
+                  x-go-name: ScopeId
             responses:
                 "200":
                     $ref: '#/responses/models_GetProjectQuotaOutput'
@@ -120716,18 +120357,18 @@ paths:
             description: 设置指定项目或者域的项目配额
             operationId: models_SetProjectQuotas
             parameters:
-                - description: 指定项目或者域的ID
-                  in: path
-                  name: scopeId
-                  required: true
-                  type: string
-                  x-go-name: ScopeId
                 - description: 配额所属范围，可能值为projects和domains，分别代表项目的配额和域的配额
                   in: path
                   name: scope
                   required: true
                   type: string
                   x-go-name: Scope
+                - description: 指定项目或者域的ID
+                  in: path
+                  name: scopeId
+                  required: true
+                  type: string
+                  x-go-name: ScopeId
                 - in: body
                   name: body
                   schema:
@@ -120814,18 +120455,18 @@ paths:
             description: 设置指定项目或者域的主机配额
             operationId: models_SetQuotas
             parameters:
-                - description: 配额所属范围，可能值为projects和domains，分别代表项目的配额和域的配额
-                  in: path
-                  name: scope
-                  required: true
-                  type: string
-                  x-go-name: Scope
                 - description: 指定项目或者域的ID
                   in: path
                   name: scopeId
                   required: true
                   type: string
                   x-go-name: ScopeId
+                - description: 配额所属范围，可能值为projects和domains，分别代表项目的配额和域的配额
+                  in: path
+                  name: scope
+                  required: true
+                  type: string
+                  x-go-name: Scope
                 - in: body
                   name: body
                   schema:
@@ -120912,18 +120553,18 @@ paths:
             description: 设置指定项目或者域的区域配额
             operationId: models_SetRegionQuotas
             parameters:
-                - description: 配额所属范围，可能值为projects和domains，分别代表项目的配额和域的配额
-                  in: path
-                  name: scope
-                  required: true
-                  type: string
-                  x-go-name: Scope
                 - description: 指定项目或者域的ID
                   in: path
                   name: scopeId
                   required: true
                   type: string
                   x-go-name: ScopeId
+                - description: 配额所属范围，可能值为projects和domains，分别代表项目的配额和域的配额
+                  in: path
+                  name: scope
+                  required: true
+                  type: string
+                  x-go-name: Scope
                 - in: body
                   name: body
                   schema:
@@ -132163,11 +131804,6 @@ paths:
                   name: order_by_ip
                   type: string
                   x-go-name: OrderByIp
-                - description: 根据ip查找机器
-                  in: query
-                  name: ip_addr
-                  type: string
-                  x-go-name: IpAddr
                 - description: 根据多个ip查找机器
                   in: query
                   items:
@@ -132185,13 +131821,6 @@ paths:
                   name: attachable_servers_for_disk
                   type: string
                   x-go-name: AttachableServersForDisk
-                - description: |-
-                    Deprecated
-                    列出可以挂载磁盘的主机
-                  in: query
-                  name: disk
-                  type: string
-                  x-go-name: Disk
                 - description: 按主机资源类型进行排序
                   enum:
                     - shared
