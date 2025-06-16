@@ -35,4 +35,5 @@ type SSLCertificateListInput struct {
 
 	RegionalFilterListInput
 	ManagedResourceListInput
+	DnsZoneFilterListBase
 }
