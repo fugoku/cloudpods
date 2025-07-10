@@ -22,8 +22,13 @@ type DHCPHandler interface {
 	ServeDHCP(pkt Packet, cliMac net.HardwareAddr, addr *net.UDPAddr) (Packet, []string, error)
 }
 
+type SendPacket struct {
+	Packet  []byte
+	DestMac net.HardwareAddr
+}
+
 type DHCP6Handler interface {
 	DHCPHandler
 
-	ServeRA(pkt Packet, cliMac net.HardwareAddr, addr *net.UDPAddr) (Packet, net.IP, net.HardwareAddr, error)
+	OnRecvICMP6(pkt Packet, cliMac net.HardwareAddr, addr *net.UDPAddr) error
 }
