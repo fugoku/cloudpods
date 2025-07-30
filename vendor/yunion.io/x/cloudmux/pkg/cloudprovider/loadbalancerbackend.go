@@ -18,9 +18,9 @@ type SLoadbalancerBackend struct {
 	Index       int
 	Weight      int
 	Port        int
-	ID          string
+	Id          string
 	Name        string
-	ExternalID  string
+	ExternalId  string
 	BackendType string
 	BackendRole string
 	Address     string
