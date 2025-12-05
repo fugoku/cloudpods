@@ -30,7 +30,6 @@ _output
 /relay
 /structargtest
 .idea
-.vscode
 intellij.yaml
 GPATH
 GRTAGS
@@ -43,3 +42,7 @@ pkg/generated
 out.gotext.json
 
 pkg/notify/sender/email_test.go
+branch_structure.json
+temp_auto_push.bat
+temp_interactive_push.bat
+.gitignore
